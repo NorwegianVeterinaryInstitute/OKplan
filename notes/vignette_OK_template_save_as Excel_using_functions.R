@@ -1,6 +1,8 @@
-library(NVIdb)
-library(NVIpretty)
 library(openxlsx)
+library(dplyr)
+library(NVIdb)
+library(OKplan)
+library(NVIpretty)
 
 
 plan_aar <- 2021
@@ -24,14 +26,11 @@ gris_virus_slaktegris_utvalg <- okplan %>%
 gris_virus_slaktegris_utvalg <- standardize_columns(gris_virus_slaktegris_utvalg, property = "colnames")
 
 # Plasserer kolonnene i fastsatt rekkefølge og fjerner overflødige kolonner
-  gris_virus_slaktegris_utvalg  <- standardize_columns(gris_virus_slaktegris_utvalg, property = "colorder", exclude = TRUE)
+gris_virus_slaktegris_utvalg  <- standardize_columns(gris_virus_slaktegris_utvalg, property = "colorder", exclude = TRUE)
 
 
-  # ENDRE TIL FUNKSJON
-  # Inkludere en tom rad og en rad som angir når datauttrekket ble gjort
-  gris_virus_slaktegris_utvalg <- as.data.frame(gris_virus_slaktegris_utvalg)
-  gris_virus_slaktegris_utvalg[(dim(gris_virus_slaktegris_utvalg)[1] + 1):(dim(gris_virus_slaktegris_utvalg)[1] + 2), ] <- NA
-  gris_virus_slaktegris_utvalg[dim(gris_virus_slaktegris_utvalg)[1], 1] <- paste("Datauttrekket er gjort ", format(Sys.Date(),"%d/%m/%Y"))
+# Inkludere en tom rad og en rad som angir når datauttrekket ble gjort
+gris_virus_slaktegris_utvalg <- include_generated_date(gris_virus_slaktegris_utvalg)
 
 
 # Generere Excel-ark
@@ -45,8 +44,6 @@ add_formatted_worksheet(gris_virus_slaktegris_utvalg,
                         wrapHeadlineText = TRUE,
                         collabels = TRUE,
                         colwidths = TRUE)
-
-
 
 
 saveWorkbook(wb = OK_wb,
