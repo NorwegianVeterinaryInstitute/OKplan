@@ -1,0 +1,12 @@
+^data-raw$
+^OKplan\.Rproj$
+^\.Rproj\.user$
+^notes$
+^nosync$
+^build.R
+^install.R
+^style.R
+^README.md
+^doc$
+^Meta$
+^OKplan.Rcheck\vign_test$
