@@ -1,6 +1,10 @@
-NVIdb 0.1.0 - (2020-11-14)
+OKplan 0.1.0 - (2020-12-30)
 --------------------------
 
 First release:
 
-  - Functions to XXXXX.
+  - include_generated_date adds two rows in a data frame and icludes text with generated date in the first column
+
+  - make_random adds a column with random numbers
+
+  - OK_column_standards keeps column standards for OK data frames for input to NVIdb::standardize_columns
