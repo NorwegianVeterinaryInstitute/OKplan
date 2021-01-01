@@ -8,6 +8,7 @@ library(NVIpretty)
 plan_aar <- 2021
 
 colclasses <- standardize_columns(csvfile = paste0(set_dir_NVI("OKprogrammer"), "Rutine", plan_aar, "/planlegging/resultater/utvalgslister/OKWEB_alle_gris.csv"),
+                                  standards = OKplan::OK_column_standards,
                                   dbsource = "okplan",
                                   property = "colclasses")
 okplan <- read.csv2(file = paste0(set_dir_NVI("OKprogrammer"), "Rutine", plan_aar, "/planlegging/resultater/utvalgslister/OKWEB_alle_gris.csv"),
@@ -23,10 +24,15 @@ gris_virus_slaktegris_utvalg <- okplan %>%
   dplyr::arrange(mt_regionnr, mt_avdelingnr, eier_lokalitetnr)
 
 # Standardiserer kolonnenavn
-gris_virus_slaktegris_utvalg <- standardize_columns(gris_virus_slaktegris_utvalg, property = "colnames")
+gris_virus_slaktegris_utvalg <- standardize_columns(gris_virus_slaktegris_utvalg,
+                                                    standards = OKplan::OK_column_standards,
+                                                    property = "colnames")
 
 # Plasserer kolonnene i fastsatt rekkefølge og fjerner overflødige kolonner
-gris_virus_slaktegris_utvalg  <- standardize_columns(gris_virus_slaktegris_utvalg, property = "colorder", exclude = TRUE)
+gris_virus_slaktegris_utvalg  <- standardize_columns(gris_virus_slaktegris_utvalg,
+                                                     standards = OKplan::OK_column_standards,
+                                                     property = "colorder",
+                                                     exclude = TRUE)
 
 
 # Inkludere en tom rad og en rad som angir når datauttrekket ble gjort
@@ -43,7 +49,8 @@ add_formatted_worksheet(gris_virus_slaktegris_utvalg,
                         sheet = paste0("Slaktegris_utvalgt_", plan_aar),
                         wrapHeadlineText = TRUE,
                         collabels = TRUE,
-                        colwidths = TRUE)
+                        colwidths = TRUE,
+                        standards = OKplan::OK_column_standards)
 
 
 saveWorkbook(wb = OK_wb,

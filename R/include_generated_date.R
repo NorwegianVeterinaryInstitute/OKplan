@@ -20,6 +20,13 @@
 #'
 include_generated_date <- function(data, pretext = "Datauttrekket er gjort", date = format(Sys.Date(),"%d/%m/%Y")) {
 
+  # Argument checking
+  checks <- checkmate::makeAssertCollection()
+  checkmate::assert_data_frame(data, add = checks)
+  checkmate::assert_character(pretext, add = checks)
+  checkmate::assert_character(date, add = checks)
+  checkmate::reportAssertions(checks)
+
   # Transforms to data frame as this is more flexible than tibble, i.e. accepts adding character to numeric variable
   data <- as.data.frame(data)
 
