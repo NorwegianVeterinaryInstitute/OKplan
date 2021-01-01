@@ -1,7 +1,7 @@
 Package: OKplan
 Title: Tools facilitating the planning of surveillance programmes for the NFSA
-Version: 0.1.0
-Date: 2020-12-30
+Version: 0.1.1
+Date: 2021-01-01
 Author: Petter Hopp <Petter.Hopp@vetinst.no>
 Maintainer: Petter Hopp <Petter.Hopp@vetinst.no>
 Description: The R-package include tools facilitating the planning of surveillance programmes
@@ -18,7 +18,7 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     NVIdb,
-    poorman (>= 0.2.3)
+    checkmate
 RoxygenNote: 7.1.1
 Suggests:
     usethis,
