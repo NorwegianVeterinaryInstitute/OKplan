@@ -18,7 +18,7 @@ library(usethis)
 
 
 # READS AND TRANSFORMS EXCEL SHEET WITH COLUMN STANDARD INFORMATION ----
-OK_column_standards <- read.xlsx(xlsxFile = paste0(set_dir_NVI("ProgrammeringR"), "standardization/colnames_translation_table.xlsx")) %>%
+OK_column_standards <- read.xlsx(xlsxFile = paste0(set_dir_NVI("ProgrammeringR"), "standardization/colnames/colnames_translation_table.xlsx")) %>%
   # Selects only information used in OK-planning
   dplyr::filter(db == "OK_planlegging") %>%
   # Generates column labels based on label and spec for no and en
