@@ -1,3 +1,15 @@
+OKplan 0.2.1 - (2021-04-##)
+--------------------------
+
+Bug fixes:
+
+- Included reference to NVIdb at GitHub to correct potential problems when installing the package.
+
+Other changes:
+
+  - Updated licence to BSD-3 and copyright Holder to Norwegian Veterinary Institute.
+
+
 OKplan 0.2.0 - (2021-01-29)
 --------------------------
 
