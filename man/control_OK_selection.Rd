@@ -28,7 +28,11 @@ Under development. This should be rewritten to produce nicer output.
 # Control OK selection data
 
 # Read example data
-okplan_MRSA <- read.csv2(file = paste0(set_dir_NVI("OKprogrammer"), "Rutine", plan_aar, "/planlegging/resultater/utvalgslister/data_MRSA_alle_gris.csv"),
+okplan_MRSA <- read.csv2(file = paste0(
+                           set_dir_NVI("OKprogrammer"),
+                           "Rutine",
+                           plan_aar,
+                           "/planlegging/resultater/utvalgslister/data_MRSA_alle_gris.csv"),
                         colClasses = colclasses,
                         fileEncoding = "UTF-8")
 

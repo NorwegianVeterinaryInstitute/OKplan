@@ -19,7 +19,11 @@
 #' # Control OK selection data
 #'
 #' # Read example data
-#' okplan_MRSA <- read.csv2(file = paste0(set_dir_NVI("OKprogrammer"), "Rutine", plan_aar, "/planlegging/resultater/utvalgslister/data_MRSA_alle_gris.csv"),
+#' okplan_MRSA <- read.csv2(file = paste0(
+#'                            set_dir_NVI("OKprogrammer"),
+#'                            "Rutine",
+#'                            plan_aar,
+#'                            "/planlegging/resultater/utvalgslister/data_MRSA_alle_gris.csv"),
 #'                         colClasses = colclasses,
 #'                         fileEncoding = "UTF-8")
 #'
@@ -31,13 +35,13 @@
 #'
 control_OK_selection <- function(data) {
 
-  # Antall besetninger og prøver som skal testes fordelt på grupper
-  print(ftable(data[, c("ok_hensiktkode", "kategori", "statuskode")], exclude = NULL))
+  # Number of herds and samples that should be tested distributed on groups
+  print(stats::ftable(data[, c("ok_hensiktkode", "kategori", "statuskode")], exclude = NULL))
 
-  print("Totalt antall besetninger og prøver som skal testes")
+  print("Totalt antall besetninger og prover som skal testes")
   ktr <- data %>%
     poorman::group_by(ok_artkode, statuskode) %>%
-    poorman::summarise(antall = n(), ant_prover = sum(ant_prover, na.rm = TRUE), .groups = "keep") %>%
+    poorman::summarise(antall = poorman::n(), ant_prover = sum(ant_prover, na.rm = TRUE), .groups = "keep") %>%
     poorman::ungroup()
   print(ktr)
 
@@ -57,30 +61,30 @@ control_OK_selection <- function(data) {
 
 
   # variabelfrekvenser
-  print(ftable(data[, c("ok_hensiktkode", "statuskode", "kategori")], exclude = NULL))
+  print(stats::ftable(data[, c("ok_hensiktkode", "statuskode", "kategori")], exclude = NULL))
 
 
-  print(ftable(data[, c("ok_programkode", "analyttkode")], exclude = NULL))
-  print(ftable(data[, c("mt_region")], exclude = NULL))
-  print(ftable(data[, c("mt_avdeling")], exclude = NULL))
-  print(ftable(data[, c("ok_aar")], exclude = NULL))
-  print(ftable(data[, c("ok_programkode")], exclude = NULL))
-  print(ftable(data[, c("ok_hensiktkode")], exclude = NULL))
-  print(ftable(data[, c("eier_lokalitettype")], exclude = NULL))
-  print(ftable(data[, c("analyttkode")], exclude = NULL))
-  print(ftable(data[, c("annen_aktortype")], exclude = NULL))
-  print(ftable(data[, c("annen_aktornr")], exclude = NULL))
-  print(ftable(data[, c("annen_aktor")], exclude = NULL))
-  print(ftable(data[, c("ant_prover", "statuskode")], exclude = NULL))
-  print(ftable(data[, c("ok_artkode")], exclude = NULL))
-  print(ftable(data[, c("ok_driftsformkode")], exclude = NULL))
-  print(ftable(data[, c("storrelseskategori", "statuskode")], exclude = NULL))
-  print(ftable(data[, c("kategori", "statuskode")], exclude = NULL))
-  print(ftable(data[, c("materialekode", "statuskode")], exclude = NULL))
-  print(ftable(data[, c("statuskode")], exclude = NULL))
-  print(ftable(data[, c("status_dato")], exclude = NULL))
-  print(ftable(data[, c("prioritet_av_reserve")], exclude = NULL))
-  print(ftable(data[, c("utvalg_laget_dato")], exclude = NULL))
+  print(stats::ftable(data[, c("ok_programkode", "analyttkode")], exclude = NULL))
+  print(stats::ftable(data[, c("mt_region")], exclude = NULL))
+  print(stats::ftable(data[, c("mt_avdeling")], exclude = NULL))
+  print(stats::ftable(data[, c("ok_aar")], exclude = NULL))
+  print(stats::ftable(data[, c("ok_programkode")], exclude = NULL))
+  print(stats::ftable(data[, c("ok_hensiktkode")], exclude = NULL))
+  print(stats::ftable(data[, c("eier_lokalitettype")], exclude = NULL))
+  print(stats::ftable(data[, c("analyttkode")], exclude = NULL))
+  print(stats::ftable(data[, c("annen_aktortype")], exclude = NULL))
+  print(stats::ftable(data[, c("annen_aktornr")], exclude = NULL))
+  print(stats::ftable(data[, c("annen_aktor")], exclude = NULL))
+  print(stats::ftable(data[, c("ant_prover", "statuskode")], exclude = NULL))
+  print(stats::ftable(data[, c("ok_artkode")], exclude = NULL))
+  print(stats::ftable(data[, c("ok_driftsformkode")], exclude = NULL))
+  print(stats::ftable(data[, c("storrelseskategori", "statuskode")], exclude = NULL))
+  print(stats::ftable(data[, c("kategori", "statuskode")], exclude = NULL))
+  print(stats::ftable(data[, c("materialekode", "statuskode")], exclude = NULL))
+  print(stats::ftable(data[, c("statuskode")], exclude = NULL))
+  print(stats::ftable(data[, c("status_dato")], exclude = NULL))
+  print(stats::ftable(data[, c("prioritet_av_reserve")], exclude = NULL))
+  print(stats::ftable(data[, c("utvalg_laget_dato")], exclude = NULL))
 
   # &oMTreg*&ostatus &oMTavd*&ostatus
 
