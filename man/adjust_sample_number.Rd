@@ -7,8 +7,8 @@
 adjust_sample_number(
   data,
   budget,
-  col_estimated,
-  col_adjusted = "justert_ant_prover",
+  sample_to_adjust,
+  adjusted_sample = "justert_ant_prover",
   adjust_by
 )
 }
@@ -17,9 +17,9 @@ adjust_sample_number(
 
 \item{budget}{The total budgeted sample number.}
 
-\item{col_estimated}{The name of the column with the sample size per unit that should be adjusted.}
+\item{sample_to_adjust}{The name of the column with the sample number per unit that should be adjusted.}
 
-\item{col_adjusted}{The name of the column with the adjusted sample size per unit.}
+\item{adjusted_sample}{The name of the column with the adjusted sample number per unit.}
 
 \item{adjust_by}{The maximum number of samples that one should adjust by.}
 }
@@ -29,7 +29,7 @@ A data frame with a new column with an adjusted sample number.
 \description{
 Adds new column with an adjusted the sample size per selected
      unit. The total sample size is adjusted to be in accord with the total
-     budgetted sample size.
+     budgeted sample size.
 }
 \details{
 The sample size should first be estimated by percentage or similar.
