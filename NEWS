@@ -1,13 +1,21 @@
-OKplan 0.2.1 - (2021-04-##)
+OKplan 0.2.0.9000 - (2021-11-##)
 --------------------------
+
+New features:
+
+- adjust_sample_number adjusts the sample numbers per unit up or down to reach the total sample size in accord with the budget.
+
 
 Bug fixes:
 
 - Included reference to NVIdb at GitHub to correct potential problems when installing the package.
 
+
 Other changes:
 
-  - Updated licence to BSD-3 and copyright Holder to Norwegian Veterinary Institute.
+  - Updated licence to BSD_3_clause and the copyright holder to Norwegian Veterinary Institute.
+
+  - Updated documentation and help.
 
 
 OKplan 0.2.0 - (2021-01-29)
