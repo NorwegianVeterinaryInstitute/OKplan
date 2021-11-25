@@ -17,7 +17,7 @@
 #' @export
 #'
 
-adjust_sample_number <- function(data, budget, sample_to_adjust, adjusted_sample = "justert_ant_prover", adjust_by) {
+adjust_samples_to_budget <- function(data, budget, sample_to_adjust, adjusted_sample = "justert_ant_prover", adjust_by) {
 
   # ARGUMENT CHECKING ----
   # Object to store check-results
@@ -25,7 +25,7 @@ adjust_sample_number <- function(data, budget, sample_to_adjust, adjusted_sample
   # Perform assertions
   checkmate::assert_data_frame(x = data, all.missing = FALSE, add = checks)
   checkmate::assert_integerish(budget, lower = 1, len = 1, any.missing = FALSE, add = checks)
-  checkmate::assert_character(sample_to_adjust, len = 1, min.chars = 1, any.missing = FALSE, add = checks)
+  checkmate::assert_choice(sample_to_adjust, choices = colnames(data), add = checks)
   checkmate::assert_character(adjusted_sample, len = 1, min.chars = 1, any.missing = FALSE, add = checks)
   checkmate::assert_integerish(adjust_by, lower = 1, len = 1, any.missing = FALSE, add = checks)
   # Report errors
@@ -33,7 +33,7 @@ adjust_sample_number <- function(data, budget, sample_to_adjust, adjusted_sample
 
   # INITILIZE VARIABLES ----
   total_estimated <- sum(data[, sample_to_adjust], na.rm = TRUE)
-
+  n_units <- length(data[which(data[, sample_to_adjust] > 0), sample_to_adjust])
   difference <- c(as.numeric(total_estimated - budget) ,rep(NA, dim(data)[1] - 1))
 
   # ADJUST SAMPLE NUMBER ----
@@ -49,14 +49,16 @@ adjust_sample_number <- function(data, budget, sample_to_adjust, adjusted_sample
       # If the difference is larger than adjust_by, then adjust by adjust_by
       # Else adjust by 1 | -1
       # If no difference "adjust by" 0
-      if (abs(difference[i]) > adjust_by) {
+      if (abs(difference[i]) >= adjust_by) {
         justify <- ifelse(difference[i] > 0, -adjust_by, adjust_by)
       } else {
-        justify <- ifelse(difference[i] > 0, -1, 1)
+        justify <- ifelse(difference[i] > 0,
+                          floor(- difference[i] / (n_units - i)),
+                          ceiling(- difference[i] / (n_units - i)))
       }
       if (difference[i] == 0) {justify <- 0}
 
-      # Make new column with
+      # Make new column with adjusted number
       data[i, adjusted_sample] <- data[i, sample_to_adjust] + justify
       if (i < dim(data)[1]) {
         difference[i+1] <- difference[i] + justify
