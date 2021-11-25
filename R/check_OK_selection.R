@@ -16,7 +16,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' # Control OK selection data
+#' # Checking OK selection data
 #'
 #' # Read example data
 #' okplan_MRSA <- read.csv2(file = paste0(
@@ -24,16 +24,16 @@
 #'                            "Rutine",
 #'                            plan_aar,
 #'                            "/planlegging/resultater/utvalgslister/data_MRSA_alle_gris.csv"),
-#'                         colClasses = colclasses,
-#'                         fileEncoding = "UTF-8")
+#'                          colClasses = colclasses,
+#'                          fileEncoding = "UTF-8")
 #'
 #' # Control
-#' control_OK_selection(okplan_MRSA)
+#' check_OK_selection(okplan_MRSA)
 #'
 #' }
 #'
 #'
-control_OK_selection <- function(data) {
+check_OK_selection <- function(data) {
 
   # Number of herds and samples that should be tested distributed on groups
   print(stats::ftable(data[, c("ok_hensiktkode", "kategori", "statuskode")], exclude = NULL))
