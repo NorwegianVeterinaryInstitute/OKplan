@@ -15,6 +15,18 @@
 #'
 #' @author Petter Hopp Petter.Hopp@@vetinst.no
 #' @export
+#' @examples
+#' # Add data frame with sample number to adjust
+#' x <- as.data.frame(cbind(c(1:10),
+#'                          c(24, 30, 36, 12, 6, 18, 6, 0, 0, 0)))
+#' colnames(x) <- c("id", "sample")
+#'
+#' # Adjust total sample number to budget
+#' x <- adjust_samples_to_budget(data = x,
+#'                               budget = 150,
+#'                               sample_to_adjust = "sample",
+#'                               adjusted_sample = "new_sample",
+#'                               adjust_by = 4)
 #'
 
 adjust_samples_to_budget <- function(data, budget, sample_to_adjust, adjusted_sample = "justert_ant_prover", adjust_by) {
