@@ -45,7 +45,7 @@ adjust_samples_to_budget <- function(data, budget, sample_to_adjust, adjusted_sa
 
   # INITILIZE VARIABLES ----
   total_estimated <- sum(data[, sample_to_adjust], na.rm = TRUE)
-  n_units <- length(data[which(data[, sample_to_adjust] > 0), sample_to_adjust])
+  n_units <- length(which(data[, sample_to_adjust] > 0))
   difference <- c(as.numeric(total_estimated - budget) ,rep(NA, dim(data)[1] - 1))
 
   # ADJUST SAMPLE NUMBER ----
