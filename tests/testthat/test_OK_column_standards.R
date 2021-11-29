@@ -1,7 +1,6 @@
 library(NVIdb)
 library(OKplan)
 library(testthat)
-context("OK_column_standards")
 
 test_that("Standard colwidths in Excel for OK-selections", {
   # Generate data frame with column names for table that should be exported to Excel
@@ -34,7 +33,7 @@ test_that("Standard colwidths in Excel for OK-selections", {
 
   # Compare Add fylke, current fylkenr and current fylke with correct result
   expect_identical(standardize_columns(data = df,
-                                       dbsource = "sau_brucella_slakteri",
+                                       dbsource = "ok_blodprover_slakteri",
                                        standards = OK_column_standards,
                                        property = "colwidths_Excel"),
                    correct_result)
@@ -74,7 +73,7 @@ test_that("Standard collabels for OK selections", {
 
   # Compare Add fylke, current fylkenr and current fylke with correct result
   expect_identical(standardize_columns(data = df,
-                                       dbsource = "sau_brucella_slakteri",
+                                       dbsource = "ok_blodprover_slakteri",
                                        standards = OK_column_standards,
                                        property = "collabels"),
                    correct_result)
