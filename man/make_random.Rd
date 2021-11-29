@@ -12,6 +12,8 @@ make_random(data, colname = "random", seed = -1, init_seed = FALSE)
 \item{colname}{The name of the new column with the random number.}
 
 \item{seed}{The initializing seed}
+
+\item{init_seed}{Should the seed be initialized, defaults to FALSE.}
 }
 \value{
 A data frame with a new column with a random variable.
@@ -20,8 +22,10 @@ A data frame with a new column with a random variable.
 Adds new column with random numbers. The function is built to be able to use it in piping.
 }
 \details{
-To make reproducible random numbers the seed can be initialized with a specific value. The first time the seed is used, set \code{init_seed = TRUE}.
-   Thereafter, use \code{init_seed = FALSE} if more random numbers are generated in the session to avoid overlapping random numbers.
+To make reproducible random numbers the seed can be initialized with a
+   specific value. The first time the seed is used, set \code{init_seed = TRUE}.
+   Thereafter, use \code{init_seed = FALSE} if more random numbers are generated
+   in the session to avoid overlapping random numbers.
 }
 \examples{
 \dontrun{

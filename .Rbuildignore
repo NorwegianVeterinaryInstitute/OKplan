@@ -6,7 +6,9 @@
 ^build.R
 ^install.R
 ^style.R
-^README.md
+^README\.md
+^README\.Rmd
 ^doc$
 ^Meta$
 ^OKplan.Rcheck\vign_test$
+^CONTRIBUTING\.md

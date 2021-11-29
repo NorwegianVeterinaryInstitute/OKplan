@@ -1,12 +1,15 @@
 #' @title Add new column with random numbers
 #' @description Adds new column with random numbers. The function is built to be able to use it in piping.
 #'
-#' @details To make reproducible random numbers the seed can be initialized with a specific value. The first time the seed is used, set \code{init_seed = TRUE}.
-#'    Thereafter, use \code{init_seed = FALSE} if more random numbers are generated in the session to avoid overlapping random numbers.
+#' @details To make reproducible random numbers the seed can be initialized with a
+#'    specific value. The first time the seed is used, set \code{init_seed = TRUE}.
+#'    Thereafter, use \code{init_seed = FALSE} if more random numbers are generated
+#'    in the session to avoid overlapping random numbers.
 #'
 #' @param data Data frame
 #' @param colname The name of the new column with the random number.
 #' @param seed The initializing seed
+#' @param init_seed Should the seed be initialized, defaults to FALSE.
 #'
 #' @return A data frame with a new column with a random variable.
 #'
@@ -34,7 +37,7 @@ make_random <- function(data, colname = "random", seed = -1, init_seed = FALSE) 
   # Argument checking
   checks <- checkmate::makeAssertCollection()
   checkmate::assert_data_frame(data, add = checks)
-  checkmate::assert_character(colname, add = checks)
+  checkmate::assert_character(colname, len = 1, min.chars = 1, any.missing = FALSE, add = checks)
   checkmate::assert_number(seed, add = checks)
   checkmate::assert_logical(init_seed, add = checks)
   checkmate::reportAssertions(checks)
@@ -43,7 +46,7 @@ make_random <- function(data, colname = "random", seed = -1, init_seed = FALSE) 
   if (init_seed == TRUE) {set.seed(seed)}
 
   # Generates new column with random numbers
-  data[, colname] <- runif(n = dim(data)[1])
+  data[, colname] <- stats::runif(n = dim(data)[1])
 
   return(data)
 }

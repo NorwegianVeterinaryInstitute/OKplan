@@ -1,35 +1,42 @@
 Package: OKplan
-Title: Tools facilitating the planning of surveillance programmes for the NFSA
-Version: 0.2.0
-Date: 2021-01-29
-Author: Petter Hopp <Petter.Hopp@vetinst.no>
-Maintainer: Petter Hopp <Petter.Hopp@vetinst.no>
-Description: The R-package include tools facilitating the planning of surveillance programmes
-    for the Norwegian Food Safety Authority. The package is under development. Included will
-    be tools for:
-    1) Making the target population,
-    2) Random selection,
-    3) generate lists for the NFSA.
+Title: Tools to facilitate the Planning of the annual Surveillance Programmes
+Version: 0.3.0
+Date: 2021-11-29
+Authors@R: 
+  c(person(given = "Petter",
+           family = "Hopp",
+           role = c("aut", "cre"),
+           email = "Petter.Hopp@vetinst.no"),
+    person(given = "Norwegian Veterinary Institute",
+           role = "cph"))
+Description: Provide tools to facilitate the planning of the annual surveillance
+    programmes. The main focus is tools for generating standardized lists for 
+    NFSA.
 URL: https://github.com/NorwegianVeterinaryInstitute/OKplan
 BugReports: https://github.com/NorwegianVeterinaryInstitute/OKplan/issues
-Depends: R (>= 3.4.1)
-License: Proprietary. Do not distribute outside the Norwegian Veterinary Institute
+Depends: R (>= 3.5.0)
+License: BSD_3_clause + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
+    checkmate,
     poorman,
-    NVIdb,
-    checkmate
-RoxygenNote: 7.1.1
+    stats,
+    NVIdb (>= 0.3.0)
 Suggests:
-    usethis,
-    remotes,
-    testthat,
-    roxygen2,
-    withr,
+    covr,
     devtools,
-    styler,
     knitr,
-    rmarkdown
+    remotes,
+    rmarkdown,
+    roxygen2,
+    styler,
+    testthat,
+    usethis,
+    NVIpackager
+Remotes: 
+    NorwegianVeterinaryInstitute/NVIdb,
+    NorwegianVeterinaryInstitute/NVIpackager
+RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 Language: en-GB
