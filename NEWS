@@ -1,9 +1,11 @@
-OKplan 0.2.0.9000 - (2021-11-##)
---------------------------
+OKplan 0.3.0 - (2021-11-29)
+---------------------------
 
 New features:
 
 - adjust_sample_number adjusts the sample numbers per unit up or down to reach the total sample size in accord with the budget.
+
+- append_sum_line appends a line with the sum of samples to the table in Excel.
 
 
 Bug fixes:
@@ -18,8 +20,13 @@ Other changes:
   - Updated documentation and help.
 
 
+BREAKING CHANGES:
+
+  - Renamed to append_date_generated_line from include_generated_date.
+
+
 OKplan 0.2.0 - (2021-01-29)
---------------------------
+---------------------------
 
 New features:
 
@@ -27,7 +34,7 @@ New features:
 
 
 OKplan 0.1.1 - (2021-01-01)
---------------------------
+---------------------------
 
 Other changes:
 
@@ -35,7 +42,7 @@ Other changes:
 
 
 OKplan 0.1.0 - (2020-12-30)
---------------------------
+---------------------------
 
 First release:
 

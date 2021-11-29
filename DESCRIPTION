@@ -1,7 +1,7 @@
 Package: OKplan
-Title: Tools to facilitate the Planning of Surveillance Programmes for the NFSA
-Version: 0.2.0.9000
-Date: 2021-11-##
+Title: Tools to facilitate the Planning of the annual Surveillance Programmes
+Version: 0.3.0
+Date: 2021-11-29
 Authors@R: 
   c(person(given = "Petter",
            family = "Hopp",
@@ -9,12 +9,9 @@ Authors@R:
            email = "Petter.Hopp@vetinst.no"),
     person(given = "Norwegian Veterinary Institute",
            role = "cph"))
-Description: Provide tools to facilitate the planning of surveillance programmes
-    for the Norwegian Food Safety Authority. The package is under development. Included will
-    be tools for:
-    1) Making the target population,
-    2) Random selection,
-    3) generate lists for the NFSA.
+Description: Provide tools to facilitate the planning of the annual surveillance
+    programmes. The main focus is tools for generating standardized lists for 
+    NFSA.
 URL: https://github.com/NorwegianVeterinaryInstitute/OKplan
 BugReports: https://github.com/NorwegianVeterinaryInstitute/OKplan/issues
 Depends: R (>= 3.5.0)
@@ -26,7 +23,6 @@ Imports:
     poorman,
     stats,
     NVIdb (>= 0.3.0)
-RoxygenNote: 7.1.1
 Suggests:
     covr,
     devtools,
@@ -41,5 +37,6 @@ Suggests:
 Remotes: 
     NorwegianVeterinaryInstitute/NVIdb,
     NorwegianVeterinaryInstitute/NVIpackager
+RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 Language: en-GB
