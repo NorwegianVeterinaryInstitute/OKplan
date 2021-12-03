@@ -47,35 +47,13 @@ db_tables <- as.data.frame(unique(OK_column_standards$table_db)) %>%
   dplyr::mutate_if(is.list, purrr::simplify_all) %>%    # flatten each list element internally
   tidyr::unnest(cols = "table")# expand
 
-# Started alternative code without dplyr, purr and tidyr
-# # Generate data frame with all table names
-# db_tables <- as.data.frame(unique(OK_column_standards$table_db))
-# colnames(db_tables) <- "tables"
-# db_tables$table <- strsplit(db_tables$tables, split = ",")
-#
-# dplyr::mutate(table =  %>%
-#   dplyr::mutate_if(is.list, purrr::simplify_all) %>%    # flatten each list element internally
-#   tidyr::unnest(cols = "table")# expand
-
 # Generate table with each table name on one line
 OK_column_standards <- OK_column_standards %>%
   dplyr::left_join(db_tables, by = c("table_db" = "tables")) %>%
   dplyr::mutate(table_db = trimws(table)) %>%
   dplyr::select(!table)
 
-# unique_colnames <- unique(column_standards[, c("colname_db", "colname")]) %>%
-#   poorman::add_count(colname_db, name = "unique_colnames") %>%
-#   poorman::mutate(unique_colnames = poorman::case_when(unique_colnames == 1 ~ 1,
-#                                                    TRUE ~ 0))
-#
-# OK_column_standards <- OK_column_standards %>%
-#   poorman::left_join(unique_colnames, by = c("colname_db" = "colname_db", "colname" = "colname"))
-
 # SAVE IN PACKAGE DATA ----
 usethis::use_data(name = OK_column_standards, overwrite = TRUE, internal = FALSE)
 
-# write.csv2(OK_column_standards,
-#            file = paste0(set_dir_NVI("ProgrammeringR"), "standardization/OK_column_standards.csv"),
-#            row.names = FALSE,
-#            fileEncoding = "UTF-8")
 
