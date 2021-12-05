@@ -1,3 +1,15 @@
+#' @title Writes an Excel file with the selection list.
+#'
+#' @description The selection list based on selected data from okplan file and
+#'     uses standardize_columns to  select, format and style columns.
+#'
+#' @param data The data with units that should be tested.
+#' @param filename The name and path of the Excel file that should be written.
+#' @param sheet The name of the Excel sheet with the list.
+#' @param dbtemplate The name of the dbtable in OK_column_standards that should
+#'     be used for standardizing the columns.
+#' @export
+
 
 write_ok_selection_list <- function(data,
                                     filename = paste0(NVIdb::set_dir_NVI("OKprogrammer"), "Rutine", plan_aar, "/planlegging/Utvalgslister/",
