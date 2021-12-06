@@ -4,38 +4,67 @@
 #'     uses standardize_columns to  select, format and style columns.
 #'
 #' @param data The data with units that should be tested.
-#' @param filename The name and path of the Excel file that should be written.
+#' @param filename The name of the Excel file that should be written.
+#' @param filepath The path to the Excel file that should be written.
 #' @param sheet The name of the Excel sheet with the list.
-#' @param dbtemplate The name of the dbtable in OK_column_standards that should
+#' @param calculate_sum \[logical\] Should a line with the sum be appended. Defaults to TRUE.
+#' @param dbsource The name of the dbtable in OK_column_standards that should
 #'     be used for standardizing the columns.
 #' @export
 
 
 write_ok_selection_list <- function(data,
-                                    filename = paste0(NVIdb::set_dir_NVI("OKprogrammer"), "Rutine", plan_aar, "/planlegging/Utvalgslister/",
-                                                      "Storfe ammeku BVD EBL IBR ", plan_aar, " Antall blodprøver per slakteri.xlsx"),
-                                    sheet = paste0("Antall_blodprøver_ammeku_", plan_aar),
-                                    dbtemplate) {
-  # Standardiserer kolonnenavn
+                                    sheet,
+                                    filename,
+                                    filepath,
+                                    calculate_sum = TRUE,
+                                    dbsource) {
+  # ARGUMENT CHECKING ----
+  # Object to store check-results
+  checks <- checkmate::makeAssertCollection()
+
+  # Perform checks
+  # for (i in 1:length(data)) {
+  checkmate::assert_data_frame(data, max.rows = (1048576 - 1), max.cols = 16384, add = checks)
+  # }
+  checkmate::assert_character(sheet, min.chars = 1, min.len = 1, max.len = length(data), unique = TRUE, add = checks)
+  checkmate::assert_character(filename, min.chars = 1, len = 1, add = checks)
+  checkmate::assert_directory_exists(filepath, add = checks)
+  checkmate::assert_logical(calculate_sum, any.missing = FALSE, min.len = 1, add = checks)
+  checkmate::assert_character(dbsource, min.len = 1, add = checks)
+
+  # Report check-results
+  checkmate::reportAssertions(checks)
+
+  # GENERATE EXCEL WORKBOOK ----
+  okwb <- openxlsx::createWorkbook()
+
+  # for (i in 1:length(data)) {
+  # i <- 1
+  # STANDARDIZE COLUMNS ----
+  # column names
   okdata <- NVIdb::standardize_columns(data,
                                        standards = OK_column_standards,
-                                       dbsource = dbtemplate,
+                                       dbsource = dbsource,
                                        property = "colnames")
 
-  # Plasserer kolonnene i fastsatt rekkefølge og fjerner overflødige kolonner
+  # order columns and keep only designated columns
   okdata  <- NVIdb::standardize_columns(okdata,
                                         standards = OK_column_standards,
-                                        dbsource = dbtemplate,
+                                        dbsource = dbsource,
                                         property = "colorder", exclude = TRUE)
 
-  okdata <- append_sum_line(data = okdata, column = c("ant_prover"), position = "left")
+  # INCLUDE EXTRA INFORMATION ----
+  # Append sum
+  if(isTRUE(calculate_sum)) {
+    okdata <- append_sum_line(data = okdata, column = c("ant_prover"), position = "left")
+  }
 
+  # Append date generated
   okdata  <- append_date_generated_line(okdata)
 
 
-  # Generere Excel-ark
-  okwb <- openxlsx::createWorkbook()
-
+  # STYLE EXCEL SHEET ----
   NVIpretty::add_formatted_worksheet(data = okdata,
                                      workbook = okwb,
                                      sheet = sheet,
@@ -43,11 +72,14 @@ write_ok_selection_list <- function(data,
                                      collabels = TRUE,
                                      colwidths = TRUE,
                                      standards = OK_column_standards,
-                                     dbsource = dbtemplate)
+                                     dbsource = dbsource)
 
 
-  style_sum_line(workbook = okwb, sheet = sheet, data = okdata)
-
-  openxlsx::saveWorkbook(wb = okwb, file = filename, overwrite = TRUE)
+  if(isTRUE(calculate_sum)) {
+    style_sum_line(workbook = okwb, sheet = sheet, data = okdata)
+  }
+  # }
+  # SAVE EXCEL WORKBOOK ----
+  openxlsx::saveWorkbook(wb = okwb, file = paste0(filepath, filename), overwrite = TRUE)
 
 }
