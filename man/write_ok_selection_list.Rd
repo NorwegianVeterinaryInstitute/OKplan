@@ -6,21 +6,25 @@
 \usage{
 write_ok_selection_list(
   data,
-  filename = paste0(NVIdb::set_dir_NVI("OKprogrammer"), "Rutine", plan_aar,
-    "/planlegging/Utvalgslister/", "Storfe ammeku BVD EBL IBR ", plan_aar,
-    " Antall blodprøver per slakteri.xlsx"),
-  sheet = paste0("Antall_blodprøver_ammeku_", plan_aar),
-  dbtemplate
+  sheet,
+  filename,
+  filepath,
+  calculate_sum = TRUE,
+  dbsource
 )
 }
 \arguments{
 \item{data}{The data with units that should be tested.}
 
-\item{filename}{The name and path of the Excel file that should be written.}
-
 \item{sheet}{The name of the Excel sheet with the list.}
 
-\item{dbtemplate}{The name of the dbtable in OK_column_standards that should
+\item{filename}{The name of the Excel file that should be written.}
+
+\item{filepath}{The path to the Excel file that should be written.}
+
+\item{calculate_sum}{\[logical\] Should a line with the sum be appended. Defaults to TRUE.}
+
+\item{dbsource}{The name of the dbtable in OK_column_standards that should
 be used for standardizing the columns.}
 }
 \description{
