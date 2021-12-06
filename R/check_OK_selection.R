@@ -40,17 +40,17 @@ check_OK_selection <- function(data) {
 
   print("Totalt antall besetninger og prover som skal testes")
   ktr <- data %>%
-    poorman::group_by(ok_artkode, statuskode) %>%
-    poorman::summarise(antall = poorman::n(), ant_prover = sum(ant_prover, na.rm = TRUE), .groups = "keep") %>%
-    poorman::ungroup()
+    dplyr::group_by(ok_artkode, statuskode) %>%
+    dplyr::summarise(antall = dplyr::n(), ant_prover = sum(ant_prover, na.rm = TRUE), .groups = "keep") %>%
+    dplyr::ungroup()
   print(ktr)
 
   print("Antall utvalgte besetninger med mer enn en registrering per prodnr8")
   ktr <- data %>%
-    poorman::add_count(ok_hensiktkode, eier_lokalitetnr) %>%
-    poorman::ungroup() %>%
-    poorman::filter(n > 1) %>%
-    poorman::select(eier_lokalitetnr, eier_lokalitet, postnr, poststed)
+    dplyr::add_count(ok_hensiktkode, eier_lokalitetnr) %>%
+    dplyr::ungroup() %>%
+    dplyr::filter(n > 1) %>%
+    dplyr::select(eier_lokalitetnr, eier_lokalitet, postnr, poststed)
   print(ktr)
 
   print("Utvalgte besetninger med missing prodnr8 eller missing navn")
