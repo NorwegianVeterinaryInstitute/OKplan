@@ -49,7 +49,7 @@ write_ok_selection_list <- function(data,
                                        property = "colnames")
 
   # order columns and keep only designated columns
-  okdata  <- NVIdb::standardize_columns(okdata,
+  okdata  <- NVIdb::standardize_columns(data = okdata,
                                         standards = OK_column_standards,
                                         dbsource = dbsource,
                                         property = "colorder", exclude = TRUE)
