@@ -51,7 +51,8 @@ db_tables <- as.data.frame(unique(OK_column_standards$table_db)) %>%
 OK_column_standards <- OK_column_standards %>%
   dplyr::left_join(db_tables, by = c("table_db" = "tables")) %>%
   dplyr::mutate(table_db = trimws(table)) %>%
-  dplyr::select(!table)
+  dplyr::select(!table) %>%
+  dplyr::mutate(table_db = tolower(table_db))
 
 # SAVE IN PACKAGE DATA ----
 usethis::use_data(name = OK_column_standards, overwrite = TRUE, internal = FALSE)
