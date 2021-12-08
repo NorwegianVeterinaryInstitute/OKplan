@@ -44,13 +44,13 @@ write_ok_selection_list <- function(data,
   # STANDARDIZE COLUMNS ----
   # column names
   okdata <- NVIdb::standardize_columns(data,
-                                       standards = OK_column_standards,
+                                       standards = OKplan::OK_column_standards,
                                        dbsource = dbsource,
                                        property = "colnames")
 
   # order columns and keep only designated columns
   okdata  <- NVIdb::standardize_columns(data = okdata,
-                                        standards = OK_column_standards,
+                                        standards = OKplan::OK_column_standards,
                                         dbsource = dbsource,
                                         property = "colorder", exclude = TRUE)
 
@@ -71,7 +71,7 @@ write_ok_selection_list <- function(data,
                                      wrapHeadlineText = TRUE,
                                      collabels = TRUE,
                                      colwidths = TRUE,
-                                     standards = OK_column_standards,
+                                     standards = OKplan::OK_column_standards,
                                      dbsource = dbsource)
 
 
