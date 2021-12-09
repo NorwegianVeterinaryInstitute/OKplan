@@ -23,8 +23,6 @@
 #'                                             position = "first")
 #' }
 #'
-
-
 append_sum_line <- function(data, column, pretext = "Sum", position = "left") {
 
   # ARGUMENT CHECKING ----
