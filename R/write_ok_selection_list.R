@@ -52,19 +52,19 @@ write_ok_selection_list <- function(data,
                                        property = "colnames")
 
   # order columns and keep only designated columns
-  okdata  <- NVIdb::standardize_columns(data = okdata,
+  okdata <- NVIdb::standardize_columns(data = okdata,
                                         standards = OKplan::OK_column_standards,
                                         dbsource = dbsource,
                                         property = "colorder", exclude = TRUE)
 
   # INCLUDE EXTRA INFORMATION ----
   # Append sum
-  if(isTRUE(calculate_sum)) {
+  if (isTRUE(calculate_sum)) {
     okdata <- append_sum_line(data = okdata, column = c("ant_prover"), position = "left")
   }
 
   # Append date generated
-  okdata  <- append_date_generated_line(okdata)
+  okdata <- append_date_generated_line(okdata)
 
 
   # STYLE EXCEL SHEET ----
@@ -78,7 +78,7 @@ write_ok_selection_list <- function(data,
                                      dbsource = dbsource)
 
 
-  if(isTRUE(calculate_sum)) {
+  if (isTRUE(calculate_sum)) {
     style_sum_line(workbook = okwb, sheet = sheet, data = okdata)
   }
   # }
