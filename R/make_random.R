@@ -29,7 +29,6 @@
 #'
 #' # If you initialize again you get overlapping seeds
 #' x <- make_random(x, seed = seed, init_seed = TRUE)
-#'
 #' }
 #'
 make_random <- function(data, colname = "random", seed = -1, init_seed = FALSE) {
