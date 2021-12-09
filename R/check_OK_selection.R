@@ -29,9 +29,7 @@
 #'
 #' # Control
 #' check_OK_selection(okplan_MRSA)
-#'
 #' }
-#'
 #'
 check_OK_selection <- function(data) {
 
@@ -92,5 +90,3 @@ check_OK_selection <- function(data) {
   # &omottatt
   #
 }
-
-

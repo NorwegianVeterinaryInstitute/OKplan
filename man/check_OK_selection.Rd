@@ -38,9 +38,7 @@ okplan_MRSA <- read.csv2(file = paste0(
 
 # Control
 check_OK_selection(okplan_MRSA)
-
 }
-
 
 }
 \author{
