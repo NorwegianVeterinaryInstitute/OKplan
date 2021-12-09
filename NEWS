@@ -1,4 +1,4 @@
-OKplan 0.3.0.9000 - (2021-##-##)
+OKplan 0.4.0 - (2021-12-09)
 ---------------------------
 
 New features:
@@ -10,7 +10,7 @@ New features:
 
 Other changes:
 
-- included more tables and columns in OK_column_standards.
+- extended OK_column_standards with tables for samples taken at abbatoirs and the surveillance in pigs.
 
 
 OKplan 0.3.0 - (2021-11-29)

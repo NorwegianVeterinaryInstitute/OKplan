@@ -1,7 +1,7 @@
 Package: OKplan
 Title: Tools to facilitate the Planning of the annual Surveillance Programmes
-Version: 0.3.0.9000
-Date: 2021-##-##
+Version: 0.4.0
+Date: 2021-12-09
 Authors@R: 
   c(person(given = "Petter",
            family = "Hopp",
