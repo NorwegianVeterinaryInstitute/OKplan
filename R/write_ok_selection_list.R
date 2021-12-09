@@ -29,6 +29,8 @@ write_ok_selection_list <- function(data,
   # }
   checkmate::assert_character(sheet, min.chars = 1, min.len = 1, max.len = length(data), unique = TRUE, add = checks)
   checkmate::assert_character(filename, min.chars = 1, len = 1, add = checks)
+  # Remove trailing backslash or slash before testing path
+  filepath <- sub("\\\\{1,2}$|/{1,2}$", "", filepath)
   checkmate::assert_directory_exists(filepath, add = checks)
   checkmate::assert_logical(calculate_sum, any.missing = FALSE, min.len = 1, add = checks)
   checkmate::assert_character(dbsource, min.len = 1, add = checks)
@@ -83,6 +85,6 @@ write_ok_selection_list <- function(data,
   }
   # }
   # SAVE EXCEL WORKBOOK ----
-  openxlsx::saveWorkbook(wb = okwb, file = paste0(filepath, filename), overwrite = TRUE)
+  openxlsx::saveWorkbook(wb = okwb, file = file.path(filepath, filename), overwrite = TRUE)
 
 }
