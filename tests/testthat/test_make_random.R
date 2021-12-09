@@ -25,4 +25,3 @@ expect_identical(x$random, x$random3)
 expect_identical(x$random2, x$random4)
 
 })
-
