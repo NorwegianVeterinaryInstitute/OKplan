@@ -32,6 +32,9 @@ write_ok_selection_list <- function(data,
   checkmate::assert_directory_exists(filepath, add = checks)
   checkmate::assert_logical(calculate_sum, any.missing = FALSE, min.len = 1, add = checks)
   checkmate::assert_character(dbsource, min.len = 1, add = checks)
+  checkmate::assert_choice(dbsource,
+                           choices = unique(OKplan::OK_column_standards[, "table_db"]),
+                           add = checks)
 
   # Report check-results
   checkmate::reportAssertions(checks)
