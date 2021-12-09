@@ -15,10 +15,9 @@
 #' \dontrun{
 #' # Add row with generated date using standard values
 #' gris_virus_slaktegris_utvalg <- append_date_generated_line(gris_virus_slaktegris_utvalg)
-#'
 #' }
 #'
-append_date_generated_line <- function(data, pretext = "Datauttrekket er gjort", date = format(Sys.Date(),"%d/%m/%Y")) {
+append_date_generated_line <- function(data, pretext = "Datauttrekket er gjort", date = format(Sys.Date(), "%d/%m/%Y")) {
 
   # Argument checking
   checks <- checkmate::makeAssertCollection()
