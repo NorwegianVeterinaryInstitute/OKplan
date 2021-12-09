@@ -16,7 +16,7 @@ test_that("write_ok_selection_list", {
 
   write_ok_selection_list(data = x,
                           sheet = "ok_test_data",
-                          filename = "/oktest.xlsx",
+                          filename = "oktest.xlsx",
                           filepath = td,
                           calculate_sum = TRUE,
                           dbsource = "ok_avlsgris")
@@ -26,7 +26,7 @@ test_that("write_ok_selection_list", {
   expect_identical(openxlsx::getSheetNames(paste0(td, "/oktest.xlsx")),
                    "ok_test_data")
 
-  testwb <- openxlsx::loadWorkbook(xlsxFile = paste0(td, "/oktest.xlsx"))
+  # testwb <- openxlsx::loadWorkbook(xlsxFile = paste0(td, "/oktest.xlsx"))
 
 })
 
@@ -47,7 +47,7 @@ test_that("Errors for write_ok_selection_list", {
   # x is not a data frame
   expect_error(write_ok_selection_list(data = "x",
                                        sheet = "avlsgris",
-                                       filename = "/oktest.xlsx",
+                                       filename = "oktest.xlsx",
                                        filepath = td,
                                        calculate_sum = TRUE,
                                        dbsource = "ok_avlsgris"),
@@ -56,7 +56,7 @@ test_that("Errors for write_ok_selection_list", {
   # Wrong sheet name
   expect_error(write_ok_selection_list(data = x,
                                        sheet = "",
-                                       filename = "/oktest.xlsx",
+                                       filename = "oktest.xlsx",
                                        filepath = td,
                                        calculate_sum = TRUE,
                                        dbsource = "ok_avlsgris"),
@@ -65,7 +65,7 @@ test_that("Errors for write_ok_selection_list", {
   # Wrong path
   expect_error(write_ok_selection_list(data = x,
                                        sheet = "avlsgris",
-                                       filename = "/oktest.xlsx",
+                                       filename = "oktest.xlsx",
                                        filepath = paste0(td, "/wrongpath"),
                                        calculate_sum = TRUE,
                                        dbsource = "ok_avlsgris"),
@@ -74,7 +74,7 @@ test_that("Errors for write_ok_selection_list", {
   # Wrong dbsource
   expect_error(write_ok_selection_list(data = x,
                                        sheet = "avlsgris",
-                                       filename = "/oktest.xlsx",
+                                       filename = "oktest.xlsx",
                                        filepath = td,
                                        calculate_sum = TRUE,
                                        dbsource = "x_avlsgris"),
