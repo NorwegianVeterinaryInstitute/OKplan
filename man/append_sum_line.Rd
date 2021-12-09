@@ -30,7 +30,7 @@ One row is appended to the data frame. The sum is calculated with na.rm = TRUE.
 \dontrun{
 # Append row with sum
 gris_blodprover_slakteri <- append_sum_line(data = gris_blodprover_slakteri,
-                                            col_name = c("ant_prover"),
+                                            column = c("ant_prover"),
                                             pretext = "Sum",
                                             position = "first")
 }

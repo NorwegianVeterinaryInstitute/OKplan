@@ -1,3 +1,18 @@
+OKplan 0.4.0 - (2021-12-09)
+---------------------------
+
+New features:
+
+- style_sum_line styles the row with sum of samples.
+
+- write_ok_selection_list writes the selection list based on selected data from okplan file and uses standardize_columns to  select, format and style columns.
+
+
+Other changes:
+
+- extended OK_column_standards with tables for samples taken at abbatoirs and the surveillance in pigs.
+
+
 OKplan 0.3.0 - (2021-11-29)
 ---------------------------
 

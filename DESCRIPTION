@@ -1,7 +1,7 @@
 Package: OKplan
 Title: Tools to facilitate the Planning of the annual Surveillance Programmes
-Version: 0.3.0
-Date: 2021-11-29
+Version: 0.4.0
+Date: 2021-12-09
 Authors@R: 
   c(person(given = "Petter",
            family = "Hopp",
@@ -20,9 +20,11 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     checkmate,
-    poorman,
+    dplyr,
+    openxlsx,
     stats,
-    NVIdb (>= 0.3.0)
+    NVIdb (>= 0.3.0),
+    NVIpretty
 Suggests:
     covr,
     devtools,
@@ -33,9 +35,11 @@ Suggests:
     styler,
     testthat,
     usethis,
+    utils,
     NVIpackager
 Remotes: 
     NorwegianVeterinaryInstitute/NVIdb,
+    NorwegianVeterinaryInstitute/NVIpretty,
     NorwegianVeterinaryInstitute/NVIpackager
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
