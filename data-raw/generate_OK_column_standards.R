@@ -44,8 +44,8 @@ OK_column_standards <- read.xlsx(xlsxFile = paste0(set_dir_NVI("ProgrammeringR")
 db_tables <- as.data.frame(unique(OK_column_standards$table_db)) %>%
   dplyr::rename(tables = 1) %>%
   dplyr::mutate(table = strsplit(tables, split = ",")) %>%
-  dplyr::mutate_if(is.list, purrr::simplify_all) %>%    # flatten each list element internally
-  tidyr::unnest(cols = "table")# expand
+  dplyr::mutate_if(is.list, purrr::simplify_all) %>% # flatten each list element internally
+  tidyr::unnest(cols = "table") # expand
 
 # Generate table with each table name on one line
 OK_column_standards <- OK_column_standards %>%
@@ -56,5 +56,3 @@ OK_column_standards <- OK_column_standards %>%
 
 # SAVE IN PACKAGE DATA ----
 usethis::use_data(name = OK_column_standards, overwrite = TRUE, internal = FALSE)
-
-

@@ -10,6 +10,8 @@
 #'
 #' @param data Data frame with selection for a OK programme.
 #'
+#' @importFrom magrittr %>%
+#'
 #' @return Prints results of the control to the output window.
 #'
 #' @author Petter Hopp Petter.Hopp@@vetinst.no
@@ -29,9 +31,7 @@
 #'
 #' # Control
 #' check_OK_selection(okplan_MRSA)
-#'
 #' }
-#'
 #'
 check_OK_selection <- function(data) {
 
@@ -92,5 +92,3 @@ check_OK_selection <- function(data) {
   # &omottatt
   #
 }
-
-

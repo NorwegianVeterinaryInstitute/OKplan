@@ -1,7 +1,7 @@
 Package: OKplan
 Title: Tools to facilitate the Planning of the annual Surveillance Programmes
-Version: 0.4.0
-Date: 2021-12-09
+Version: 0.4.1
+Date: 2021-12.17
 Authors@R: 
   c(person(given = "Petter",
            family = "Hopp",
@@ -21,6 +21,7 @@ LazyData: true
 Imports:
     checkmate,
     dplyr,
+    magrittr,
     openxlsx,
     stats,
     NVIdb (>= 0.3.0),

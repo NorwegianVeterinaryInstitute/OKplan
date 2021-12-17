@@ -29,6 +29,8 @@ write_ok_selection_list <- function(data,
   # }
   checkmate::assert_character(sheet, min.chars = 1, min.len = 1, max.len = length(data), unique = TRUE, add = checks)
   checkmate::assert_character(filename, min.chars = 1, len = 1, add = checks)
+  # Remove trailing backslash or slash before testing path
+  filepath <- sub("\\\\{1,2}$|/{1,2}$", "", filepath)
   checkmate::assert_directory_exists(filepath, add = checks)
   checkmate::assert_logical(calculate_sum, any.missing = FALSE, min.len = 1, add = checks)
   checkmate::assert_character(dbsource, min.len = 1, add = checks)
@@ -52,19 +54,19 @@ write_ok_selection_list <- function(data,
                                        property = "colnames")
 
   # order columns and keep only designated columns
-  okdata  <- NVIdb::standardize_columns(data = okdata,
+  okdata <- NVIdb::standardize_columns(data = okdata,
                                         standards = OKplan::OK_column_standards,
                                         dbsource = dbsource,
                                         property = "colorder", exclude = TRUE)
 
   # INCLUDE EXTRA INFORMATION ----
   # Append sum
-  if(isTRUE(calculate_sum)) {
+  if (isTRUE(calculate_sum)) {
     okdata <- append_sum_line(data = okdata, column = c("ant_prover"), position = "left")
   }
 
   # Append date generated
-  okdata  <- append_date_generated_line(okdata)
+  okdata <- append_date_generated_line(okdata)
 
 
   # STYLE EXCEL SHEET ----
@@ -78,11 +80,11 @@ write_ok_selection_list <- function(data,
                                      dbsource = dbsource)
 
 
-  if(isTRUE(calculate_sum)) {
+  if (isTRUE(calculate_sum)) {
     style_sum_line(workbook = okwb, sheet = sheet, data = okdata)
   }
   # }
   # SAVE EXCEL WORKBOOK ----
-  openxlsx::saveWorkbook(wb = okwb, file = paste0(filepath, filename), overwrite = TRUE)
+  openxlsx::saveWorkbook(wb = okwb, file = file.path(filepath, filename), overwrite = TRUE)
 
 }

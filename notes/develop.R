@@ -19,7 +19,7 @@ pkg_path = usethis::proj_path()
 # DOCUMENTATION AND STYLING ----
 # Creates new help files
 # Should be run before git push when documentation for functions have been changed
-NVIpackager::document_NVIpkg(style = FALSE,
+NVIpackager::document_NVIpkg(style = TRUE,
                              contributing = FALSE,
                              readme = FALSE,
                              scope = c("spaces", "line_breaks"))
@@ -58,7 +58,7 @@ print(x = code_coverage, group = "functions")
 devtools::build(binary = FALSE, manual = TRUE, vignettes = TRUE)
 # Test built package.
 # Thereby, no problems with files in .Rbuildignore.
-version <- utils::packageVersion(pkg, lib.loc = paste0(getwd(),"/.."))
+version <- utils::packageVersion(pkg, lib.loc = paste0(pkg_path, "/.."))
 devtools::check_built(path = paste0("../", pkg, "_", version, ".tar.gz"), args = c("--no-tests"), manual = TRUE)
 
 # Extensive checking of package. Is done after build. Creates PDF-manual

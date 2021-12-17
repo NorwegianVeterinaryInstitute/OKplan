@@ -27,8 +27,6 @@
 #'                               sample_to_adjust = "sample",
 #'                               adjusted_sample = "new_sample",
 #'                               adjust_by = 4)
-#'
-
 adjust_samples_to_budget <- function(data, budget, sample_to_adjust, adjusted_sample = "justert_ant_prover", adjust_by) {
 
   # ARGUMENT CHECKING ----
@@ -46,13 +44,18 @@ adjust_samples_to_budget <- function(data, budget, sample_to_adjust, adjusted_sa
   # INITILIZE VARIABLES ----
   total_estimated <- sum(data[, sample_to_adjust], na.rm = TRUE)
   n_units <- length(which(data[, sample_to_adjust] > 0))
-  difference <- c(as.numeric(total_estimated - budget) ,rep(NA, dim(data)[1] - 1))
+  difference <- c(as.numeric(total_estimated - budget), rep(NA, dim(data)[1] - 1))
 
   # ADJUST SAMPLE NUMBER ----
   # Order data with largest sample size first
   data <- data[order(data[, sample_to_adjust], decreasing = TRUE), ]
 
-  # Only justify sample number when there is disagreement between budget and calculated number of samples
+  # If total_estimated = budget, make new column adjusted_sample based on sample_to_adjust
+  if (total_estimated == budget) {
+    data[, adjusted_sample] <- data[, sample_to_adjust]
+  }
+
+    # Only justify sample number when there is disagreement between budget and calculated number of samples
   if (total_estimated != budget) {
     # Adjust for each sampled unit with the unit having the largest sample size first
     for (i in c(1:dim(data)[1])) {
@@ -65,15 +68,15 @@ adjust_samples_to_budget <- function(data, budget, sample_to_adjust, adjusted_sa
         justify <- ifelse(difference[i] > 0, -adjust_by, adjust_by)
       } else {
         justify <- ifelse(difference[i] > 0,
-                          floor(- difference[i] / (n_units - i)),
-                          ceiling(- difference[i] / (n_units - i)))
+                          floor(-difference[i] / (n_units - i)),
+                          ceiling(-difference[i] / (n_units - i)))
       }
       if (difference[i] == 0) {justify <- 0}
 
       # Make new column with adjusted number
       data[i, adjusted_sample] <- data[i, sample_to_adjust] + justify
       if (i < dim(data)[1]) {
-        difference[i+1] <- difference[i] + justify
+        difference[i + 1] <- difference[i] + justify
       }
 
     }

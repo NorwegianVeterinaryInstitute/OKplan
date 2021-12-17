@@ -1,3 +1,16 @@
+OKplan 0.4.1 - (2021-12-17)
+---------------------------
+
+Bug fixes:
+
+- adjust_samples_to_budget genereates the new column 'adjusted_sample' also when initial sample is correct
+
+
+Other changes:
+
+- Included package level documentation.
+
+
 OKplan 0.4.0 - (2021-12-09)
 ---------------------------
 

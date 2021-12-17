@@ -41,7 +41,6 @@ x <- make_random(x, seed = seed, init_seed = FALSE)
 
 # If you initialize again you get overlapping seeds
 x <- make_random(x, seed = seed, init_seed = TRUE)
-
 }
 
 }

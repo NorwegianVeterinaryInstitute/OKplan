@@ -30,7 +30,6 @@ Two rows are dded to the data frame, the first is empty, the second has the gene
 \dontrun{
 # Add row with generated date using standard values
 gris_virus_slaktegris_utvalg <- append_date_generated_line(gris_virus_slaktegris_utvalg)
-
 }
 
 }
