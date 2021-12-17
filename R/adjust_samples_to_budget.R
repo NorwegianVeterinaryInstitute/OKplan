@@ -50,7 +50,12 @@ adjust_samples_to_budget <- function(data, budget, sample_to_adjust, adjusted_sa
   # Order data with largest sample size first
   data <- data[order(data[, sample_to_adjust], decreasing = TRUE), ]
 
-  # Only justify sample number when there is disagreement between budget and calculated number of samples
+  # If total_estimated = budget, make new column adjusted_sample based on sample_to_adjust
+  if (total_estimated == budget) {
+    data[, adjusted_sample] <- data[, sample_to_adjust]
+  }
+
+    # Only justify sample number when there is disagreement between budget and calculated number of samples
   if (total_estimated != budget) {
     # Adjust for each sampled unit with the unit having the largest sample size first
     for (i in c(1:dim(data)[1])) {
