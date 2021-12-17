@@ -10,6 +10,8 @@
 #'
 #' @param data Data frame with selection for a OK programme.
 #'
+#' @importFrom magrittr %>%
+#'
 #' @return Prints results of the control to the output window.
 #'
 #' @author Petter Hopp Petter.Hopp@@vetinst.no
