@@ -6,6 +6,7 @@ output:
   
 params:
   NVIpkg: "OKplan"
+  first_copyright_year: "2021"
 ---
 
 ```{r, include = FALSE}
