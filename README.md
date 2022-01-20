@@ -1,5 +1,4 @@
-OKplan: Tools to facilitate the Planning of the annual Surveillance Programmes
-==============================================================================
+# OKplan: Tools to facilitate the Planning of the annual Surveillance Programmes
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -9,8 +8,7 @@ OKplan: Tools to facilitate the Planning of the annual Surveillance Programmes
 -   [Copyright and license](#copyright-and-license)
 -   [Contributing](#contributing)
 
-Overview
---------
+## Overview
 
 `OKplan`provide tools to facilitate the planning of the annual
 surveillance programmes. The main focus is tools for generating
@@ -20,17 +18,16 @@ standardized lists for NFSA.
 facilitate data management and data reporting at the Norwegian
 Veterinary Institute (NVI). The NVIverse consists of the following
 packages: NVIconfig, NVIdb, NVIpretty, NVIbatch, OKplan, OKcheck,
-NVIcheckmate, NVIpackager. See the vignette “Contribute to OKplan” for
-more information.
+NVIcheckmate, NVIpackager, NVIrpackages. See the vignette “Contribute to
+OKplan” for more information.
 
-Installation
-------------
+## Installation
 
 `OKplan` is available at
 [GitHub](https://github.com/NorwegianVeterinaryInstitute). To install
 `OKplan` you will need:
 
--   R version &gt; 4.0.0
+-   R version > 4.0.0
 -   R package `remotes`
 -   Rtools 4.0
 
@@ -41,47 +38,44 @@ First install and attach the `remotes` package.
 
 To install (or update) the `OKplan` package, run the following code:
 
-    remotes::install_github("NorwegianVeterinaryInstitute/OKplan")
+    remotes::install_github("NorwegianVeterinaryInstitute/OKplan",
         upgrade = FALSE,
         build = TRUE,
         build_manual = TRUE)
 
-Usage
------
+## Usage
 
 The `OKplan` package needs to be attached.
 
-    library(NVIdb)
+    library(OKplan)
 
 `OKplan`provide tools to facilitate the planning of the annual
 surveillance programmes. The main focus is tools for generating
 standardized lists for NFSA.
 
-The list of available functions and datasets can be accessed by typing
+The full list of all available functions and datasets can be accessed by
+typing
 
-    help(package="NVIdb")
+    help(package = "OKplan")
 
 Please check the NEWS for information on new features, bug fixes and
 other changes.
 
-Copyright and license
----------------------
+## Copyright and license
 
-Copyright (c) 2021 Norwegian Veterinary Institute.  
+Copyright (c) 2021 - 2022 Norwegian Veterinary Institute.  
 Licensed under the BSD\_3\_clause License. See
 [License](https://github.com/NorwegianVeterinaryInstitute/OKplan/blob/main/LICENSE)
 for details.
 
-Contributing
-------------
+## Contributing
 
 Contributions to develop `OKplan` is highly appreciated. There are
 several ways you can contribute to this project: ask a question, propose
 an idea, report a bug, improve the documentation, or contribute code.
 The vignette “Contribute to OKplan” gives more information.
 
-<!-- Code of conduct -->
-------------------------
+## <!-- Code of conduct -->
 
 Please note that the OKplan project is released with a [Contributor Code
 of
