@@ -7,11 +7,11 @@
 # library(devtools)
 # library(roxygen2)
 library(NVIpackager)
-library(spelling)
+# library(spelling)
 
 # Global variables
-pkg <- stringi::stri_extract_last_words(usethis::proj_path())
 pkg_path = usethis::proj_path()
+pkg <- stringi::stri_extract_last_words(pkg_path)
 # Rlibrary <- R.home()
 
 # create_NVIpkg_skeleton(license_keyword = "CC BY 4.0")
