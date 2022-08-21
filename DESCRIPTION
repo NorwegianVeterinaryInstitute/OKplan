@@ -41,6 +41,6 @@ Remotes:
     NorwegianVeterinaryInstitute/NVIpretty,
     NorwegianVeterinaryInstitute/NVIpackager,
     NorwegianVeterinaryInstitute/NVIrpackages
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 VignetteBuilder: knitr
 Language: en-GB
