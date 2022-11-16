@@ -10,7 +10,8 @@ write_ok_selection_list(
   filename,
   filepath,
   calculate_sum = TRUE,
-  dbsource
+  dbsource,
+  add_worksheet = FALSE
 )
 }
 \arguments{
@@ -22,12 +23,27 @@ write_ok_selection_list(
 
 \item{filepath}{The path to the Excel file that should be written.}
 
-\item{calculate_sum}{\[logical\] Should a line with the sum be appended. Defaults to TRUE.}
+\item{calculate_sum}{\[logical(1)\] Should a line with the sum be
+appended? Defaults to \code{TRUE}.}
 
 \item{dbsource}{The name of the dbtable in OK_column_standards that should
 be used for standardizing the columns.}
+
+\item{add_worksheet}{\[logical(1)\]. Should a worksheet be added to
+an existing workbook? Defaults to \code{TRUE}.}
 }
 \description{
-The selection list based on selected data from okplan file and
-    uses standardize_columns to  select, format and style columns.
+The selection list generated and ready formatted to
+    be sent.
+}
+\details{
+The data must originate from an "okplan" file and
+    the function uses standardize_columns to  select, order, format and
+    style the columns. To formatting information is edited in the
+    general source file for column standards and included into
+    \code{OKplan}.
+
+    When more than one worksheet should be added to a single workbook,
+    use \code{add_worksheet = FALSE} for the first worksheet and
+    \code{add_worksheet = TRUE} for the consecutive worksheet(s).
 }
