@@ -6,6 +6,7 @@
 \usage{
 adjust_samples_to_budget(
   data,
+  group = NULL,
   budget,
   sample_to_adjust,
   adjusted_sample = "justert_ant_prover",
@@ -15,7 +16,9 @@ adjust_samples_to_budget(
 \arguments{
 \item{data}{Data frame}
 
-\item{budget}{The total budgeted sample number.}
+\item{group}{\[character\]. Vector with group variables.}
+
+\item{budget}{The total budgeted sample number or a column in data with the number of samples.}
 
 \item{sample_to_adjust}{The name of the column with the sample number per unit that should be adjusted.}
 
@@ -35,6 +38,7 @@ Adds new column with an adjusted the sample size per selected
 The sample size should first be estimated by percentage or similar.
 }
 \examples{
+library(OKplan)
 # Add data frame with sample number to adjust
 x <- as.data.frame(cbind(c(1:10),
                          c(24, 30, 36, 12, 6, 18, 6, 0, 0, 0)))
