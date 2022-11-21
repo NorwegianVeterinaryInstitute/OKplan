@@ -30,7 +30,7 @@
 #'                               adjusted_sample = "new_sample",
 #'                               adjust_by = 4)
 adjust_samples_to_budget <- function(data, group = NULL, budget, sample_to_adjust, adjusted_sample = "justert_ant_prover", adjust_by) {
-
+  
   # ARGUMENT CHECKING ----
   # Object to store check-results
   checks <- checkmate::makeAssertCollection()
@@ -45,38 +45,59 @@ adjust_samples_to_budget <- function(data, group = NULL, budget, sample_to_adjus
   checkmate::assert_integerish(adjust_by, lower = 1, len = 1, any.missing = FALSE, add = checks)
   # Report errors
   checkmate::reportAssertions(checks)
-
+  
   # INITILIZE VARIABLES ----
-  ERROR
-  total_estimated <- sum(data[, sample_to_adjust], na.rm = TRUE)
-  n_units <- length(which(data[, sample_to_adjust] > 0))
+  nogroup <- rep("x", dim(data)[1])
   if (budget %in% colnames(data)) {
-    budget <- data[, budget]
+    difference <- cbind(data[, sample_to_adjust, budget) ], 
+                        nogroup) 
   } else {
     budget <- rep(budget, dim(data)[1])
+    difference <- cbind(data[, sample_to_adjust], budget, 
+                        nogroup) 
   }
-  #  difference <- c(as.numeric(total_estimated - budget), rep(NA, dim(data)[1] - 1))
-  difference <- rep(as.numeric(total_estimated), dim(data)[1]) - budget
-
-  # ADJUST SAMPLE NUMBER ----
-  # Order data with largest sample size first
-                           # data <- data[order(data[, sample_to_adjust], decreasing = TRUE), ]
   if (!is.null(group)) {
-    data <- sort(data, c(group, sample_to_adjust), decreasing = TRUE)
-  } else {data <- sort(data, sample_to_adjust, decreasing = TRUE)}
-
+    difference <- cbind(difference, data[, group])  
+  } 
+  group <- c("nogroup" , group) 
+  
+  difference <- difference %>%
+    dplyr::mutate(original_order = 1:n()) %>%
+    dplyr::group_by(dplyr::across(group)) %>%
+    dplyr::mutate(total_estimated = sum(dplyr::across(dplyr::all_of(sample_to_adjust)), na.rm = TRUE)) %>%
+    dplyr::mutate(included = dplyr::case_when(dplyr::across(sample_to_adjust) > 0 ~ 1,
+                                              TRUE ~ 0)) %>%
+    dplyr::mutate(n_units = sum(.data$included, na.rm = TRUE)) %>%
+    dplyr::mutate(difference = .data$total_estimated -.data$budget) %>%
+    dplyr::ungroup() %>%
+    dplyr::arrange(dplyr::across(c(group, sample_to_adjust)))
+  
+  # ERROR
+  # total_estimated <- sum(data[, sample_to_adjust], na.rm = TRUE)
+  # n_units <- length(which(data[, sample_to_adjust] > 0))
+  # if (budget %in% colnames(data)) {
+  #   budget <- data[, budget]
+  # } else {
+  #   budget <- rep(budget, dim(data)[1])
+  # }
+  # #  difference <- c(as.numeric(total_estimated - budget), rep(NA, dim(data)[1] - 1))
+  # difference <- rep(as.numeric(total_estimated), dim(data)[1]) - budget
+  
+  
+  # ADJUST SAMPLE NUMBER ----
   # If total_estimated = budget, make new column adjusted_sample based on sample_to_adjust
   # if (total_estimated == budget) {
   if (all(difference == 0)) {
     data[, adjusted_sample] <- data[, sample_to_adjust]
   }
-
+  
   # Only justify sample number when there is disagreement between budget and calculated number of samples
   #  if (total_estimated != budget) {
   if (any(difference != 0)) {
     # Adjust for each sampled unit with the unit having the largest sample size first
-    for (i in c(1:dim(data)[1])) {
-
+    # for (i in 1:c(dim(data)[1])) {
+    for (i in c(dim(data)[1]:1)) {
+      
       # Justify by positive or negative number depending on whether sample size is too small or too large.
       # If the difference is larger than adjust_by, then adjust by adjust_by
       # Else adjust by 1 | -1
@@ -89,17 +110,19 @@ adjust_samples_to_budget <- function(data, group = NULL, budget, sample_to_adjus
                           ceiling(-difference[i] / (n_units - i)))
       }
       if (difference[i] == 0) {justify <- 0}
-
+      
       # Make new column with adjusted number
       data[i, adjusted_sample] <- data[i, sample_to_adjust] + justify
       if (i < dim(data)[1]) {
-        if (is.null(group) || identical(data[i, group], data[i + 1, group])) {
-          difference[i + 1] <- difference[i] + justify
+        # if (is.null(group) || identical(data[i, group], data[i + 1, group])) {
+        #   difference[i + 1] <- difference[i] + justify
+        if (is.null(group) || identical(data[i, group], data[i - 1, group])) {
+          difference[i - 1] <- difference[i] + justify
         }
       }
-
     }
   }
+  
   # RETURN RESULT ----
   return(data)
 }
