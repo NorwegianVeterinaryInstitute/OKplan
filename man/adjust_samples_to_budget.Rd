@@ -50,6 +50,23 @@ x <- adjust_samples_to_budget(data = x,
                               sample_to_adjust = "sample",
                               adjusted_sample = "new_sample",
                               adjust_by = 4)
+
+# Adjust total sample number to budget per group
+total_budget <- 60 # same budget for all groups
+
+# Add data frame with sample number to adjust
+x <- as.data.frame(cbind(c(1:10),
+                         c(rep("x", 5), rep("y", 5)),
+                         c(24, 18, 6, 0, 30, 36, 12, 6, 0, 0)))
+colnames(x) <- c("id", "xy", "sample")
+
+x2 <- adjust_samples_to_budget(data = x,
+                               group = "xy",
+                               budget = total_budget,
+                               sample_to_adjust = "sample",
+                               adjusted_sample = "new_sample",
+                               adjust_by = 6)
+
 }
 \author{
 Petter Hopp Petter.Hopp@vetinst.no
