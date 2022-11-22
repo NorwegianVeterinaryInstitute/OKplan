@@ -24,6 +24,7 @@ Imports:
     knitr,
     magrittr,
     openxlsx,
+    rlang,
     rmarkdown,
     stats,
     NVIdb (>= 0.3.0),
