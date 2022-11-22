@@ -1,6 +1,13 @@
 OKplan 0.4.2.9000 - (2022-##-##)
 ---------------------------
 
+New features:
+
+- write_ok_selection_list now includes the argument `add_worksheet` that makes it possible to add a new worksheet to an existing workbook.
+
+- adjust_samples_to_budget includes the argument `group` so that sample size can be adjusted per group.
+
+
 Bug fixes:
 
 -
