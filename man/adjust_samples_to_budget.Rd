@@ -14,28 +14,51 @@ adjust_samples_to_budget(
 )
 }
 \arguments{
-\item{data}{Data frame}
+\item{data}{\[data.frame\] . Data including a column with the sample number
+that should be adjusted.}
 
 \item{group}{\[character\]. Vector with group variables.}
 
-\item{budget}{The total budgeted sample number or a column in data with the number of samples.}
+\item{budget}{The total budgeted sample number or a column in data with the
+budget number of samples (per group).}
 
-\item{sample_to_adjust}{The name of the column with the sample number per unit that should be adjusted.}
+\item{sample_to_adjust}{\[character\]. The name of the column with the sample
+number per unit that should be adjusted.}
 
-\item{adjusted_sample}{The name of the column with the adjusted sample number per unit.}
+\item{adjusted_sample}{\[character\]. The name of the new column with the
+adjusted sample number per unit.}
 
-\item{adjust_by}{The maximum number of samples that one should adjust by.}
+\item{adjust_by}{\[number\]. The maximum number of samples that a sample can
+be adjust by. Defaults to 1.}
 }
 \value{
 A data frame with a new column with an adjusted sample number.
 }
 \description{
-Adds new column with an adjusted the sample size per selected
+Adds a new column with an adjusted sample number per selected
      unit. The total sample size is adjusted to be in accord with the total
-     budgeted sample size.
+     budgeted sample number.
 }
 \details{
-The sample size should first be estimated by percentage or similar.
+The sample number per unit should first have been estimated, for
+    example can the sample number per abattoir be the total number of
+    samples distributed on the abattoirs in accord with the slaughter volume
+    at each abattoir. Often will rounding errors lead to a difference between
+    the total budgeted sample number and the total estimated sample number.
+    Therefore, the estimated sample number need to be adjusted.
+
+    The estimated sample number is first adjusted for the unit with the
+    largest sample number. Thereafter, for the unit with the next largest
+    sample number and so on.
+
+    The sample number will often be estimated so that it is a multiplicand
+    multiplied by of a given number (multiplier). For example, if equal
+    number of samples should be taken every month the multiplier can be 12,
+    if the samples are pooled five and five, the multiplier can be 5. If the
+    argument adjust_by is given the multiplier, the sample number will be
+    adjusted by the multiplier unless the difference that should be adjusted
+    is less than the multiplier. In that case, the sample number will be
+    adjusted by a number less than the adjust_by.
 }
 \examples{
 library(OKplan)

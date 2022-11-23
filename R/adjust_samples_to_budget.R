@@ -1,16 +1,39 @@
 #' @title Adjust the sample size per selected unit
-#' @description Adds new column with an adjusted the sample size per selected
+#' @description Adds a new column with an adjusted sample number per selected
 #'      unit. The total sample size is adjusted to be in accord with the total
-#'      budgeted sample size.
+#'      budgeted sample number.
 #'
-#' @details The sample size should first be estimated by percentage or similar.
+#' @details The sample number per unit should first have been estimated, for
+#'     example can the sample number per abattoir be the total number of
+#'     samples distributed on the abattoirs in accord with the slaughter volume
+#'     at each abattoir. Often will rounding errors lead to a difference between
+#'     the total budgeted sample number and the total estimated sample number.
+#'     Therefore, the estimated sample number need to be adjusted.
 #'
-#' @param data Data frame
+#'     The estimated sample number is first adjusted for the unit with the
+#'     largest sample number. Thereafter, for the unit with the next largest
+#'     sample number and so on.
+#'
+#'     The sample number will often be estimated so that it is a multiplicand
+#'     multiplied by of a given number (multiplier). For example, if equal
+#'     number of samples should be taken every month the multiplier can be 12,
+#'     if the samples are pooled five and five, the multiplier can be 5. If the
+#'     argument adjust_by is given the multiplier, the sample number will be
+#'     adjusted by the multiplier unless the difference that should be adjusted
+#'     is less than the multiplier. In that case, the sample number will be
+#'     adjusted by a number less than the adjust_by.
+#'
+#' @param data \[data.frame\] . Data including a column with the sample number
+#'     that should be adjusted.
 #' @param group \[character\]. Vector with group variables.
-#' @param budget The total budgeted sample number or a column in data with the number of samples.
-#' @param sample_to_adjust The name of the column with the sample number per unit that should be adjusted.
-#' @param adjusted_sample The name of the column with the adjusted sample number per unit.
-#' @param adjust_by The maximum number of samples that one should adjust by.
+#' @param budget The total budgeted sample number or a column in data with the
+#'     budget number of samples (per group).
+#' @param sample_to_adjust \[character\]. The name of the column with the sample
+#'     number per unit that should be adjusted.
+#' @param adjusted_sample \[character\]. The name of the new column with the
+#'     adjusted sample number per unit.
+#' @param adjust_by \[number\]. The maximum number of samples that a sample can
+#'     be adjust by. Defaults to 1.
 #'
 #' @return A data frame with a new column with an adjusted sample number.
 #'
@@ -48,7 +71,12 @@
 #'                                adjusted_sample = "new_sample",
 #'                                adjust_by = 6)
 #'
-adjust_samples_to_budget <- function(data, group = NULL, budget, sample_to_adjust, adjusted_sample = "justert_ant_prover", adjust_by) {
+adjust_samples_to_budget <- function(data,
+                                     group = NULL,
+                                     budget,
+                                     sample_to_adjust,
+                                     adjusted_sample = "justert_ant_prover",
+                                     adjust_by) {
 
   # ARGUMENT CHECKING ----
   # Object to store check-results
@@ -144,45 +172,6 @@ adjust_samples_to_budget <- function(data, group = NULL, budget, sample_to_adjus
     difference <- difference[order(difference$original_order), ]
     data[, adjusted_sample] <- difference[, adjusted_sample]
   }
-
-  # # ADJUST SAMPLE NUMBER ----
-  # # If total_estimated = budget, make new column adjusted_sample based on sample_to_adjust
-  # # if (total_estimated == budget) {
-  # if (all(difference == 0)) {
-  #   data[, adjusted_sample] <- data[, sample_to_adjust]
-  # }
-  #
-  # # Only justify sample number when there is disagreement between budget and calculated number of samples
-  # #  if (total_estimated != budget) {
-  # if (any(difference != 0)) {
-  #   # Adjust for each sampled unit with the unit having the largest sample size first
-  #   # for (i in 1:c(dim(data)[1])) {
-  #   for (i in c(dim(data)[1]:1)) {
-  #
-  #     # Justify by positive or negative number depending on whether sample size is too small or too large.
-  #     # If the difference is larger than adjust_by, then adjust by adjust_by
-  #     # Else adjust by 1 | -1
-  #     # If no difference "adjust by" 0
-  #     if (abs(difference[i]) >= adjust_by) {
-  #       justify <- ifelse(difference[i] > 0, -adjust_by, adjust_by)
-  #     } else {
-  #       justify <- ifelse(difference[i] > 0,
-  #                         floor(-difference[i] / (n_units - i)),
-  #                         ceiling(-difference[i] / (n_units - i)))
-  #     }
-  #     if (difference[i] == 0) {justify <- 0}
-  #
-  #     # Make new column with adjusted number
-  #     data[i, adjusted_sample] <- data[i, sample_to_adjust] + justify
-  #     if (i < dim(data)[1]) {
-  #       # if (is.null(group) || identical(data[i, group], data[i + 1, group])) {
-  #       #   difference[i + 1] <- difference[i] + justify
-  #       if (is.null(group) || identical(data[i, group], data[i - 1, group])) {
-  #         difference[i - 1] <- difference[i] + justify
-  #       }
-  #     }
-  #   }
-  # }
 
   # RETURN RESULT ----
   return(data)
