@@ -1,0 +1,100 @@
+---
+output:
+  html_document:
+    keep_md: yes
+params: 
+    set_title: !r paste("Kontroll av OK-utvalg for:", purpose, plan_aar)
+title: "`r params$set_title`"
+---
+```{r set-options, echo=FALSE, cache=FALSE, clean=FALSE}
+options(width = 1000)
+```
+
+```{r setup, include=FALSE}
+
+# Attach packages
+library(NVIbatch)
+use_pkg(pkg = c("dplyr", "tidyr", "knitr", "kableExtra", "htmltools"))
+use_NVIverse(pkg = c("NVIdb", "OKcheck"))
+
+# Global variables
+# For use in filenames
+today <- format(Sys.Date(), "%Y%m%d")
+
+# Import support data
+# Translation table for PJS-codes
+PJS_codes_2_text <- NVIdb::read_PJS_codes_2_text()
+
+data <- okplan
+
+knitr::opts_chunk$set(echo=TRUE)
+```
+
+```{r, include = FALSE}
+## Kontroll av OK-utvalg for: `r purpose` `r aar` per `r format(Sys.Date(), "%d.%m.%Y")`
+
+```
+
+<!-- Tabell I-1. Saker som ikke er avsluttet -->
+```{r, echo=FALSE}
+heading <- "Antall observasjoner fordelt på hensikt, kategori og status"
+
+ktr <- okplan %>%
+  group_by(ok_hensiktkode, kategori, statuskode) %>%
+  summarise(n = n(), .groups = "keep")
+
+# Remove heading if no data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+
+## R Markdown
+
+print(stats::ftable(data[, c("ok_hensiktkode", "kategori", 
+        "statuskode")], exclude = NULL))
+    print("Totalt antall besetninger og prover som skal testes")
+    ktr <- data %>% dplyr::group_by(ok_artkode, statuskode) %>% 
+        dplyr::summarise(antall = dplyr::n(), ant_prover = sum(ant_prover, 
+            na.rm = TRUE), .groups = "keep") %>% dplyr::ungroup()
+    print(ktr)
+    print("Antall utvalgte besetninger med mer enn en registrering per prodnr8")
+    ktr <- data %>% dplyr::add_count(ok_hensiktkode, eier_lokalitetnr) %>% 
+        dplyr::ungroup() %>% dplyr::filter(n > 1) %>% dplyr::select(eier_lokalitetnr, 
+        eier_lokalitet, postnr, poststed)
+    print(ktr)
+    print("Utvalgte besetninger med missing prodnr8 eller missing navn")
+    print(subset(data[, c("eier_lokalitetnr", "eier_lokalitet", 
+        "postnr", "poststed")], is.na(data$eier_lokalitetnr) | 
+        trimws(data$eier_lokalitetnr) == "" | is.na(data$eier_lokalitet) | 
+        trimws(data$eier_lokalitet) == ""))
+    print(stats::ftable(data[, c("ok_hensiktkode", "statuskode", 
+        "kategori")], exclude = NULL))
+    print(stats::ftable(data[, c("ok_programkode", "analyttkode")], 
+        exclude = NULL))
+    print(stats::ftable(data[, c("mt_region")], exclude = NULL))
+    print(stats::ftable(data[, c("mt_avdeling")], exclude = NULL))
+    print(stats::ftable(data[, c("ok_aar")], exclude = NULL))
+    print(stats::ftable(data[, c("ok_programkode")], exclude = NULL))
+    print(stats::ftable(data[, c("ok_hensiktkode")], exclude = NULL))
+    print(stats::ftable(data[, c("eier_lokalitettype")], 
+        exclude = NULL))
+    print(stats::ftable(data[, c("analyttkode")], exclude = NULL))
+    print(stats::ftable(data[, c("annen_aktortype")], exclude = NULL))
+    print(stats::ftable(data[, c("annen_aktornr")], exclude = NULL))
+    print(stats::ftable(data[, c("annen_aktor")], exclude = NULL))
+    print(stats::ftable(data[, c("ant_prover", "statuskode")], 
+        exclude = NULL))
+    print(stats::ftable(data[, c("ok_artkode")], exclude = NULL))
+    print(stats::ftable(data[, c("ok_driftsformkode")], 
+        exclude = NULL))
+    print(stats::ftable(data[, c("storrelseskategori", 
+        "statuskode")], exclude = NULL))
+    print(stats::ftable(data[, c("kategori", "statuskode")], 
+        exclude = NULL))
+    print(stats::ftable(data[, c("materialekode", "statuskode")], 
+        exclude = NULL))
+    print(stats::ftable(data[, c("statuskode")], exclude = NULL))
+    print(stats::ftable(data[, c("status_dato")], exclude = NULL))
+    print(stats::ftable(data[, c("prioritet_av_reserve")], 
+        exclude = NULL))
+    print(stats::ftable(data[, c("utvalg_laget_dato")], 
+        exclude = NULL))
