@@ -35,7 +35,7 @@ knitr::opts_chunk$set(echo=TRUE)
 
 ```
 
-<!-- Tabell I-1. Saker som ikke er avsluttet -->
+<!-- Tabell I-1. Saker som ikke er avsluttet --> 
 ```{r, echo=FALSE}
 heading <- "Antall observasjoner fordelt på hensikt, kategori og status"
 
@@ -47,34 +47,92 @@ ktr <- okplan %>%
 OKcheck::knit_table_if_data(data = ktr, heading = heading)
 ```
 
-## R Markdown
 
-print(stats::ftable(data[, c("ok_hensiktkode", "kategori", 
-        "statuskode")], exclude = NULL))
-    print("Totalt antall besetninger og prover som skal testes")
+```{r, echo=FALSE}
+heading <-"Totalt antall besetninger og prover som skal testes"
+
     ktr <- data %>% dplyr::group_by(ok_artkode, statuskode) %>% 
         dplyr::summarise(antall = dplyr::n(), ant_prover = sum(ant_prover, 
             na.rm = TRUE), .groups = "keep") %>% dplyr::ungroup()
-    print(ktr)
-    print("Antall utvalgte besetninger med mer enn en registrering per prodnr8")
+
+# Remove heading if no data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+    
+```{r, echo=FALSE}
+heading <-"Antall utvalgte besetninger med mer enn en registrering per prodnr8"
     ktr <- data %>% dplyr::add_count(ok_hensiktkode, eier_lokalitetnr) %>% 
         dplyr::ungroup() %>% dplyr::filter(n > 1) %>% dplyr::select(eier_lokalitetnr, 
         eier_lokalitet, postnr, poststed)
-    print(ktr)
-    print("Utvalgte besetninger med missing prodnr8 eller missing navn")
+
+    # Remove heading if no data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+
+```{r, echo=FALSE}
+heading <-"Utvalgte besetninger med missing prodnr8 eller missing navn"
     print(subset(data[, c("eier_lokalitetnr", "eier_lokalitet", 
         "postnr", "poststed")], is.na(data$eier_lokalitetnr) | 
         trimws(data$eier_lokalitetnr) == "" | is.na(data$eier_lokalitet) | 
         trimws(data$eier_lokalitet) == ""))
+# Remove heading if no data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+
+```{r, echo=FALSE}
+heading <- ""
+
     print(stats::ftable(data[, c("ok_hensiktkode", "statuskode", 
         "kategori")], exclude = NULL))
-    print(stats::ftable(data[, c("ok_programkode", "analyttkode")], 
+ # Remove heading if no data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+
+```{r, echo=FALSE}
+heading <- ""
+ print(stats::ftable(data[, c("ok_programkode", "analyttkode")], 
         exclude = NULL))
+# Remove heading if no data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+
+```{r, echo=FALSE}
+heading <- ""
     print(stats::ftable(data[, c("mt_region")], exclude = NULL))
+# Remove heading if no data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+
+```{r, echo=FALSE}
+heading <- ""
     print(stats::ftable(data[, c("mt_avdeling")], exclude = NULL))
+# Remove heading if no data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+
+```{r, echo=FALSE}
+heading <- ""
     print(stats::ftable(data[, c("ok_aar")], exclude = NULL))
+# Remove heading if no data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+
+```{r, echo=FALSE}
+heading <- ""
     print(stats::ftable(data[, c("ok_programkode")], exclude = NULL))
+# Remove heading if no data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+
+```{r, echo=FALSE}
+heading <- ""
     print(stats::ftable(data[, c("ok_hensiktkode")], exclude = NULL))
+# Remove heading if no data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+
+```{r, echo=FALSE}
+heading <- ""
     print(stats::ftable(data[, c("eier_lokalitettype")], 
         exclude = NULL))
     print(stats::ftable(data[, c("analyttkode")], exclude = NULL))
@@ -92,9 +150,25 @@ print(stats::ftable(data[, c("ok_hensiktkode", "kategori",
         exclude = NULL))
     print(stats::ftable(data[, c("materialekode", "statuskode")], 
         exclude = NULL))
+# Remove heading if no data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+
+```{r, echo=FALSE}
+heading <- ""
     print(stats::ftable(data[, c("statuskode")], exclude = NULL))
     print(stats::ftable(data[, c("status_dato")], exclude = NULL))
     print(stats::ftable(data[, c("prioritet_av_reserve")], 
         exclude = NULL))
-    print(stats::ftable(data[, c("utvalg_laget_dato")], 
+# Remove heading if no data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+
+```{r, echo=FALSE}
+heading <- ""
+
+   print(stats::ftable(data[, c("utvalg_laget_dato")], 
         exclude = NULL))
+# Remove heading if no data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
