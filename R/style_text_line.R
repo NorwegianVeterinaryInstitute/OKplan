@@ -34,14 +34,14 @@
 
 
 style_text_line <- function(workbook = workbook,
-                           sheet = sheet,
-                           data,
-                           text,
-                           text_decoration = NULL,
-                           wrap_text = FALSE,
-                           merge_cells = FALSE,
-                           heights = NULL,
-                           ...) {
+                            sheet = sheet,
+                            data,
+                            text,
+                            text_decoration = NULL,
+                            wrap_text = FALSE,
+                            merge_cells = FALSE,
+                            heights = NULL,
+                            ...) {
 
   # ARGUMENT CHECKING ----
   # Object to store check-results
@@ -49,15 +49,15 @@ style_text_line <- function(workbook = workbook,
 
   # Perform checks
   checkmate::assert_class(workbook, classes = "Workbook", add = checks)
-  checkmate::assert_character(sheet, len = 1, min.chars = 1, add = checks)
+  checkmate::assert_string(sheet, min.chars = 1, max.chars = 31, add = checks)
   checkmate::assert_data_frame(data, add = checks)
-  checkmate::assert_character(text, len = 1, add = checks)
+  checkmate::assert_string(text, min.chars = 1, add = checks)
   checkmate::assert_choice(text_decoration,
                            choices = c("bold", "strikeout", "italic", "underline", "underline2"),
                            null.ok = TRUE,
                            add = checks)
-  checkmate::assert_logical(wrap_text, len = 1, add = checks)
-  checkmate::assert_logical(merge_cells, len = 1, add = checks)
+  checkmate::assert_flag(wrap_text, add = checks)
+  checkmate::assert_flag(merge_cells, add = checks)
   checkmate::assert_integerish(heights, null.ok = TRUE, add = checks)
 
   # Report check-results
