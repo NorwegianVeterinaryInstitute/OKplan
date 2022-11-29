@@ -16,8 +16,11 @@
 #' @param filename The name of the Excel file that should be written.
 #' @param filepath The path to the Excel file that should be written.
 #' @param sheet The name of the Excel sheet with the list.
-#' @param calculate_sum \[logical(1)\] Should a line with the sum be
+#' @param calculate_sum \[logical(1)\]. Should a line with the sum be
 #'     appended? Defaults to \code{TRUE}.
+#' @param footnote \[character(1)\]. Footnote to appended? Defaults to \code{NULL}.
+#' @param footnote_heights \[integer(1)\]. Manually set row height for the
+#'      footnote. Defaults to \code{NULL}.
 #' @param dbsource The name of the dbtable in OK_column_standards that should
 #'     be used for standardizing the columns.
 #' @param add_worksheet \[logical(1)\]. Should a worksheet be added to
@@ -29,6 +32,8 @@ write_ok_selection_list <- function(data,
                                     filename,
                                     filepath,
                                     calculate_sum = TRUE,
+                                    footnote = NULL,
+                                    footnote_heights = NULL,
                                     dbsource,
                                     add_worksheet = FALSE) {
   # Remove trailing backslash or slash before testing path
@@ -49,6 +54,7 @@ write_ok_selection_list <- function(data,
     checkmate::assert_file_exists(file.path(filepath, filename), access = "r")
   }
   checkmate::assert_flag(calculate_sum, add = checks)
+  checkmate::assert_string(footnote, min.chars = 1, null.ok = TRUE, add = checks)
   checkmate::assert_character(dbsource, min.len = 1, add = checks)
   checkmate::assert_choice(dbsource,
                            choices = unique(OKplan::OK_column_standards[, "table_db"]),
@@ -90,6 +96,14 @@ write_ok_selection_list <- function(data,
   okdata <- append_date_generated_line(okdata)
 
 
+  # Append footnote
+  if (!is.null(footnote)) {
+    okdata <- append_date_generated_line(okdata,
+                                         pretext = footnote,
+                                         date = "")
+  }
+
+
   # STYLE EXCEL SHEET ----
   NVIpretty::add_formatted_worksheet(data = okdata,
                                      workbook = okwb,
@@ -100,10 +114,19 @@ write_ok_selection_list <- function(data,
                                      standards = OKplan::OK_column_standards,
                                      dbsource = dbsource)
 
-
   if (isTRUE(calculate_sum)) {
     style_sum_line(workbook = okwb, sheet = sheet, data = okdata)
   }
+
+  if (!is.null(footnote)) {
+    style_text_line(workbook = okwb, sheet = sheet, data = okdata,
+                    text = footnote,
+                    wrap_text = TRUE,
+                    merge_cells = TRUE,
+                    heights = footnote_heights)
+  }
+
+
   # }
   # SAVE EXCEL WORKBOOK ----
   openxlsx::saveWorkbook(wb = okwb, file = file.path(filepath, filename), overwrite = TRUE)

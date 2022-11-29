@@ -10,6 +10,8 @@ write_ok_selection_list(
   filename,
   filepath,
   calculate_sum = TRUE,
+  footnote = NULL,
+  footnote_heights = NULL,
   dbsource,
   add_worksheet = FALSE
 )
@@ -23,8 +25,13 @@ write_ok_selection_list(
 
 \item{filepath}{The path to the Excel file that should be written.}
 
-\item{calculate_sum}{\[logical(1)\] Should a line with the sum be
+\item{calculate_sum}{\[logical(1)\]. Should a line with the sum be
 appended? Defaults to \code{TRUE}.}
+
+\item{footnote}{\[character(1)\]. Footnote to appended? Defaults to \code{NULL}.}
+
+\item{footnote_heights}{\[integer(1)\]. Manually set row height for the
+footnote. Defaults to \code{NULL}.}
 
 \item{dbsource}{The name of the dbtable in OK_column_standards that should
 be used for standardizing the columns.}
