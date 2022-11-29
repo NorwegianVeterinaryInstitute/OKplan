@@ -14,7 +14,8 @@ options(width = 1000)
 
 # Attach packages
 library(NVIbatch)
-use_pkg(pkg = c("dplyr", "tidyr", "knitr", "kableExtra", "htmltools"))
+# use_pkg(pkg = c("dplyr", "tidyr", "knitr", "kableExtra", "htmltools"))
+use_pkg(pkg = c("dplyr", "tidyr", "knitr", "stats"))
 use_NVIverse(pkg = c("NVIdb", "OKcheck"))
 
 # Global variables
@@ -80,16 +81,7 @@ OKcheck::knit_table_if_data(data = ktr, heading = heading)
 ```
 
 ```{r, echo=FALSE}
-heading <- ""
-
-    print(stats::ftable(data[, c("ok_hensiktkode", "statuskode", 
-        "kategori")], exclude = NULL))
- # Remove heading if no data to report
-OKcheck::knit_table_if_data(data = ktr, heading = heading)
-```
-
-```{r, echo=FALSE}
-heading <- ""
+heading <- "Antall analyttkoder per hensikt"
  print(stats::ftable(data[, c("ok_programkode", "analyttkode")], 
         exclude = NULL))
 # Remove heading if no data to report
@@ -97,21 +89,21 @@ OKcheck::knit_table_if_data(data = ktr, heading = heading)
 ```
 
 ```{r, echo=FALSE}
-heading <- ""
+heading <- "Antall prøver per mattilsynsregion"
     print(stats::ftable(data[, c("mt_region")], exclude = NULL))
 # Remove heading if no data to report
 OKcheck::knit_table_if_data(data = ktr, heading = heading)
 ```
 
 ```{r, echo=FALSE}
-heading <- ""
+heading <- "Antall prøver per mattilsynsavdeling"
     print(stats::ftable(data[, c("mt_avdeling")], exclude = NULL))
 # Remove heading if no data to report
 OKcheck::knit_table_if_data(data = ktr, heading = heading)
 ```
 
 ```{r, echo=FALSE}
-heading <- ""
+heading <- "Sjekk"
     print(stats::ftable(data[, c("ok_aar")], exclude = NULL))
 # Remove heading if no data to report
 OKcheck::knit_table_if_data(data = ktr, heading = heading)
@@ -132,7 +124,7 @@ OKcheck::knit_table_if_data(data = ktr, heading = heading)
 ```
 
 ```{r, echo=FALSE}
-heading <- ""
+heading <- "Diverse tabeller"
     print(stats::ftable(data[, c("eier_lokalitettype")], 
         exclude = NULL))
     print(stats::ftable(data[, c("analyttkode")], exclude = NULL))
