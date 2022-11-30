@@ -7,8 +7,6 @@ New features:
 
 - adjust_samples_to_budget includes the argument `group` so that sample size can be adjusted per group.
 
-- style_text_line formats a row in an Excel sheet, for example a footnote.
-
 
 Bug fixes:
 
