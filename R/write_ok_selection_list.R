@@ -98,9 +98,9 @@ write_ok_selection_list <- function(data,
 
   # Append footnote
   if (!is.null(footnote)) {
-    okdata <- append_date_generated_line(okdata,
-                                         pretext = footnote,
-                                         date = "")
+    okdata <- NVIpretty::append_text_line(okdata,
+                                          text = footnote,
+                                          empty_rows = 2)
   }
 
 
@@ -119,11 +119,11 @@ write_ok_selection_list <- function(data,
   }
 
   if (!is.null(footnote)) {
-    style_text_line(workbook = okwb, sheet = sheet, data = okdata,
-                    text = footnote,
-                    wrap_text = TRUE,
-                    merge_cells = TRUE,
-                    heights = footnote_heights)
+    NVIpretty::style_text_line(workbook = okwb, sheet = sheet, data = okdata,
+                               text = footnote,
+                               wrap_text = TRUE,
+                               merge_cells = TRUE,
+                               heights = footnote_heights)
   }
 
 
