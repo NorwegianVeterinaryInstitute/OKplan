@@ -27,9 +27,11 @@ Imports:
     rlang,
     rmarkdown,
     stats,
+    NVIbatch (>= 0.4.0),
     NVIdb (>= 0.3.0),
     NVIpretty (>= 0.4.0),
-    NVIrpackages
+    NVIrpackages,
+    OKcheck
 Suggests:
     covr,
     devtools,
@@ -38,10 +40,12 @@ Suggests:
     utils,
     NVIpackager
 Remotes: 
+    NorwegianVeterinaryInstitute/NVIbatch,
     NorwegianVeterinaryInstitute/NVIdb,
     NorwegianVeterinaryInstitute/NVIpretty,
     NorwegianVeterinaryInstitute/NVIpackager,
-    NorwegianVeterinaryInstitute/NVIrpackages
-RoxygenNote: 7.2.1
+    NorwegianVeterinaryInstitute/NVIrpackages,
+    NorwegianVeterinaryInstitute/OKcheck
+RoxygenNote: 7.2.2
 VignetteBuilder: knitr
 Language: en-GB
