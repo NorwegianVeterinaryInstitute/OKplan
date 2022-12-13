@@ -7,6 +7,8 @@ New features:
 
 - adjust_samples_to_budget includes the argument `group` so that sample size can be adjusted per group.
 
+- check_OK_selection now calls an R markdown file, generates a html-report with descriptive statistics and displays the report in the browser.
+
 
 Bug fixes:
 
