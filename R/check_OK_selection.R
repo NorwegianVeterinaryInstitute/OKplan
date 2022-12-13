@@ -1,18 +1,47 @@
-#' @title Control of standard output file with OK selection
-#' @description Standard control by performing descriptive statistics of variables in the output file with OK selection.
+#' @title Checks the standard output data frame with the OK selection
+#' @description Standard checks by performing descriptive statistics of
+#'     variables in the standard output data frame with OK selection.
+#'     \code{check_OK_selection} is a wrapper for \code{NVIbatch::output_rendered}.
 #'
-#' @details Under development. This should be rewritten to produce nicer output.
+#' @details Gives descriptive statistics of the OK selection. This should
+#'     used to check if the number of selected units per category are
+#'     in accord with the design of the surveillance programme. If any
+#'     mistakes are found, one must correct in the script that generates
+#'     the selection.
 #'
-#'     Gives descriptive statistics of the selection. This is used to see if the number of selected units per category are correct.
-#'     If any mistakes are found, one must go back and correct in the script that produces the selection.
+#'     The check must be performed on a data frame with standardised
+#'     column names. This is ensured by using column names as defined for
+#'     "okplan" in \code{data(OKplan::OK_column_standards)}.
 #'
-#'     Before the control is run, the column names must have been standardized using \code{NVIdb::standardize_columns}.
+#'     The default behaviour is to display the resulting html-file in the
+#'     browser. To save the result in a permanent file, use a permanent
+#'     directory as input to \code{output_dir = }. The resulting file
+#'     can also be sent by email by using additional arguments, see
+#'     \code{NVIbatch::output_rendered}.
 #'
-#' @param data Data frame with selection for a OK programme.
+#'     If checks are missing, are unnecessary or the headings are to
+#'     cryptic, please give input to improve the rmarkdown file
+#'     "check_ok_selection.Rmd".
 #'
-#' @importFrom magrittr %>%
+#' @param input The path to the rmarkdown document with the checks.
+#'     Defaults to "check_ok_selection.Rmd" in the \code{OKplan}.
+#' @param output_file \[\code{character(1)}\]. The name of the output
+#'     file.
+#' @param output_dir \[\code{character(1)}\]. The directory to save
+#'     the output file. Defaults to \code{NULL}.
+#' @param data \[\code{data.frame}\].  The table with data describing
+#'     the selection for a OK programme.
+#' @param purpose \[\code{character(1)}\]. String with descriptive
+#'     text to be used in file name and heading of the report.
+#' @param plan_aar \[\code{numeric(1)}\]. The year for which the
+#'     selection is planned. Defaults to next year.
+#' @param display \[\code{logical(1)} | \code{character(1)}\]. Set
+#'     "browser" for the default browser or "viewer" for the R studio
+#'      viewer. `TRUE` equals "browser". If `FALSE`, don't display
+#'      the results file. Defaults to "browser".
+#' @param \dots Other arguments to be passed to `NVIbatch::output_rendered`.
 #'
-#' @return Prints results of the control to the output window.
+#' @return Generates an html-file with the results of the checks to be displayed in the browser.
 #'
 #' @author Petter Hopp Petter.Hopp@@vetinst.no
 #' @export
@@ -20,75 +49,60 @@
 #' \dontrun{
 #' # Checking OK selection data
 #'
-#' # Read example data
-#' okplan_MRSA <- read.csv2(file = paste0(
-#'                            set_dir_NVI("OKprogrammer"),
-#'                            "Rutine",
-#'                            plan_aar,
-#'                            "/planlegging/resultater/utvalgslister/data_MRSA_alle_gris.csv"),
-#'                          colClasses = colclasses,
-#'                          fileEncoding = "UTF-8")
+#' purpose = "ok_virus_svin"
+#' plan_aar = 2023
 #'
-#' # Control
-#' check_OK_selection(okplan_MRSA)
+#' # Check
+#' check_OK_selection(data = okplan_svin,
+#'                    purpose = purpose,
+#'                    plan_aar = plan_aar)
 #' }
 #'
-check_OK_selection <- function(data) {
+check_OK_selection <- function(input = system.file('templates', "check_ok_selection.Rmd", package = "OKplan"),
+                               output_file = paste0("Kontroll av okplan for ",
+                                                    purpose,
+                                                    " ",
+                                                    format(Sys.Date(), "%Y%m%d"),
+                                                    ".html"),
+                               output_dir = NULL,
+                               data = NULL,
+                               purpose = NULL,
+                               plan_aar = as.numeric(format(Sys.Date()), "%Y%") + 1,
+                               display = "browser",
+                               ...) {
 
-  # Number of herds and samples that should be tested distributed on groups
-  print(stats::ftable(data[, c("ok_hensiktkode", "kategori", "statuskode")], exclude = NULL))
+  # PREPARE ARGUMENTS BEFORE CHECKING ----
+  if (is.null(output_dir)) {output_dir = tempdir()}
+  if (isTRUE(display)) {display = "browser"}
 
-  print("Totalt antall besetninger og prover som skal testes")
-  ktr <- data %>%
-    dplyr::group_by(ok_artkode, statuskode) %>%
-    dplyr::summarise(antall = dplyr::n(), ant_prover = sum(ant_prover, na.rm = TRUE), .groups = "keep") %>%
-    dplyr::ungroup()
-  print(ktr)
-
-  print("Antall utvalgte besetninger med mer enn en registrering per prodnr8")
-  ktr <- data %>%
-    dplyr::add_count(ok_hensiktkode, eier_lokalitetnr) %>%
-    dplyr::ungroup() %>%
-    dplyr::filter(n > 1) %>%
-    dplyr::select(eier_lokalitetnr, eier_lokalitet, postnr, poststed)
-  print(ktr)
-
-  print("Utvalgte besetninger med missing prodnr8 eller missing navn")
-  print(subset(data[, c("eier_lokalitetnr", "eier_lokalitet", "postnr", "poststed")],
-               is.na(data$eier_lokalitetnr) | trimws(data$eier_lokalitetnr) == "" |
-                 is.na(data$eier_lokalitet) | trimws(data$eier_lokalitet) == ""))
-
-
-
-  # variabelfrekvenser
-  print(stats::ftable(data[, c("ok_hensiktkode", "statuskode", "kategori")], exclude = NULL))
+  # ARGUMENT CHECKING ----
+  # Object to store check-results
+  checks <- checkmate::makeAssertCollection()
+  # Perform checks
+  checkmate::assert_file(input, access = "r", add = checks)
+  checkmate::assert_string(output_file, min.chars = 6, pattern = "\\.html$", ignore.case = TRUE, add = checks)
+  checkmate::assert_directory(output_dir, access = "r", add = checks)
+  checkmate::assert_data_table(data, min.rows = 1, add = checks)
+  checkmate::assert_string(purpose, min.chars = 1, add = checks)
+  checkmate::assert_integerish(plan_aar,
+                               lower = 1995, upper = (as.numeric(format(Sys.Date()), "%Y%") + 10),
+                               any.missing = FALSE, all.missing = FALSE,
+                               len = 1,
+                               add = checks)
+  checkmate::assert(checkmate::check_false(display),
+                    checkmate::check_choice(display, choices = c("browser", "viewer")),
+                    add = checks)
+  # Report check-results
+  checkmate::reportAssertions(checks)
 
 
-  print(stats::ftable(data[, c("ok_programkode", "analyttkode")], exclude = NULL))
-  print(stats::ftable(data[, c("mt_region")], exclude = NULL))
-  print(stats::ftable(data[, c("mt_avdeling")], exclude = NULL))
-  print(stats::ftable(data[, c("ok_aar")], exclude = NULL))
-  print(stats::ftable(data[, c("ok_programkode")], exclude = NULL))
-  print(stats::ftable(data[, c("ok_hensiktkode")], exclude = NULL))
-  print(stats::ftable(data[, c("eier_lokalitettype")], exclude = NULL))
-  print(stats::ftable(data[, c("analyttkode")], exclude = NULL))
-  print(stats::ftable(data[, c("annen_aktortype")], exclude = NULL))
-  print(stats::ftable(data[, c("annen_aktornr")], exclude = NULL))
-  print(stats::ftable(data[, c("annen_aktor")], exclude = NULL))
-  print(stats::ftable(data[, c("ant_prover", "statuskode")], exclude = NULL))
-  print(stats::ftable(data[, c("ok_artkode")], exclude = NULL))
-  print(stats::ftable(data[, c("ok_driftsformkode")], exclude = NULL))
-  print(stats::ftable(data[, c("storrelseskategori", "statuskode")], exclude = NULL))
-  print(stats::ftable(data[, c("kategori", "statuskode")], exclude = NULL))
-  print(stats::ftable(data[, c("materialekode", "statuskode")], exclude = NULL))
-  print(stats::ftable(data[, c("statuskode")], exclude = NULL))
-  print(stats::ftable(data[, c("status_dato")], exclude = NULL))
-  print(stats::ftable(data[, c("prioritet_av_reserve")], exclude = NULL))
-  print(stats::ftable(data[, c("utvalg_laget_dato")], exclude = NULL))
-
-  # &oMTreg*&ostatus &oMTavd*&ostatus
-
-  # &otidspunkt  &otidsenhet  &olab &oRefNr
-  # &omottatt
-  #
+  # RUN output_rendered ----
+  NVIbatch::output_rendered(input = input,
+                            output_file = output_file,
+                            output_dir = output_dir,
+                            intermediates_dir = tempdir(),
+                            params = list("data" = data, "purpose" = purpose, "plan_aar" = plan_aar),
+                            display = display,
+                            email = FALSE,
+                            ...)
 }
