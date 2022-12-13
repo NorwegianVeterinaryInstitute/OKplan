@@ -5,7 +5,7 @@
 \title{Checks the standard output data frame with the OK selection}
 \usage{
 check_OK_selection(
-  input = system.file("templates", "check_ok_selection.Rmd", package = "OKcheck"),
+  input = system.file("templates", "check_ok_selection.Rmd", package = "OKplan"),
   output_file = paste0("Kontroll av okplan for ", purpose, " ", format(Sys.Date(),
     "\%Y\%m\%d"), ".html"),
   output_dir = NULL,
