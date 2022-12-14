@@ -58,7 +58,7 @@
 #'                    plan_aar = plan_aar)
 #' }
 #'
-check_OK_selection <- function(input = system.file('templates', "check_ok_selection.Rmd", package = "OKplan"),
+check_ok_selection <- function(input = system.file('templates', "check_ok_selection.Rmd", package = "OKplan"),
                                output_file = paste0("Kontroll av okplan for ",
                                                     purpose,
                                                     " ",
