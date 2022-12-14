@@ -153,7 +153,7 @@ heading <- paste("<br/> <br/>",
                  "<h4> Antall prøver per analytt fordelt på hensikt og art <h4>")
 
 ktr <- data %>%
-  dplyr::roup_by(ok_hensiktkode, ok_artkode, ok_driftsformkode, storrelseskategori, analyttkode, ant_prover) %>% 
+  dplyr::group_by(ok_hensiktkode, ok_artkode, ok_driftsformkode, storrelseskategori, analyttkode, ant_prover) %>% 
   dplyr::summarise(antall_lokaliteter = dplyr::n(), 
                    ant_prover = sum(ant_prover, na.rm = TRUE), 
                    .groups = "keep")
