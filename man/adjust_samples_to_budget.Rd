@@ -89,7 +89,6 @@ x2 <- adjust_samples_to_budget(data = x,
                                sample_to_adjust = "sample",
                                adjusted_sample = "new_sample",
                                adjust_by = 6)
-
 }
 \author{
 Petter Hopp Petter.Hopp@vetinst.no

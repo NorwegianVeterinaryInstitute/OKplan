@@ -70,7 +70,6 @@
 #'                                sample_to_adjust = "sample",
 #'                                adjusted_sample = "new_sample",
 #'                                adjust_by = 6)
-#'
 adjust_samples_to_budget <- function(data,
                                      group = NULL,
                                      budget,
