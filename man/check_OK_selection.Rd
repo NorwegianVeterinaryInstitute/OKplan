@@ -11,7 +11,7 @@ check_OK_selection(
   output_dir = NULL,
   data = NULL,
   purpose = NULL,
-  plan_aar = as.numeric(format(Sys.Date()), "\%Y\%") + 1,
+  plan_aar = as.numeric(format(Sys.Date(), "\%Y")) + 1,
   display = "browser",
   ...
 )

@@ -67,7 +67,7 @@ check_OK_selection <- function(input = system.file('templates', "check_ok_select
                                output_dir = NULL,
                                data = NULL,
                                purpose = NULL,
-                               plan_aar = as.numeric(format(Sys.Date()), "%Y%") + 1,
+                               plan_aar = as.numeric(format(Sys.Date(), "%Y")) + 1,
                                display = "browser",
                                ...) {
 
@@ -82,10 +82,10 @@ check_OK_selection <- function(input = system.file('templates', "check_ok_select
   checkmate::assert_file(input, access = "r", add = checks)
   checkmate::assert_string(output_file, min.chars = 6, pattern = "\\.html$", ignore.case = TRUE, add = checks)
   checkmate::assert_directory(output_dir, access = "r", add = checks)
-  checkmate::assert_data_table(data, min.rows = 1, add = checks)
+  checkmate::assert_data_frame(data, min.rows = 1, add = checks)
   checkmate::assert_string(purpose, min.chars = 1, add = checks)
   checkmate::assert_integerish(plan_aar,
-                               lower = 1995, upper = (as.numeric(format(Sys.Date()), "%Y%") + 10),
+                               lower = 1995, upper = (as.numeric(format(Sys.Date(), "%Y")) + 10),
                                any.missing = FALSE, all.missing = FALSE,
                                len = 1,
                                add = checks)
