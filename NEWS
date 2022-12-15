@@ -1,3 +1,24 @@
+OKplan 0.5.0 - (2022-12-15)
+---------------------------
+
+New features:
+
+- write_ok_selection_list now includes the argument `add_worksheet` that makes it possible to add a new worksheet to an existing workbook.
+
+- adjust_samples_to_budget includes the argument `group` so that sample size can be adjusted per group.
+
+- check_ok_selection now calls an R markdown file, generates a html-report with descriptive statistics and displays the report in the browser. The function is renamed (all lower case letters) and includes several new arguments. check_OK_selection is deprecated.
+
+Other changes:
+
+- README updated with improved installation guide.
+
+
+BREAKING CHANGES:
+
+  - Renamed to check_ok_selection from check_OK_selection. check_OK_selection is deprecated.
+
+
 OKplan 0.4.2 - (2022-01-20)
 ---------------------------
 

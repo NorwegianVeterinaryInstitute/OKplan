@@ -57,7 +57,7 @@ test_that("Errors for append_sum_line", {
 
   # Wrong column name
   expect_error(append_sum_line(data = x, column = c("Antall_prover"), pretext = "Sum", position = "left"),
-               regexp = "Variable \'column\': Must be a subset of set ")
+               regexp = "Variable \'column\': Names must be a subset of")
 
   # position not in c("first", "left")
   expect_error(append_sum_line(data = x, column = c("Antall prover"), pretext = "Sum", position = "last"),

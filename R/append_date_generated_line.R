@@ -33,7 +33,7 @@ append_date_generated_line <- function(data, pretext = "Datauttrekket er gjort",
   data[(dim(data)[1] + 1):(dim(data)[1] + 2), ] <- NA
 
   # input time for generating the data
-  data[dim(data)[1], 1] <- paste(pretext, date)
+  data[dim(data)[1], 1] <- trimws(paste(pretext, date))
 
   return(data)
 }

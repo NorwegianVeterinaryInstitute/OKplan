@@ -1,0 +1,188 @@
+---
+output:
+  html_document:
+    keep_md: yes
+params: 
+    purpose: "ok_sykdom_art"
+    plan_aar: "`r as.numeric(format(Sys.Date(), '%Y')) + 1`"
+    data: 
+title: "`r paste('Kontroll av OK-utvalg for:', params$purpose, params$plan_aar)`"
+---
+```{r set-options, echo = FALSE, cache=FALSE, clean=FALSE}
+options(width = 1000)
+```
+
+```{r setup, include=FALSE}
+# Attach packages
+library(NVIbatch)
+use_pkg(pkg = c("dplyr", "knitr"))
+use_NVIverse(pkg = c("NVIdb", "OKcheck"))
+
+# Import support data
+# Translation table for PJS-codes
+PJS_codes_2_text <- NVIdb::read_PJS_codes_2_text()
+
+data <- params$data
+
+knitr::opts_chunk$set(echo=TRUE)
+```
+
+```{r, include = FALSE}
+## Kontroll av OK-utvalg for: `r purpose` `r aar` per `r format(Sys.Date(), "%d.%m.%Y")`
+
+```
+
+<!-- Tabell. Antall observasjoner fordelt på hensikt, kategori og status --> 
+```{r, echo = FALSE}
+heading <- paste("<br/> <br/>",  
+                 "<h4> Antall observasjoner fordelt på hensikt, kategori og status <h4>")
+
+ktr <- data %>%
+  group_by(ok_hensiktkode, ok_artkode, ok_driftsformkode, storrelseskategori, kategori, statuskode) %>% 
+  summarise(n = n(), .groups = "keep")
+
+# Generate table if data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+
+
+```{r, echo = FALSE}
+heading <- paste("<br/> <br/>",  
+                 "<h4> Totalt antall besetninger og prover som skal testes <h4>")
+
+ktr <- data %>% 
+  dplyr::group_by(ok_artkode, statuskode) %>% 
+  dplyr::summarise(antall = dplyr::n(), 
+                   ant_prover = sum(ant_prover, na.rm = TRUE), 
+                   .groups = "keep") %>% 
+  dplyr::ungroup()
+
+# Generate table if data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+    
+```{r, echo = FALSE}
+heading <- paste("<br/> <br/>",  
+                 "<h4> Antall utvalgte besetninger med mer enn en registrering per prodnr8 <h4>")
+
+ktr <- data %>% 
+  dplyr::add_count(ok_hensiktkode, eier_lokalitetnr) %>% 
+  dplyr::ungroup() %>% 
+  dplyr::filter(n > 1) %>% 
+  dplyr::select(eier_lokalitettype, eier_lokalitetnr, eier_lokalitet, postnr, poststed)
+
+# Generate table if data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+
+```{r, echo = FALSE}
+heading <- paste("<br/> <br/>",  
+                 "<h4> Utvalgte besetninger med missing prodnr8 eller missing navn <h4>")
+
+ktr <- data %>% 
+  dplyr::filter(is.na(eier_lokalitetnr) | trimws(eier_lokalitetnr) == "" | 
+                  is.na(eier_lokalitet) | trimws(eier_lokalitet) == "") %>%
+  dplyr::select(eier_lokalitettype, eier_lokalitetnr, eier_lokalitet, postnr, poststed)
+
+# Generate table if data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+
+```{r, echo = FALSE}
+heading <- paste("<br/> <br/>",  
+                 "<h4> Antall prøver per mattilsynsregion <h4>")
+
+ktr <- data %>% 
+  dplyr::group_by(mt_regionnr, mt_region, eier_lokalitettype) %>% 
+  dplyr::summarise(antall_lokaliteter = dplyr::n(), 
+                   ant_prover = sum(ant_prover, na.rm = TRUE), 
+                   .groups = "keep") %>% 
+  dplyr::ungroup()
+
+# Generate table if data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+
+```{r, echo = FALSE}
+heading <- paste("<br/> <br/>",  
+                 "<h4> Antall prøver per mattilsynsavdeling <h4>")
+
+ktr <- data %>% 
+  dplyr::group_by(mt_avdelingnr, mt_avdeling, eier_lokalitettype) %>% 
+  dplyr::summarise(antall_lokaliteter = dplyr::n(), 
+                   ant_prover = sum(ant_prover, na.rm = TRUE), 
+                   .groups = "keep") %>% 
+  dplyr::ungroup()
+
+# Generate table if data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+
+```{r, echo = FALSE} 
+heading <- paste("<br/> <br/>",  
+                 "<h4> Antall prøver per annen aktør <h4>")
+
+ktr <- data %>% 
+  dplyr::group_by(annen_aktortype, annen_aktornr, annen_aktor) %>% 
+  dplyr::summarise(antall_lokaliteter = dplyr::n(), 
+                   ant_prover = sum(ant_prover, na.rm = TRUE), 
+                   .groups = "keep") %>% 
+  dplyr::ungroup()
+
+# Generate table if data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+
+```{r, echo = FALSE}
+heading <- paste("<br/> <br/>",  
+                 "<h4> Antall observasjoner fordelt på hensikt, kategori og status <h4>")
+
+ktr <- data %>%
+  dplyr::group_by(ok_hensiktkode, ok_artkode, ok_driftsformkode, storrelseskategori, 
+                  kategori, materialekode, statuskode, ant_prover) %>% 
+  dplyr::summarise(antall_lokaliteter = dplyr::n(), 
+                   ant_prover = sum(ant_prover, na.rm = TRUE), 
+                   .groups = "keep")
+
+# Generate table if data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+
+```{r, echo = FALSE}
+heading <- paste("<br/> <br/>",  
+                 "<h4> Antall prøver per analytt fordelt på hensikt og art <h4>")
+
+ktr <- data %>%
+  dplyr::group_by(ok_hensiktkode, ok_artkode, ok_driftsformkode, storrelseskategori, analyttkode, ant_prover) %>% 
+  dplyr::summarise(antall_lokaliteter = dplyr::n(), 
+                   ant_prover = sum(ant_prover, na.rm = TRUE), 
+                   .groups = "keep")
+
+# Generate table if data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+
+```{r, echo = FALSE}
+heading <- paste("<br/> <br/>",  
+                 "<h4> Antall selektert og reserver <h4>")
+ktr <- data %>%
+  dplyr::group_by(ok_hensiktkode, ok_artkode, statuskode, prioritet_av_reserve) %>% 
+  dplyr::summarise(antall_lokaliteter = dplyr::n(), 
+                   .groups = "keep")
+
+# Generate table if data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
+
+```{r, echo = FALSE}
+heading <- paste("<br/> <br/>",  
+                 "<h4> Formalia (Planleggingsår, dato for utvalg) <h4>")
+
+ktr <- data %>%
+  dplyr::group_by(ok_aar, status_dato, utvalg_dato) %>% 
+  dplyr::summarise(n = dplyr::n(), .groups = "keep")
+
+   # print(stats::ftable(data[, c("utvalg_laget_dato")], exclude = NULL))
+# Generate table if data to report
+OKcheck::knit_table_if_data(data = ktr, heading = heading)
+```
