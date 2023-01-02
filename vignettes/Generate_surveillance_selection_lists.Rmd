@@ -1,0 +1,57 @@
+---
+title: "Generate surveillance selection lists"
+
+output: 
+  rmarkdown::html_vignette:
+    keep_md: true
+md_document:
+  variant: markdown_github
+
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Generate surveillance selection lists}
+  %\VignetteEncoding{UTF-8}
+
+---
+  
+# Generate surveillance selection lists
+  
+## Contents 
+  
+  - [Overview](#overview)
+  - [Generate the total population](#generate-the-total-population)
+  - [Generate the study population](#generate-the-study-population)
+  - [Select units for testing (selection)](#select-units-for-testing-(selection))
+  - [Standardise the file format for the selection](#standardise-the-file-format-for-the selection)
+  - [Check the selection](#check-the-selection)
+  - [Generate surveillance selection lists](#generate-surveillance-selection-lists)
+  
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+The purpose of this document is to guide the generation of selection list for the Norwegian surveillance programmes. All parts of the generation is covered but detailed guidelines are mainly given for the parts of the generation that have been possible to standardise between programmes.
+
+The guidelines are divided on the following parts, generate the total population, decide the study population, select units for testing  from the study population (selection), standardising the file formats for the selection, check the selection and, generate lists with the selection.
+
+## Generate the total population
+Currently the total population is generated for each surveillance programme in the scripts for generating the surveillance selection lists. The aim is to move these scripts to scripts for only generating the population for different species and use these as input. 
+
+The total population is usually based upon the Register of Production Subsides, Deliveries of Carcasses and additional registers or sources of information giving information on herds, number of animals and/or production type. For some surveillance programmes the population consists of retail shops, or others.
+
+## Generate the study population
+
+
+## Select units for testing (selection)
+
+
+## Standardise the file format for the selection
+
+
+## Check the selection
+
+
+## Generate surveillance selection lists
+
