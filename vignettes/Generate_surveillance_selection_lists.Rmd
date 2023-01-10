@@ -41,17 +41,42 @@ Currently the total population is generated for each surveillance programme in t
 
 The total population is usually based upon the Register of Production Subsides, Deliveries of Carcasses and additional registers or sources of information giving information on herds, number of animals and/or production type. For some surveillance programmes the population consists of retail shops, or others.
 
-## Generate the study population
+## Generate the study population 
+The study population is usually a subset of the total population. Inclusion criterea can for example be based on risk factors like:
 
+-  production type, 
+-  herd size, 
+-  geographical location 
+-  occurrence of disease 
+-  combinations of these
+-  others
+
+A reasonable subset is usually decided based on disease and population knowledge and economy. 
 
 ## Select units for testing (selection)
+Usually herds that have been testes lately are excluded before generating the selection. You can use the function OKplan::get_ok_tested. This generates a table with the herds tested in the surveillance programmes for the last one or two years based on EOS-data. It is possible to require a minimum number of animals tested per herd for a given infection. Thereafter, these herd can be excluded before generating the sample. 
 
+The sample selection can be cencus of the whole population. A subset can be selected based on 
+-  random selection
+-  an index based on occurrence of risk factors 
 
-## Standardise the file format for the selection
+## Standardise the file with the selection
+The selection are saved in a file with standard columns in  standard format. The purpose is the keep all information on the selection ifor historical use and to facilitate further use of the dat as data checking and reporting. 
+
+All relevant information should be input to dedicated columns. This is done "manually" for each selection. 
+
+Thereafter, all standard columns are added to the file with missing values. After this step one shall check if any missing information is available and should have been saved in any of the available columns. 
 
 
 ## Check the selection
+To check the serveillance selection, a html report is produced with descriptive statistics of the variables in the standard file. The tables with descriptive statistics should be checed to ensure that the selection is in accord with the programmet and that all information are in the table. 
 
+For each table the sub heading gives some instructions on how to check the information in the table. If there are variables missing input or there are wrong information, the script above must be corrected. 
 
 ## Generate surveillance selection lists
+
+### Select output for a specific table
+
+
+### Generate an Excel sheet with the surveillance selection lists
 
