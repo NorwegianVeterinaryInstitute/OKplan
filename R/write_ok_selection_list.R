@@ -13,9 +13,10 @@
 #'     \code{add_worksheet = TRUE} for the consecutive worksheet(s).
 #'
 #' @param data The data with units that should be tested.
+#' @param sheet The name of the Excel sheet with the list.
 #' @param filename The name of the Excel file that should be written.
 #' @param filepath The path to the Excel file that should be written.
-#' @param sheet The name of the Excel sheet with the list.
+#' @param column_standards standard for translating colnames to labels, order and width
 #' @param calculate_sum \[logical(1)\]. Should a line with the sum be
 #'     appended? Defaults to \code{TRUE}.
 #' @param footnote \[character(1)\]. Footnote to appended? Defaults to \code{NULL}.
@@ -31,6 +32,7 @@ write_ok_selection_list <- function(data,
                                     sheet,
                                     filename,
                                     filepath,
+                                    column_standards = OKplan::OK_column_standards,
                                     calculate_sum = TRUE,
                                     footnote = NULL,
                                     footnote_heights = NULL,
@@ -53,16 +55,57 @@ write_ok_selection_list <- function(data,
   if (isTRUE(add_worksheet)) {
     checkmate::assert_file_exists(file.path(filepath, filename), access = "r")
   }
+  # column_standards
+  checkmate::assert(checkmate::check_class(column_standards, classes = c("data.frame")),
+                    checkmate::check_class(column_standards, classes = c("list")),
+                    add = checks)
+  if (class(column_standards) == "list") {
+    lengths_standard <- lengths(column_standards)
+    # NVIcheckmate::assert_integerish(lengths_standard, lower = lengths_standard[1], upper = lengths_standard[1],
+    #                                 min.len = 3, max.len = 5,
+    #                                 comment = "When input as a list, all elements must have the same length",
+    # add = checks)
+
+    checkmate::assert_subset(names(column_standards), choices = c("table_db", "colname", "collabel", "colwidth", "colorder"),
+                             add = checks)
+  }
+  if (class(column_standards) == "data.frame") {
+    # check for data.frame
+  }
+
   checkmate::assert_flag(calculate_sum, add = checks)
   checkmate::assert_string(footnote, min.chars = 1, null.ok = TRUE, add = checks)
   checkmate::assert_character(dbsource, min.len = 1, add = checks)
-  checkmate::assert_choice(dbsource,
-                           choices = unique(OKplan::OK_column_standards[, "table_db"]),
-                           add = checks)
+  if (class(column_standards) == "data.frame") {
+    checkmate::assert_choice(dbsource,
+                             choices = unique(column_standards[, "table_db"]),
+                             add = checks)
+  }
   checkmate::assert_flag(add_worksheet, add = checks)
 
   # Report check-results
   checkmate::reportAssertions(checks)
+
+
+  # column_standards = list("colname" = c("mt_region", "mt_avdeling"),
+  #                 "collabel" = c("MT region", "MT avdeling"),
+  #                 "colwidth" = c(35, 35))
+
+  if (class(standard) == "list") {
+    column_standards <- as.data.frame((column_standards))
+
+    if (!"table_db" %in% colnames(column_standards)) {
+      column_standards$table_db <- dbsource
+    }
+
+    if (!"colorder" %in% colnames(column_standards)) {
+      column_standards$colorder <- c(1:dim(column_standards)[1])
+    }
+    colnames(column_standards)[which(colnames(column_standards) == "collabel")] <- "label_no"
+    colnames(column_standards)[which(colnames(column_standards) == "colwidth")] <- "colwidth_Excel"
+  }
+
+
 
   # GENERATE EXCEL WORKBOOK ----
   if (isTRUE(add_worksheet)) {
@@ -76,13 +119,13 @@ write_ok_selection_list <- function(data,
   # STANDARDIZE COLUMNS ----
   # column names
   okdata <- NVIdb::standardize_columns(data,
-                                       standards = OKplan::OK_column_standards,
+                                       standards = column_standards,
                                        dbsource = dbsource,
                                        property = "colnames")
 
   # order columns and keep only designated columns
   okdata <- NVIdb::standardize_columns(data = okdata,
-                                       standards = OKplan::OK_column_standards,
+                                       standards = column_standards,
                                        dbsource = dbsource,
                                        property = "colorder", exclude = TRUE)
 
@@ -111,7 +154,7 @@ write_ok_selection_list <- function(data,
                                      wrapHeadlineText = TRUE,
                                      collabels = TRUE,
                                      colwidths = TRUE,
-                                     standards = OKplan::OK_column_standards,
+                                     standards = column_standards,
                                      dbsource = dbsource)
 
   if (isTRUE(calculate_sum)) {
