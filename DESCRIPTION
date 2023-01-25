@@ -28,6 +28,7 @@ Imports:
     rmarkdown,
     stats,
     NVIbatch (>= 0.4.0),
+    NVIcheckmate (>= 0.6.0),
     NVIdb (>= 0.3.0),
     NVIpretty (>= 0.4.0),
     NVIrpackages,
@@ -41,6 +42,7 @@ Suggests:
     NVIpackager
 Remotes: 
     NorwegianVeterinaryInstitute/NVIbatch,
+    NorwegianVeterinaryInstitute/NVIcheckmate,
     NorwegianVeterinaryInstitute/NVIdb,
     NorwegianVeterinaryInstitute/NVIpretty,
     NorwegianVeterinaryInstitute/NVIpackager,
