@@ -70,7 +70,7 @@ get_tested_herds <- function(eos_table,
   dtx$original_sort_order <- seq_len(nrow(dtx)) 
   dtx <- standardize_eos_data(dtx, dbsource = eos_table) 
   
-  dtx[which(nchar(eier_lokalitetnr) ==10), "eier_lokalitetnr"] <- substr(dtx[which(nchar(eier_lokalitetnr) == 10), "eier_lokalitetnr", 1, 8)
+  dtx[which(nchar(eier_lokalitetnr) ==10), "eier_lokalitetnr"] <- substr(dtx[which(nchar(eier_lokalitetnr) == 10), "eier_lokalitetnr"], 1, 8)
   
   dtx <- subset(dtx, !is.na(dtx$eier_lokalitetnr) & dtx$eier_lokalitetnr != "") 
   
@@ -92,19 +92,19 @@ get_tested_herds <- function(eos_table,
   # Select herd above minimum number of samples 
   if (min_prover > - 1) {
     if (isFALSE(tested)) {
-      if (any(isTRUE(grep("sum_prover", column_sum))) {
+      if (any(isTRUE(grep("sum_prover", column_sum)))) {
         dtx <- subset(dtx, dtx$sum_prover >= min_prover) 
       } else {
         if (lenght(column_sum) == 1) {
           dtx <- subset(dtx, dtx[, "column_sum"] >= min_prover) 
           warning(paste("The number of received samples could not be calculated, but the number of tested samples were calculated using", column_ant)) 
         } else {
-          error("The number of received samples could not be calculated, and the number of tested samples were given in the columns", column_ant, ". You need to specify the disease to calculate the number of tested samples."))  
+          # error("The number of received samples could not be calculated, and the number of tested samples were given in the columns", column_ant, ". You need to specify the disease to calculate the number of tested samples."))  
         } 
       } 
     } 
     if (isTRUE(tested)) {
-      if (any(isTRUE(grep(paste0("sum_und_", tolower(disease)), column_sum))) {
+      if (any(isTRUE(grep(paste0("sum_und_", tolower(disease)), column_sum)))) {
         dtx <- subset(dtx, dtx[, paste0("sum_und_", tolower(disease))] >= min_prover) 
       } else {
         if (lenght(column_sum) == 1) {
@@ -117,12 +117,12 @@ get_tested_herds <- function(eos_table,
     } 
     dtx <- subset(dtx, dtx[, paste0("sum_und_", tolower(disease))] >= min_prover) 
   } 
-} 
 
 # Sorts data in original order and removes sort key 
 dtx <- dtx[order(dtx$original_sort_order), ]
 dtx$original_sort_order <- NULL
 
 return(dtx)
-}
+} 
+
 
