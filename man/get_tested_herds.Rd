@@ -6,38 +6,44 @@
 \usage{
 get_tested_herds(
   eos_table,
-  year = as.numeric(format(Sysdate(), "\%Y")) - 1,
+  year = as.numeric(format(Sys.Date(), "\%Y")) - 1,
   species = NULL,
+  production = NULL,
   disease = NULL,
   min_prover = -1,
   tested = FALSE
 )
 }
 \arguments{
-\item{eos_table}{EOS table name.}
+\item{eos_table}{[\code{character(1)}]\cr
+EOS table name.}
 
-\item{year}{One or more years that should be selected. Defaults
+\item{year}{[\code{numeric(1)}]\cr
+One or more years that should be selected. Defaults
 to previous year.}
 
-\item{species}{The species that should be selected. Defaults to
-\code{NULL}}
+\item{species}{[\code{character}]\cr
+The species that should be selected. Defaults to \code{NULL}}
 
-\item{disease}{The disease for which number of tested samples should
-be calculated. Defaults to \code{NULL}.}
+\item{production}{[\code{character}]\cr
+The production type(s) for which number of tested samples should be
+calculated. Defaults to \code{NULL}}
 
-\item{min_prover}{Minimum number of samples that should have been
-received or examined for the herd to be counted as sampled or
-tested. No check is done if equal -1. Defaults to -1.}
+\item{disease}{[\code{character(1)}]\cr
+The disease for which number of tested samples should be calculated.
+Defaults to \code{NULL}.}
 
-\item{tested}{If \code{TRUE}, the number of tested samples, If
-\code{FALSE}, the number of received samples. Defaults to
-\code{FALSE}.}
+\item{min_prover}{[\code{numeric(1)}]\cr
+Minimum number of samples that should have been received or examined for
+the herd to be counted as sampled or tested. No check is done if
+equal -1. Defaults to -1.}
 
-\item{production}{The production type for which number of tested
-samples should be calculated. Defaults to \code{NULL}}
+\item{tested}{[\code{logical(1)}]\cr
+If \code{TRUE}, the number of tested samples, If \code{FALSE}, the number
+of received samples. Defaults to \code{FALSE}.}
 }
 \value{
-data.frame with tested or sampled locations.
+\code{data.frame} with tested or sampled locations.
 }
 \description{
 Gets herds that have been sampled or tested within
@@ -58,7 +64,7 @@ For programmes having several surveillance streams,
     be given as it is written in the column name for the number
     of examined samples.
 
-    The eos_table name is the same name as the name as in the EOS data base.
+    The eos_table name is the same name as the table name in the EOS data base.
 }
 \author{
 Petter Hopp Petter.Hopp@vetinst.no

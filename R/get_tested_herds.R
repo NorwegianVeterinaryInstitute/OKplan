@@ -15,30 +15,36 @@
 #'     be given as it is written in the column name for the number
 #'     of examined samples.
 #'
-#'     The eos_table name is the same name as the name as in the EOS data base.
+#'     The eos_table name is the same name as the table name in the EOS data base.
 
-#' @param eos_table EOS table name.
-#' @param year One or more years that should be selected. Defaults
+#' @param eos_table [\code{character(1)}]\cr
+#'     EOS table name.
+#' @param year [\code{numeric(1)}]\cr
+#'     One or more years that should be selected. Defaults
 #'     to previous year.
-#' @param species The species that should be selected. Defaults to
-#'     \code{NULL}
-#' @param disease The disease for which number of tested samples should
-#'     be calculated. Defaults to \code{NULL}.
-#' @param production The production type for which number of tested
-#'     samples should be calculated. Defaults to \code{NULL}
-#' @param min_prover Minimum number of samples that should have been
-#'     received or examined for the herd to be counted as sampled or
-#'     tested. No check is done if equal -1. Defaults to -1.
-#' @param tested If \code{TRUE}, the number of tested samples, If
-#'     \code{FALSE}, the number of received samples. Defaults to
-#'     \code{FALSE}.
-#' @return data.frame with tested or sampled locations.
+#' @param species [\code{character}]\cr
+#'     The species that should be selected. Defaults to \code{NULL}
+#' @param production [\code{character}]\cr
+#'     The production type(s) for which number of tested samples should be
+#'     calculated. Defaults to \code{NULL}
+#' @param disease [\code{character(1)}]\cr
+#'     The disease for which number of tested samples should be calculated.
+#'     Defaults to \code{NULL}.
+#' @param min_prover [\code{numeric(1)}]\cr
+#'     Minimum number of samples that should have been received or examined for
+#'     the herd to be counted as sampled or tested. No check is done if
+#'     equal -1. Defaults to -1.
+#' @param tested [\code{logical(1)}]\cr
+#'     If \code{TRUE}, the number of tested samples, If \code{FALSE}, the number
+#'     of received samples. Defaults to \code{FALSE}.
+#' @return \code{data.frame} with tested or sampled locations.
 #' @author Petter Hopp Petter.Hopp@@vetinst.no
 #' @export
 
 get_tested_herds <- function(eos_table,
-                             year = as.numeric(format(Sysdate(), "%Y")) - 1,
+                             year = as.numeric(format(Sys.Date(), "%Y")) - 1,
                              species = NULL,
+                             production = NULL,
                              disease = NULL,
                              min_prover = -1,
                              tested = FALSE) {
@@ -67,10 +73,9 @@ get_tested_herds <- function(eos_table,
   checkmate::reportAssertions(checks)
 
 
-  dfx <- read_eos_data(eos_table = eos_table,
-                       year = year)
+  dfx <- NVIdb::read_eos_data(eos_table = eos_table,
+                              year = year)
   dfx$original_sort_order <- seq_len(nrow(dfx))
-  dfx <- standardize_eos_data(dfx, dbsource = eos_table)
 
   dfx[which(nchar(eier_lokalitetnr) == 10), "eier_lokalitetnr"] <-
     substr(dfx[which(nchar(eier_lokalitetnr) == 10), "eier_lokalitetnr"], 1, 8)
@@ -88,7 +93,7 @@ get_tested_herds <- function(eos_table,
 
   column_ant <- grep("ant_", colnames(dfx), value = TRUE)
   column_sum <- gsub("ant_", "sum_", column_ant)
-  agg_dfx <- aggregate(x = dfx[, column_ant], by = dfx$eier_lokalitetnr, FUN = sum)
+  agg_dfx <- stats::aggregate(x = dfx[, column_ant], by = dfx$eier_lokalitetnr, FUN = sum)
   colnames(agg_dfx)[2:(length(column_ant) + 1)] <- column_sum
   merge(dfx, agg_dfx, by = "eier_lokalitetnr")
 
@@ -98,7 +103,7 @@ get_tested_herds <- function(eos_table,
       if (any(isTRUE(grep("sum_prover", column_sum)))) {
         dfx <- subset(dfx, dfx$sum_prover >= min_prover)
       } else {
-        if (lenght(column_sum) == 1) {
+        if (length(column_sum) == 1) {
           dfx <- subset(dfx, dfx[, "column_sum"] >= min_prover)
           warning(paste("The number of received samples could not be calculated,",
                         "but the number of tested samples were calculated using",
@@ -115,7 +120,7 @@ get_tested_herds <- function(eos_table,
       if (any(isTRUE(grep(paste0("sum_und_", tolower(disease)), column_sum)))) {
         dfx <- subset(dfx, dfx[, paste0("sum_und_", tolower(disease))] >= min_prover)
       } else {
-        if (lenght(column_sum) == 1) {
+        if (length(column_sum) == 1) {
           dfx <- subset(dfx, dfx[, "column_sum"] >= min_prover)
           warning(paste("The number of tested samples were calculated using", column_ant))
         } else {
@@ -134,3 +139,6 @@ get_tested_herds <- function(eos_table,
 
   return(dfx)
 }
+
+# To avoid fail in CMD check for global variables
+utils::globalVariables("eier_lokalitetnr")
