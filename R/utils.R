@@ -1,7 +1,7 @@
 add_per_group <- function(data, values, group, new_column, FUN, keep_order = FALSE, ...) {
-  df_agg <- aggregate(x = data[, values],
-                      by = data[, group],
-                      FUN = FUN, ...)
+  df_agg <- stats::aggregate(x = data[, values],
+                             by = data[, group],
+                             FUN = FUN, ...)
 
   colnames(df_agg)[c((length(group) + 1):(length(group) + length(values)))] <- new_column
 
