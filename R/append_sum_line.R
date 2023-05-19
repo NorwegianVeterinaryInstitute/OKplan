@@ -1,16 +1,24 @@
 #' @title Append row with column sums
-#' @description Appends a new row with column sums for selected columns. A pretext can be placed on the row.
+#' @description Appends a new row with column sums for selected columns. A
+#'     pretext can be placed on the row.
 #'
-#' @details One row is appended to the data frame. The sum is calculated with na.rm = TRUE.
+#' @details One row is appended to the data frame. The sum is calculated with
+#'     \code{na.rm = TRUE}.
 #'
-#'     If a tibble, it is transformed to a data frame to avoid errors if the pretext is to be placed in a numeric variable.
+#'     If a tibble, it is transformed to a data frame to avoid errors if the
+#'     pretext is to be placed in a numeric variable.
 #'
-#' @param data Data frame to which a row should be appended.
-#' @param column Character vector. The column names of columns to sum.
-#' @param pretext The explaining text before the sum, defaults to "Sum".
-#' @param position The position for the pretext, on of c("first", left", "none"). defaults to left.
+#' @param data [\code{data.frame}]\cr
+#'     Data to which a row should be appended.
+#' @param column  [\code{character}]\cr
+#'     The column names of columns to sum.
+#' @param pretext  [\code{character(1)}]\cr
+#'     The explaining text before the sum. Defaults to "Sum".
+#' @param position  [\code{character(1)}]\cr
+#'     The position for the pretext, one of c("first", left", "none"). Defaults
+#'     to "left".
 #'
-#' @return A data frame with an appended row with sums.
+#' @return \code{data.frame} with an appended row with sums.
 #'
 #' @author Petter Hopp Petter.Hopp@@vetinst.no
 #' @export
@@ -28,7 +36,6 @@ append_sum_line <- function(data, column, pretext = "Sum", position = "left") {
   # ARGUMENT CHECKING ----
   # Object to store check-results
   checks <- checkmate::makeAssertCollection()
-
   # Perform assertions
   # data
   checkmate::assert_data_frame(data, add = checks)
@@ -37,8 +44,7 @@ append_sum_line <- function(data, column, pretext = "Sum", position = "left") {
   # pretext
   checkmate::assert_character(pretext, add = checks)
   # position
-  checkmate::assert_choice(position, choices = c("first", "left"), add = checks)
-
+  checkmate::assert_choice(position, choices = c("first", "left", "none"), add = checks)
   # Report errors
   checkmate::reportAssertions(checks)
 

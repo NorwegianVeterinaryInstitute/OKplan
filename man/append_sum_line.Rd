@@ -7,24 +7,32 @@
 append_sum_line(data, column, pretext = "Sum", position = "left")
 }
 \arguments{
-\item{data}{Data frame to which a row should be appended.}
+\item{data}{[\code{data.frame}]\cr
+Data to which a row should be appended.}
 
-\item{column}{Character vector. The column names of columns to sum.}
+\item{column}{[\code{character}]\cr
+The column names of columns to sum.}
 
-\item{pretext}{The explaining text before the sum, defaults to "Sum".}
+\item{pretext}{[\code{character(1)}]\cr
+The explaining text before the sum. Defaults to "Sum".}
 
-\item{position}{The position for the pretext, on of c("first", left", "none"). defaults to left.}
+\item{position}{[\code{character(1)}]\cr
+The position for the pretext, one of c("first", left", "none"). Defaults
+to "left".}
 }
 \value{
-A data frame with an appended row with sums.
+\code{data.frame} with an appended row with sums.
 }
 \description{
-Appends a new row with column sums for selected columns. A pretext can be placed on the row.
+Appends a new row with column sums for selected columns. A
+    pretext can be placed on the row.
 }
 \details{
-One row is appended to the data frame. The sum is calculated with na.rm = TRUE.
+One row is appended to the data frame. The sum is calculated with
+    \code{na.rm = TRUE}.
 
-    If a tibble, it is transformed to a data frame to avoid errors if the pretext is to be placed in a numeric variable.
+    If a tibble, it is transformed to a data frame to avoid errors if the
+    pretext is to be placed in a numeric variable.
 }
 \examples{
 \dontrun{
