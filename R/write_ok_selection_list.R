@@ -1,61 +1,75 @@
-#' @title Writes an Excel file with the selection list.
+#' @title Writes the sampling plan with the selection list to an Excel file.
 #'
-#' @description The selection list generated and ready formatted to
-#'     be sent.
+#' @description The sampling plan is output to an Excel sheet. The list with
+#'     selected units is standardised and formatted in order to be submitted
+#'     without further formatting.
 #' @details The data must originate from an "okplan" file and
 #'     the function uses standardize_columns to  select, order, format and
 #'     style the columns. The formatting information is either taken
-#'     from \code{OKplan::OK_column_standards} or can be input as
+#'     from \code{\link{OK_column_standards}} or can be input as
 #'     a list.
 #'
-#' When using \code{OKplan::OK_column_standards}, the formatting
-#'     information is taken in accord with the argument \code{dbsource}.
-#'     If the formatting needs to be edited, it must be edited in the
-#'     general source file for column standards and incorporated into
-#'     \code{OKplan}. As this can be a tedious process, there is a
-#'     possibility to input the formatting information as a list.
+#' When using \code{\link{OK_column_standards}}, the formatting information is
+#'     taken in accord with the argument \code{dbsource}. If the formatting
+#'     needs to be edited, it must be edited in the general source file for
+#'     column standards and thereafter, built into a new version of \code{OKplan}.
+#'     As this can be a tedious process, there is a possibility to input the
+#'     formatting information as a list.
 #'
 #' The list input to column_standards must follow a specific format.
-#'     It is a list with at least three vectors:
-#' * colname = a vector of all columns in in the source file that
+#'     It is a list with at least three named vectors:
+#' \itemize{
+#' \item colname = a vector of all columns in in the source file that
 #'     should be included in the Excel report with the selection list.
-#' * collabel: A vector with the labels that should be used in the
+#' \item collabel = A vector with the labels that should be used in the
 #'     Excel report.
-#' * colwidth: A vector with the column width that should be used
+#' \item colwidth = A vector with the column width that should be used
 #'     in the Excel report.
+#' }
+#'
+#'     In addition one may input:
+#'
+#' \itemize{
+#' \item colorder = the order of the columns to be used in the Excel report.
+#'     The default is to use the same order as they are entered in the vectors.
+#' \item column_db = input added as a possibility to keep on the same format
+#'     as \code{\link{OK_column_standards}}. Not necessary to input.
+#' \item table_db = input added as a possibility to keep on the same format
+#'     as \code{\link{OK_column_standards}}. Must be the same as
+#'     \code{dbsource}. Not necessary to input.
+#' }
 #'
 #' All vectors must have the same order and the same length.
-#'     In addition one may input:
-#' * colorder: the order of the columns to be used in the Excel report.
-#'     The Default is to use the same order as they are entered in the vectors.
-#' * table_db: input added as a possibility to keep on the same format
-#'     as \code{OKplan::OK_column_standards}. Not necessary to input.
-#' * column_db: input added as a possibility to keep on the same format
-#'     as \code{OKplan::OK_column_standards}. Must be the same as
-#'     \code{dbsource}. Not necessary to input.
 #'
 #' When more than one worksheet should be added to a single workbook,
 #'     use \code{add_worksheet = FALSE} for the first worksheet and
 #'     \code{add_worksheet = TRUE} for the consecutive worksheet(s).
 #'
-#'
-#' @param data \[data.frame\]. The data with the selected units that should be reported.
-#' @param sheet \[character(1)\]. The name of the Excel sheet with the list.
-#' @param filename \[character(1)\]. The name of the Excel file that should be written.
-#' @param filepath \[character(1)\]. The path to the Excel file that should be written.
-#' @param column_standards \[data.frame | list\]. The column standards for OK data frames to be used as
-#'      input for \code{NVIdb::standardize_columns} when generating the selection
-#'      list, see details. Defaults to \code{OKplan::OK_column_standards}.
-#' @param calculate_sum \[logical(1)\]. Should a line with the sum be
-#'     appended? Defaults to \code{TRUE}.
-#' @param footnote \[character(1)\]. Footnote to appended? Defaults to \code{NULL}.
-#' @param footnote_heights \[integer(1)\]. Manually set row height for the
-#'      footnote. Defaults to \code{NULL}.
-#' @param dbsource \[character(1)\]. The name of the dbtable in OK_column_standards that should
-#'     be used for standardizing the columns.
-#' @param add_worksheet \[logical(1)\]. Should a worksheet be added to
-#'     an existing workbook? Defaults to \code{TRUE}.
-#' @md
+#' @param data [\code{data.frame}]\cr
+#'     The sampling plan with the units to be reported.
+#' @param sheet [\code{character(1)}]\cr
+#'     The name of the Excel sheet.
+#' @param filename [\code{character(1)}]\cr
+#'     The name of the Excel file.
+#' @param filepath [\code{character(1)}]\cr
+#'     The path to the Excel file.
+#' @param column_standards [\code{data.frame} | \code{list}]\cr
+#'     The column standards to be used as input for
+#'     \ifelse{html}{\code{\link[NVIdb]{standardize_columns}}}{\code{NVIdb::standardize_columns}}
+#'     when formatting the sampling plan for
+#'     output, see details. Defaults to \code{\link{OK_column_standards}}.
+#' @param calculate_sum [\code{logical(1)}]\cr
+#'     Should a line with the sum be appended? Defaults to \code{TRUE}.
+#' @param footnote [\code{character(1)}]\cr
+#'     Footnote to appended? Defaults to \code{NULL}.
+#' @param footnote_heights [\code{integer(1)}]\cr
+#'     Manually set row height for the footnote. Defaults to \code{NULL}.
+#' @param dbsource [\code{character(1)}]\cr
+#'     The name of the dbtable in \code{\link{OK_column_standards}} that should
+#'     be used for standardising and formatting the sampling plan output.
+#' @param add_worksheet [\code{logical(1)}]\cr
+#'     Should a worksheet be added to an existing workbook? Defaults to
+#'     \code{FALSE}.
 #' @export
 #'
 write_ok_selection_list <- function(data,
@@ -68,6 +82,8 @@ write_ok_selection_list <- function(data,
                                     footnote_heights = NULL,
                                     dbsource,
                                     add_worksheet = FALSE) {
+
+  # PREPARE ARGUMENTS BEFORE ARGUMENT CHECKING ----
   # Remove trailing backslash or slash before testing path
   filepath <- sub("\\\\{1,2}$|/{1,2}$", "", filepath)
 
@@ -92,9 +108,9 @@ write_ok_selection_list <- function(data,
   if (inherits(column_standards, what = "list")) {
     lengths_standard <- lengths(column_standards)
     NVIcheckmate::assert_integer(lengths_standard, lower = lengths_standard[1], upper = lengths_standard[1],
-                                    min.len = 3, max.len = 6,
-                                    comment = "When input as a list, all elements must have the same length",
-    add = checks)
+                                 min.len = 3, max.len = 6,
+                                 comment = "When input as a list, all elements must have the same length",
+                                 add = checks)
 
     checkmate::assert_subset(names(column_standards), choices = c("table_db", "colname_db", "colname", "collabel", "colwidth", "colorder"),
                              add = checks)
@@ -116,7 +132,7 @@ write_ok_selection_list <- function(data,
   # Report check-results
   checkmate::reportAssertions(checks)
 
-
+  # TRANSFORM column_standards FROM list TO data.frame
   # column_standards = list("colname" = c("mt_region", "mt_avdeling"),
   #                 "collabel" = c("MT region", "MT avdeling"),
   #                 "colwidth" = c(35, 35))
@@ -139,17 +155,14 @@ write_ok_selection_list <- function(data,
     colnames(column_standards)[which(colnames(column_standards) == "colwidth")] <- "colwidth_Excel"
   }
 
-
-
   # GENERATE EXCEL WORKBOOK ----
+  # create or load workbook
   if (isTRUE(add_worksheet)) {
     okwb <- openxlsx::loadWorkbook(xlsxFile = file.path(filepath, filename))
   } else {
     okwb <- openxlsx::createWorkbook()
   }
 
-  # for (i in 1:length(data)) {
-  # i <- 1
   # STANDARDIZE COLUMNS ----
   # column names
   okdata <- NVIdb::standardize_columns(data,
@@ -180,7 +193,6 @@ write_ok_selection_list <- function(data,
                                           empty_rows = 2)
   }
 
-
   # STYLE EXCEL SHEET ----
   NVIpretty::add_formatted_worksheet(data = okdata,
                                      workbook = okwb,
@@ -203,9 +215,6 @@ write_ok_selection_list <- function(data,
                                heights = footnote_heights)
   }
 
-
-  # }
   # SAVE EXCEL WORKBOOK ----
   openxlsx::saveWorkbook(wb = okwb, file = file.path(filepath, filename), overwrite = TRUE)
-
 }
