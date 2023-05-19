@@ -1,8 +1,12 @@
-#' @title Data: Column standards for OK data frames.
+#' @title Data: Column standards for OK sampling plans.
 #'
-#' @description A data frame with the column standards for data frames and Excel sheets produced when planning of the Norwegian surveillance programmes.
-#'    The raw data for the column standards can be edited in the original Excel table. The the code for preparing of the data frame is written in
-#'    ./data-raw/generate_OK_column_standards. The OK_column_standards is used as input for \code{NVIdb::standardize_columns}.
+#' @description A data frame with the column standards for data frames and Excel
+#'    sheets produced when planning of the Norwegian surveillance programmes.
+#'    The raw data for the column standards can be edited in the original Excel
+#'    table. The the code for preparing of the data frame is written in
+#'    "./data-raw/generate_OK_column_standards". The \code{OK_column_standards}
+#'    is used as input for
+#'    \ifelse{html}{\code{\link[NVIdb]{standardize_columns}}}{\code{NVIdb::standardize_columns}}.
 #'
 #' @format A data frame with 14 variables:
 #' \describe{
@@ -23,5 +27,7 @@
 #'   \item{colclasses}{column class usedto import character strings correctly}
 #'   \item{colorder}{column order when saving standard data and reporting}
 #' }
-#' @source "standardization/colnames_translation_table.xlsx" at NVI's internal net.
+#' @source "colnames_translation_table.xlsx" at NVI's internal net.
+#' @examples
+#' standards <- data(OK_column_standards, package = "OKplan")
 "OK_column_standards"
