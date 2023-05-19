@@ -2,7 +2,7 @@
 % Please edit documentation in R/style_sum_line.R
 \name{style_sum_line}
 \alias{style_sum_line}
-\title{Style row with "Sum" in Excel sheet}
+\title{Style row with "Sum" in an Excel sheet}
 \usage{
 style_sum_line(
   workbook = workbook,
@@ -14,28 +14,37 @@ style_sum_line(
 )
 }
 \arguments{
-\item{workbook}{The workbook object.}
+\item{workbook}{[\code{Workbook}]\cr
+A workbook object containing a worksheet.}
 
-\item{sheet}{The Excel sheet name.}
+\item{sheet}{[\code{character(1)}]\cr
+The Excel sheet name.}
 
-\item{data}{The data frame that have been exported to the Excel sheet. Used to
-find column number and row number for the pretext for which the row should be styled.}
+\item{data}{[\code{data.frame}]\cr
+The data that have been exported to the Excel sheet. Used to find column
+number and row number for the pretext for which the row should be styled.}
 
-\item{text}{The text in the cell for which the row should be styled.
+\item{text}{[\code{character(1)}]\cr
+The text in the cell for which the row should be styled.
 Defaults to "Sum".}
 
-\item{text_decoration}{The text decoration style that should be used, see \code{openxlsx::createStyle}.
+\item{text_decoration}{[\code{character(1)}]\cr
+The text decoration style that should be used, see
+\ifelse{html}{\code{\link[openxlsx]{createStyle}}}{\code{openxlsx::createStyle}}.
 Defaults to "bold".}
 
-\item{\dots}{Other arguments to be passed.}
+\item{\dots}{Other arguments to be passed to
+\ifelse{html}{\code{\link[openxlsx]{addStyle}}}{\code{openxlsx::addStyle}}.}
 }
 \value{
 None. One row in the workbook object is styled.
 }
 \description{
-Style the font with bold for the line with the text "Sum" in on cell.
-    It is possible to use other text decoration, see \code{openxlxs::createStyle}.
-    A line with the text "Sum" or another text as given by text will be styled.
+Style the font to bold for the row with the text "Sum" in one
+    cell. It is possible to use other text decoration, see
+    \ifelse{html}{\code{\link[openxlsx]{createStyle}}}{\code{openxlsx::createStyle}}.
+    A line with the text "Sum" or another text as given as input to
+    \code{text} will be styled.
 }
 \details{
 The whole line will be styled.
