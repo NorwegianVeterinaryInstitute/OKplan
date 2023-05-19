@@ -17,30 +17,33 @@ check_ok_selection(
 )
 }
 \arguments{
-\item{input}{The path to the rmarkdown document with the checks.
+\item{input}{[\code{character(1)}]\cr
+The path to the rmarkdown document with the checks.
 Defaults to "check_ok_selection.Rmd" in the \code{OKplan}.}
 
-\item{output_file}{\[\code{character(1)}\]. The name of the output
-file.}
+\item{output_file}{[\code{character(1)}]\cr
+The name of the output file.}
 
-\item{output_dir}{\[\code{character(1)}\]. The directory to save
-the output file. Defaults to \code{NULL}.}
+\item{output_dir}{[\code{character(1)}]\cr
+The directory to save the output file. Defaults to \code{NULL}.}
 
-\item{data}{\[\code{data.frame}\].  The table with data describing
-the selection for a OK programme.}
+\item{data}{[\code{data.frame}]\cr
+The table with data describing the selection for a OK programme.}
 
-\item{purpose}{\[\code{character(1)}\]. String with descriptive
-text to be used in file name and heading of the report.}
+\item{purpose}{[\code{character(1)}]\cr
+String with descriptive text to be used in file name and heading of the
+report.}
 
-\item{plan_aar}{\[\code{numeric(1)}\]. The year for which the
-selection is planned. Defaults to next year.}
+\item{plan_aar}{[\code{numeric(1)}]\cr
+The year for which the selection is planned. Defaults to next year.}
 
-\item{display}{\[\code{logical(1)} | \code{character(1)}\]. Set
-"browser" for the default browser or "viewer" for the R studio
+\item{display}{[\code{logical(1)} | \code{character(1)}]\cr
+Set "browser" for the default browser or "viewer" for the R studio
  viewer. `TRUE` equals "browser". If `FALSE`, don't display
  the results file. Defaults to "browser".}
 
-\item{\dots}{Other arguments to be passed to `NVIbatch::output_rendered`.}
+\item{\dots}{Other arguments to be passed to
+\ifelse{html}{\code{\link[NVIbatch]{output_rendered}}}{\code{NVIbatch::output_rendered}}.}
 }
 \value{
 Generates an html-file with the results of the checks to be displayed in the browser.
@@ -48,7 +51,8 @@ Generates an html-file with the results of the checks to be displayed in the bro
 \description{
 Standard checks by performing descriptive statistics of
     variables in the standard output data frame with OK selection.
-    \code{check_OK_selection} is a wrapper for \code{NVIbatch::output_rendered}.
+    \code{check_ok_selection} is a wrapper for
+    \ifelse{html}{\code{\link[NVIbatch]{output_rendered}}}{\code{NVIbatch::output_rendered}}.
 }
 \details{
 Gives descriptive statistics of the OK selection. This should
@@ -59,17 +63,18 @@ Gives descriptive statistics of the OK selection. This should
 
     The check must be performed on a data frame with standardised
     column names. This is ensured by using column names as defined for
-    "okplan" in \code{data(OKplan::OK_column_standards)}.
+    "okplan" in \code{\link{OK_column_standards}}.
 
-    The default behaviour is to display the resulting html-file in the
+    The default behavior is to display the resulting html-file in the
     browser. To save the result in a permanent file, use a permanent
-    directory as input to \code{output_dir = }. The resulting file
+    directory as input to \code{output_dir}. The resulting file
     can also be sent by email by using additional arguments, see
-    \code{NVIbatch::output_rendered}.
+    \ifelse{html}{\code{\link[NVIbatch]{output_rendered}}}{\code{NVIbatch::output_rendered}}.
 
-    If checks are missing, are unnecessary or the headings are to
-    cryptic, please give input to improve the rmarkdown file
-    "check_ok_selection.Rmd".
+    If checks are missing, are unnecessary or the headings are too
+    cryptic, please contribute to improve the rmarkdown file
+    "check_ok_selection.Rmd", see
+    \href{../doc/Contribute_to_OKplan.html}{\code{vignette("Contribute_to_OKplan", package = "mypkg")}}.
 }
 \examples{
 \dontrun{
