@@ -15,6 +15,8 @@ Other changes:
 
 - Updated translation table for column names to selection lists.
 
+- Improved help.
+
 
 BREAKING CHANGES:
 
@@ -70,7 +72,7 @@ New features:
 
 - style_sum_line styles the row with sum of samples.
 
-- write_ok_selection_list writes the selection list based on selected data from okplan file and uses standardize_columns to  select, format and style columns.
+- write_ok_selection_list writes the selection list based on selected data from okplan file and uses standardize_columns to select, format and style columns.
 
 
 Other changes:
