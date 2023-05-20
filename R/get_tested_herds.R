@@ -4,9 +4,14 @@
 #'     choose between herds that have submitted samples or herds
 #'     for which a certain number of samples have been examined
 #'     for a specific disease.
-#' @details For programmes having several surveillance streams,
-#'     it is possible to select surveillance streams based on
-#'     species and production type.
+#' @details For programmes having several surveillance streams, it is possible
+#'     to select surveillance streams based on species and production type. The
+#'     species and/or production type must be written as in the eos-table. Be
+#'     aware that species and production type may be missing and for production
+#'     type it may often be wrong. Therefore, selection by production type and/or
+#'     species may remove saker that you would want to keep. No selection is
+#'     performed when the species or production type is missing from the
+#'     eos-table.
 #'
 #'     It is possible to define a minimum requirement of number of
 #'     samples received or tested. For programmes covering several
@@ -32,7 +37,7 @@
 #'     Defaults to \code{NULL}.
 #' @param min_prover [\code{numeric(1)}]\cr
 #'     Minimum number of samples that should have been received or examined for
-#'     the herd to be counted as sampled or tested. No check is done if
+#'     the herd to be counted as sampled or tested. No check is performed if
 #'     equal -1. Defaults to -1.
 #' @param tested [\code{logical(1)}]\cr
 #'     If \code{TRUE}, the number of tested samples, If \code{FALSE}, the number
@@ -77,25 +82,29 @@ get_tested_herds <- function(eos_table,
                               year = year)
   dfx$original_sort_order <- seq_len(nrow(dfx))
 
-  dfx[which(nchar(eier_lokalitetnr) == 10), "eier_lokalitetnr"] <-
-    substr(dfx[which(nchar(eier_lokalitetnr) == 10), "eier_lokalitetnr"], 1, 8)
+  dfx[which(nchar(dfx$eier_lokalitetnr) == 10), "eier_lokalitetnr"] <-
+    substr(dfx[which(nchar(dfx$eier_lokalitetnr) == 10), "eier_lokalitetnr"], 1, 8)
 
   dfx <- subset(dfx, !is.na(dfx$eier_lokalitetnr) & dfx$eier_lokalitetnr != "")
 
   # Select species
-  if (!is.null(species)) {
+  if (!is.null(species) & "art" %in% colnames(dfx)) {
     dfx <- subset(dfx, dfx$art %in% species)
   }
   # Select production type
-  if (!is.null(production)) {
+  if (!is.null(production) & "driftsform" %in% colnames(dfx)) {
     dfx <- subset(dfx, dfx$driftsform %in% production)
   }
 
   column_ant <- grep("ant_", colnames(dfx), value = TRUE)
   column_sum <- gsub("ant_", "sum_", column_ant)
-  agg_dfx <- stats::aggregate(x = dfx[, column_ant], by = dfx$eier_lokalitetnr, FUN = sum)
-  colnames(agg_dfx)[2:(length(column_ant) + 1)] <- column_sum
-  merge(dfx, agg_dfx, by = "eier_lokalitetnr")
+  for (column_name in column_ant) {
+    dfx[, column_name] <- as.numeric(dfx[, column_name])
+  }
+  agg_dfx <- stats::aggregate(x = dfx[, column_ant], by = list(dfx$eier_lokalitetnr), FUN = "sum")
+
+  colnames(agg_dfx) <- c("eier_lokalitetnr", column_sum)
+  dfx <- merge(dfx, agg_dfx, by = "eier_lokalitetnr")
 
   # Select herd above minimum number of samples
   if (min_prover > -1) {
