@@ -3,7 +3,9 @@ OKplan 0.5.0.9001 - (2022-##-##)
 
 New features:
 
--
+- Created `get_tested_herds` to find herds tested in last year(s) surveillance programmes.
+
+- `write_ok_selection_list` now accepts a list with column formatting information as input to `column_standards`.
 
 
 Bug fixes:
@@ -13,7 +15,7 @@ Bug fixes:
 
 Other changes:
 
-- Updated translation table for column names to selection lists.
+- Updated translation table for column names to sampling plans.
 
 - Improved help.
 
