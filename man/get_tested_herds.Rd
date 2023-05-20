@@ -35,7 +35,7 @@ Defaults to \code{NULL}.}
 
 \item{min_prover}{[\code{numeric(1)}]\cr
 Minimum number of samples that should have been received or examined for
-the herd to be counted as sampled or tested. No check is done if
+the herd to be counted as sampled or tested. No check is performed if
 equal -1. Defaults to -1.}
 
 \item{tested}{[\code{logical(1)}]\cr
@@ -53,9 +53,14 @@ Gets herds that have been sampled or tested within
     for a specific disease.
 }
 \details{
-For programmes having several surveillance streams,
-    it is possible to select surveillance streams based on
-    species and production type.
+For programmes having several surveillance streams, it is possible
+    to select surveillance streams based on species and production type. The
+    species and/or production type must be written as in the eos-table. Be
+    aware that species and production type may be missing and for production
+    type it may often be wrong. Therefore, selection by production type and/or
+    species may remove saker that you would want to keep. No selection is
+    performed when the species or production type is missing from the
+    eos-table.
 
     It is possible to define a minimum requirement of number of
     samples received or tested. For programmes covering several
