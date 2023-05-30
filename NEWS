@@ -1,4 +1,4 @@
-OKplan 0.5.0.9001 - (2022-##-##)
+OKplan 0.6.0 - (2023-05-30)
 ----------------------------------------
 
 New features:
@@ -8,21 +8,11 @@ New features:
 - `write_ok_selection_list` now accepts a list with column formatting information as input to `column_standards`.
 
 
-Bug fixes:
-
--
-
-
 Other changes:
 
 - Updated translation table for column names to sampling plans.
 
 - Improved function help by including links and standardising argument description.
-
-
-BREAKING CHANGES:
-
--
 
 
 OKplan 0.5.0 - (2022-12-15)
