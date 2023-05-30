@@ -23,7 +23,7 @@
 #'     If checks are missing, are unnecessary or the headings are too
 #'     cryptic, please contribute to improve the rmarkdown file
 #'     "check_ok_selection.Rmd", see
-#'     \href{../doc/Contribute_to_OKplan.html}{\code{vignette("Contribute_to_OKplan", package = "mypkg")}}.
+#'     \href{../doc/Contribute_to_OKplan.html}{\code{vignette("Contribute_to_OKplan", package = "OKplan")}}.
 #'
 #' @param input [\code{character(1)}]\cr
 #'     The path to the rmarkdown document with the checks.
