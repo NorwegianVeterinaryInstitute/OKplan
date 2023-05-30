@@ -23,11 +23,11 @@ One or more years that should be selected. Defaults
 to previous year.}
 
 \item{species}{[\code{character}]\cr
-The species that should be selected. Defaults to \code{NULL}}
+The species that should be selected. Defaults to \code{NULL}.}
 
 \item{production}{[\code{character}]\cr
 The production type(s) for which number of tested samples should be
-calculated. Defaults to \code{NULL}}
+calculated. Defaults to \code{NULL}.}
 
 \item{disease}{[\code{character(1)}]\cr
 The disease for which number of tested samples should be calculated.
@@ -47,7 +47,7 @@ of received samples. Defaults to \code{FALSE}.}
 }
 \description{
 Gets herds that have been sampled or tested within
-    a surveillance programmet for the selected years. You can
+    a surveillance programme for the selected years. You can
     choose between herds that have submitted samples or herds
     for which a certain number of samples have been examined
     for a specific disease.
@@ -62,14 +62,14 @@ For programmes having several surveillance streams, it is possible
     performed when the species or production type is missing from the
     eos-table.
 
-    It is possible to define a minimum requirement of number of
+It is possible to define a minimum requirement of number of
     samples received or tested. For programmes covering several
     infections, it is necessary to input the disease for which
     the samples should have been tested. The disease name must
     be given as it is written in the column name for the number
     of examined samples.
 
-    The eos_table name is the same name as the table name in the EOS data base.
+The eos_table name is the same name as the table name in the EOS data base.
 }
 \author{
 Petter Hopp Petter.Hopp@vetinst.no
