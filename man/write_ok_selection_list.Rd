@@ -75,22 +75,22 @@ When using \code{\link{OK_column_standards}}, the formatting information is
 The list input to column_standards must follow a specific format.
     It is a list with at least three named vectors:
 \itemize{
-\item colname = a vector of all columns in in the source file that
+\item \code{colname}: a vector of all columns in in the source file that
     should be included in the Excel report with the selection list.
-\item collabel = A vector with the labels that should be used in the
+\item \code{collabel}: A vector with the labels that should be used in the
     Excel report.
-\item colwidth = A vector with the column width that should be used
+\item \code{colwidth}: A vector with the column width that should be used
     in the Excel report.
 }
 
     In addition one may input:
 
 \itemize{
-\item colorder = the order of the columns to be used in the Excel report.
+\item \code{colorder}: the order of the columns to be used in the Excel report.
     The default is to use the same order as they are entered in the vectors.
-\item column_db = input added as a possibility to keep on the same format
+\item \code{column_db}: input added as a possibility to keep on the same format
     as \code{\link{OK_column_standards}}. Not necessary to input.
-\item table_db = input added as a possibility to keep on the same format
+\item \code{table_db}: input added as a possibility to keep on the same format
     as \code{\link{OK_column_standards}}. Must be the same as
     \code{dbsource}. Not necessary to input.
 }
