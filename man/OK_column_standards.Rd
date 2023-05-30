@@ -3,7 +3,7 @@
 \docType{data}
 \name{OK_column_standards}
 \alias{OK_column_standards}
-\title{Data: Column standards for OK data frames.}
+\title{Data: Column standards for OK sampling plans.}
 \format{
 A data frame with 14 variables:
 \describe{
@@ -26,14 +26,21 @@ A data frame with 14 variables:
 }
 }
 \source{
-"standardization/colnames_translation_table.xlsx" at NVI's internal net.
+"colnames_translation_table.xlsx" at NVI's internal net.
 }
 \usage{
 OK_column_standards
 }
 \description{
-A data frame with the column standards for data frames and Excel sheets produced when planning of the Norwegian surveillance programmes.
-   The raw data for the column standards can be edited in the original Excel table. The the code for preparing of the data frame is written in
-   ./data-raw/generate_OK_column_standards. The OK_column_standards is used as input for \code{NVIdb::standardize_columns}.
+A data frame with the column standards for data frames and Excel
+   sheets produced when planning of the Norwegian surveillance programmes.
+   The raw data for the column standards can be edited in the original Excel
+   table. The the code for preparing of the data frame is written in
+   "./data-raw/generate_OK_column_standards". The \code{OK_column_standards}
+   is used as input for
+   \ifelse{html}{\code{\link[NVIdb]{standardize_columns}}}{\code{NVIdb::standardize_columns}}.
+}
+\examples{
+standards <- data(OK_column_standards, package = "OKplan")
 }
 \keyword{datasets}

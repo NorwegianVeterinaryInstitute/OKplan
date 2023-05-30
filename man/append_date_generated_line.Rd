@@ -2,7 +2,7 @@
 % Please edit documentation in R/append_date_generated_line.R
 \name{append_date_generated_line}
 \alias{append_date_generated_line}
-\title{Add new last row with generated date}
+\title{Add new last row with the generated date}
 \usage{
 append_date_generated_line(
   data,
@@ -11,20 +11,26 @@ append_date_generated_line(
 )
 }
 \arguments{
-\item{data}{Data frame with data that should get new row with generated date}
+\item{data}{[\code{data.frame}]\cr
+The data to which an additional row with the generate date should be added.}
 
-\item{pretext}{The explaining text before the date value.}
+\item{pretext}{[\code{character}]\cr
+The explaining text before the date value. Defaults to "Datauttrekket ble gjort".}
 
-\item{date}{Date for generating the data}
+\item{date}{[\code{character}]\cr
+Date for generating the data. Defaults to
+\ifelse{html}{\code{\link[base]{Sys.Date}}}{\code{base::Sys.Date}}.}
 }
 \value{
-A data frame with two more rows, one empty and one with generated data in the first column.
+\code{data.frame} with two additional rows, one empty and one with the generated date in the first column.
 }
 \description{
-Function to add new row with generated date. Before the date the pretext is "Datauttrekket ble gjort"
+Function to add new row with the generated date. Before the date
+    a pretext can be set.
 }
 \details{
-Two rows are dded to the data frame, the first is empty, the second has the generated date in the first column. The
+Two rows are added to the data frame, the first is empty, the second
+    has the generated date in the first column.
 }
 \examples{
 \dontrun{

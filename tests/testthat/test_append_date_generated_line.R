@@ -5,9 +5,9 @@ test_that("Append date generated in last row", {
 
 
 # Make example data
-x <- as.data.frame(cbind("År" = 2021, "Rapport" = "Brucellose hos geit, utvalgsliste",
+x <- as.data.frame(cbind("\u00C5r" = 2021, "Rapport" = "Brucellose hos geit, utvalgsliste",
                          "MT regionnr" = "M21000", "MT region" = "Region Stor-Oslo", "MT avdelingsnr" = "M21150", "MT avdeling" = "Romerike",
-                         "Produsentnr" = "30303030", "Foretak" = "XXX XXXXX", "Postnr" = "0468", "Poststed" = "OSLO", "Antall prøver" = 26))
+                         "Produsentnr" = "30303030", "Foretak" = "XXX XXXXX", "Postnr" = "0468", "Poststed" = "OSLO", "Antall pr\u00F8ver" = 26))
 
 # Include row with generated date
 y <- append_date_generated_line(x)

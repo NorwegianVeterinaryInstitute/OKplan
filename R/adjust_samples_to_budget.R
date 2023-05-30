@@ -18,22 +18,27 @@
 #'     multiplied by of a given number (multiplier). For example, if equal
 #'     number of samples should be taken every month the multiplier can be 12,
 #'     if the samples are pooled five and five, the multiplier can be 5. If the
-#'     argument adjust_by is given the multiplier, the sample number will be
-#'     adjusted by the multiplier unless the difference that should be adjusted
+#'     argument \code{adjust_by} is given the multiplier, the sample number will
+#'     be adjusted by the multiplier unless the difference that should be adjusted
 #'     is less than the multiplier. In that case, the sample number will be
-#'     adjusted by a number less than the adjust_by.
+#'     adjusted by a number less than the \code{adjust_by}.
 #'
-#' @param data \[data.frame\] . Data including a column with the sample number
-#'     that should be adjusted.
-#' @param group \[character\]. Vector with group variables.
-#' @param budget The total budgeted sample number or a column in data with the
-#'     budget number of samples (per group).
-#' @param sample_to_adjust \[character\]. The name of the column with the sample
-#'     number per unit that should be adjusted.
-#' @param adjusted_sample \[character\]. The name of the new column with the
-#'     adjusted sample number per unit.
-#' @param adjust_by \[number\]. The maximum number of samples that a sample can
-#'     be adjust by. Defaults to 1.
+#' @param data [\code{data.frame}]\cr
+#'     Data including a column with the sample number that should be adjusted.
+#' @param group [\code{character}]\cr
+#'     Vector with group variables. Defaults to \code{NULL}.
+#' @param budget [\code{numeric(1)} | \code{character(1)}]\cr
+#'     The total budgeted sample number or a column in data with the budget
+#'     number of samples (per group).
+#' @param sample_to_adjust [\code{character(1)}]\cr
+#'     The name of the column with the sample number per unit that should be
+#'     adjusted.
+#' @param adjusted_sample [\code{character(1)}]\cr
+#'     The name of the new column with the adjusted sample number per unit.
+#'     Defaults to "justert_ant_prover".
+#' @param adjust_by [\code{numeric(1)}]\cr
+#'     The maximum number of samples that a sample can be adjust by. Defaults
+#'     to 1.
 #'
 #' @return A data frame with a new column with an adjusted sample number.
 #'
@@ -75,7 +80,7 @@ adjust_samples_to_budget <- function(data,
                                      budget,
                                      sample_to_adjust,
                                      adjusted_sample = "justert_ant_prover",
-                                     adjust_by) {
+                                     adjust_by = 1) {
 
   # ARGUMENT CHECKING ----
   # Object to store check-results

@@ -1,3 +1,20 @@
+OKplan 0.6.0 - (2023-05-30)
+----------------------------------------
+
+New features:
+
+- Created `get_tested_herds` to find herds tested in last year(s) surveillance programmes.
+
+- `write_ok_selection_list` now accepts a list with column formatting information as input to `column_standards`.
+
+
+Other changes:
+
+- Updated translation table for column names to sampling plans.
+
+- Improved function help by including links and standardising argument description.
+
+
 OKplan 0.5.0 - (2022-12-15)
 ---------------------------
 
@@ -47,7 +64,7 @@ New features:
 
 - style_sum_line styles the row with sum of samples.
 
-- write_ok_selection_list writes the selection list based on selected data from okplan file and uses standardize_columns to  select, format and style columns.
+- write_ok_selection_list writes the selection list based on selected data from okplan file and uses standardize_columns to select, format and style columns.
 
 
 Other changes:
