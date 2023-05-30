@@ -17,7 +17,7 @@ Other changes:
 
 - Updated translation table for column names to sampling plans.
 
-- Improved help.
+- Improved function help by including links and standardising argument description.
 
 
 BREAKING CHANGES:
