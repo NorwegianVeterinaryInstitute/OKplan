@@ -10,6 +10,8 @@ Bug fixes:
 
 - the argument `year` in `get_tested_herds` now accepts more than one year as input. 
 
+- The sum is only calculated in `write_ok_selection_list` if the column "ant_prover" exists.
+
 
 Other changes:
 
