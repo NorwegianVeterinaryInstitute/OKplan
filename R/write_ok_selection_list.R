@@ -70,6 +70,7 @@
 #' @param add_worksheet [\code{logical(1)}]\cr
 #'     Should a worksheet be added to an existing workbook? Defaults to
 #'     \code{FALSE}.
+#' @param \dots Other arguments to be passed to \code{\link{append_sum_line}}.
 #' @export
 #'
 write_ok_selection_list <- function(data,
@@ -83,16 +84,16 @@ write_ok_selection_list <- function(data,
                                     dbsource,
                                     add_worksheet = FALSE,
                                     ...) {
-  
+
   # PREPARE ARGUMENTS BEFORE ARGUMENT CHECKING ----
   # Remove trailing backslash or slash before testing path
   filepath <- sub("\\\\{1,2}$|/{1,2}$", "", filepath)
   dots <- list(...)
-  
+
   # ARGUMENT CHECKING ----
   # Object to store check-results
   checks <- checkmate::makeAssertCollection()
-  
+
   # Perform checks
   # for (i in 1:length(data)) {
   checkmate::assert_data_frame(data, max.rows = (1048576 - 1), max.cols = 16384, add = checks)
@@ -113,14 +114,14 @@ write_ok_selection_list <- function(data,
                                  min.len = 3, max.len = 6,
                                  comment = "When input as a list, all elements must have the same length",
                                  add = checks)
-    
+
     checkmate::assert_subset(names(column_standards), choices = c("table_db", "colname_db", "colname", "collabel", "colwidth", "colorder"),
                              add = checks)
   }
   if (inherits(column_standards, what = "data.frame")) {
     checkmate::assert_data_frame(column_standards, min.rows = 1, min.cols = 6, add = checks)
   }
-  
+
   checkmate::assert_flag(calculate_sum, add = checks)
   checkmate::assert_string(footnote, min.chars = 1, null.ok = TRUE, add = checks)
   checkmate::assert_character(dbsource, min.len = 1, add = checks)
@@ -130,33 +131,33 @@ write_ok_selection_list <- function(data,
                              add = checks)
   }
   checkmate::assert_flag(add_worksheet, add = checks)
-  
+
   # Report check-results
   checkmate::reportAssertions(checks)
-  
+
   # TRANSFORM column_standards FROM list TO data.frame
   # column_standards = list("colname" = c("mt_region", "mt_avdeling"),
   #                 "collabel" = c("MT region", "MT avdeling"),
   #                 "colwidth" = c(35, 35))
-  
+
   if (inherits(column_standards, what = "list")) {
     column_standards <- as.data.frame((column_standards))
-    
+
     if (!"table_db" %in% colnames(column_standards)) {
       column_standards$table_db <- dbsource
     }
-    
+
     if (!"colname_db" %in% colnames(column_standards)) {
       column_standards$colname_db <- column_standards$colname
     }
-    
+
     if (!"colorder" %in% colnames(column_standards)) {
       column_standards$colorder <- c(1:dim(column_standards)[1])
     }
     colnames(column_standards)[which(colnames(column_standards) == "collabel")] <- "label_1_no"
     colnames(column_standards)[which(colnames(column_standards) == "colwidth")] <- "colwidth_Excel"
   }
-  
+
   # GENERATE EXCEL WORKBOOK ----
   # create or load workbook
   if (isTRUE(add_worksheet)) {
@@ -164,20 +165,20 @@ write_ok_selection_list <- function(data,
   } else {
     okwb <- openxlsx::createWorkbook()
   }
-  
+
   # STANDARDIZE COLUMNS ----
   # column names
   okdata <- NVIdb::standardize_columns(data,
                                        standards = column_standards,
                                        dbsource = dbsource,
                                        property = "colnames")
-  
+
   # order columns and keep only designated columns
   okdata <- NVIdb::standardize_columns(data = okdata,
                                        standards = column_standards,
                                        dbsource = dbsource,
                                        property = "colorder", exclude = TRUE)
-  
+
   # INCLUDE EXTRA INFORMATION ----
   # Append sum
   if (isTRUE(calculate_sum)) {
@@ -189,18 +190,18 @@ write_ok_selection_list <- function(data,
       okdata <- append_sum_line(data = okdata, column = column, position = "left")
     }
   }
-  
+
   # Append date generated
   okdata <- append_date_generated_line(okdata)
-  
-  
+
+
   # Append footnote
   if (!is.null(footnote)) {
     okdata <- NVIpretty::append_text_line(okdata,
                                           text = footnote,
                                           empty_rows = 2)
   }
-  
+
   # STYLE EXCEL SHEET ----
   NVIpretty::add_formatted_worksheet(data = okdata,
                                      workbook = okwb,
@@ -210,11 +211,11 @@ write_ok_selection_list <- function(data,
                                      colwidths = TRUE,
                                      standards = column_standards,
                                      dbsource = dbsource)
-  
+
   if (isTRUE(calculate_sum)) {
     style_sum_line(workbook = okwb, sheet = sheet, data = okdata)
   }
-  
+
   if (!is.null(footnote)) {
     NVIpretty::style_text_line(workbook = okwb, sheet = sheet, data = okdata,
                                text = footnote,
@@ -222,7 +223,7 @@ write_ok_selection_list <- function(data,
                                merge_cells = TRUE,
                                heights = footnote_heights)
   }
-  
+
   # SAVE EXCEL WORKBOOK ----
   openxlsx::saveWorkbook(wb = okwb, file = file.path(filepath, filename), overwrite = TRUE)
 }
