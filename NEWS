@@ -8,7 +8,7 @@ New features:
 
 Bug fixes:
 
--
+- the argument `year` in `get_tested_herds` now accepts more than one year as input. 
 
 
 Other changes:
