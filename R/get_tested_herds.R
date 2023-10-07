@@ -62,7 +62,7 @@ get_tested_herds <- function(eos_table,
   checkmate::assert_integerish(year,
                                lower = 1995, upper = (as.numeric(format(Sys.Date(), "%Y"))),
                                any.missing = FALSE, all.missing = FALSE,
-                               len = 1,
+                               min.len = 1,
                                add = checks)
   checkmate::assert_character(species, min.len = 1, null.ok = TRUE, add = checks)
   checkmate::assert_character(production, min.len = 1, null.ok = TRUE, add = checks)
