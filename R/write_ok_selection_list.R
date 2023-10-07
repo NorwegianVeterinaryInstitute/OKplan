@@ -81,11 +81,13 @@ write_ok_selection_list <- function(data,
                                     footnote = NULL,
                                     footnote_heights = NULL,
                                     dbsource,
-                                    add_worksheet = FALSE) {
+                                    add_worksheet = FALSE,
+                                    ...) {
   
   # PREPARE ARGUMENTS BEFORE ARGUMENT CHECKING ----
   # Remove trailing backslash or slash before testing path
   filepath <- sub("\\\\{1,2}$|/{1,2}$", "", filepath)
+  dots <- list(...)
   
   # ARGUMENT CHECKING ----
   # Object to store check-results
@@ -179,8 +181,12 @@ write_ok_selection_list <- function(data,
   # INCLUDE EXTRA INFORMATION ----
   # Append sum
   if (isTRUE(calculate_sum)) {
-    if ("ant_prover" in colnames(data)) {
-      okdata <- append_sum_line(data = okdata, column = c("ant_prover"), position = "left")
+    if ("column" %in% names(dots)) {
+      column <- dots$column
+      } else {column <- "ant_prover"}
+    column <- intersect(column, colnames(data))
+    if (length(column) > 0) {
+      okdata <- append_sum_line(data = okdata, column = column, position = "left")
     }
   }
   
