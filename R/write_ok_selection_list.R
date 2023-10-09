@@ -41,7 +41,7 @@
 #'
 #' All vectors must have the same order and the same length.
 #'
-#' When \code{\link{calculate_sum}} is TRUE, a line with the sum will be appended.
+#' When \code{calculate_sum} is \code{TRUE}, a line with the sum will be appended.
 #'    The default is to calculate the sum of the column "ant_prover". If the sum
 #'    should be calculated for one or more other columns, you may give thecolumn
 #'    names as input to the argument \code{column} that will be passed to
