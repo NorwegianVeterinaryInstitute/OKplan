@@ -1,4 +1,4 @@
-# OKplan: Tools to facilitate the Planning of the annual Surveillance Programmes
+# OKplan: Tools to facilitate the Planning of the annual Surveillance Programmes <img src="man/figures/OKplan_logo.png" align="right" height="138" />
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -55,17 +55,34 @@ The `OKplan` package needs to be attached.
 surveillance programmes. The main focus is tools for generating
 standardized lists for NFSA.
 
+#### Further documentation
+
+##### Help
+
 The full list of all available functions and datasets can be accessed by
 typing
 
     help(package = "OKplan")
 
-Please check the NEWS for information on new features, bug fixes and
-other changes.
+##### Vignettes
+
+Consult the vignettes for task-oriented help.
+
+    vignette(package = "OKplan")
+
+Vignettes in package `OKplan`:
+
+-   Contribute to OKplan (html)
+
+##### NEWS
+
+Please check the
+[NEWS](https://github.com/NorwegianVeterinaryInstitute/OKplan/blob/main/NEWS)
+for information on new features, bug fixes and other changes.
 
 ## Copyright and license
 
-Copyright (c) 2021 - 2022 Norwegian Veterinary Institute.  
+Copyright (c) 2021 - 2023 Norwegian Veterinary Institute.  
 Licensed under the BSD\_3\_clause License. See
 [License](https://github.com/NorwegianVeterinaryInstitute/OKplan/blob/main/LICENSE)
 for details.

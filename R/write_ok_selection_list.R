@@ -41,6 +41,13 @@
 #'
 #' All vectors must have the same order and the same length.
 #'
+#' When \code{\link{calculate_sum}} is TRUE, a line with the sum will be appended.
+#'    The default is to calculate the sum of the column "ant_prover". If the sum
+#'    should be calculated for one or more other columns, you may give thecolumn
+#'    names as input to the argument \code{column} that will be passed to
+#'    \code{\link{append_sum_line}}. The sum will only be appended for columns
+#'    that exist in the data.
+#'
 #' When more than one worksheet should be added to a single workbook,
 #'     use \code{add_worksheet = FALSE} for the first worksheet and
 #'     \code{add_worksheet = TRUE} for the consecutive worksheet(s).
@@ -70,6 +77,7 @@
 #' @param add_worksheet [\code{logical(1)}]\cr
 #'     Should a worksheet be added to an existing workbook? Defaults to
 #'     \code{FALSE}.
+#' @param \dots Other arguments to be passed to \code{\link{append_sum_line}}.
 #' @export
 #'
 write_ok_selection_list <- function(data,
@@ -81,11 +89,13 @@ write_ok_selection_list <- function(data,
                                     footnote = NULL,
                                     footnote_heights = NULL,
                                     dbsource,
-                                    add_worksheet = FALSE) {
+                                    add_worksheet = FALSE,
+                                    ...) {
 
   # PREPARE ARGUMENTS BEFORE ARGUMENT CHECKING ----
   # Remove trailing backslash or slash before testing path
   filepath <- sub("\\\\{1,2}$|/{1,2}$", "", filepath)
+  dots <- list(...)
 
   # ARGUMENT CHECKING ----
   # Object to store check-results
@@ -179,7 +189,13 @@ write_ok_selection_list <- function(data,
   # INCLUDE EXTRA INFORMATION ----
   # Append sum
   if (isTRUE(calculate_sum)) {
-    okdata <- append_sum_line(data = okdata, column = c("ant_prover"), position = "left")
+    if ("column" %in% names(dots)) {
+      column <- dots$column
+      } else {column <- "ant_prover"}
+    column <- intersect(column, colnames(data))
+    if (length(column) > 0) {
+      okdata <- append_sum_line(data = okdata, column = column, position = "left")
+    }
   }
 
   # Append date generated

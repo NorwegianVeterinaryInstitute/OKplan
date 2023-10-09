@@ -14,7 +14,8 @@ write_ok_selection_list(
   footnote = NULL,
   footnote_heights = NULL,
   dbsource,
-  add_worksheet = FALSE
+  add_worksheet = FALSE,
+  ...
 )
 }
 \arguments{
@@ -52,6 +53,8 @@ be used for standardising and formatting the sampling plan output.}
 \item{add_worksheet}{[\code{logical(1)}]\cr
 Should a worksheet be added to an existing workbook? Defaults to
 \code{FALSE}.}
+
+\item{\dots}{Other arguments to be passed to \code{\link{append_sum_line}}.}
 }
 \description{
 The sampling plan is output to an Excel sheet. The list with
@@ -96,6 +99,13 @@ The list input to column_standards must follow a specific format.
 }
 
 All vectors must have the same order and the same length.
+
+When \code{\link{calculate_sum}} is TRUE, a line with the sum will be appended.
+   The default is to calculate the sum of the column "ant_prover". If the sum
+   should be calculated for one or more other columns, you may give thecolumn
+   names as input to the argument \code{column} that will be passed to
+   \code{\link{append_sum_line}}. The sum will only be appended for columns
+   that exist in the data.
 
 When more than one worksheet should be added to a single workbook,
     use \code{add_worksheet = FALSE} for the first worksheet and

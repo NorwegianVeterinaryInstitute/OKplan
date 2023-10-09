@@ -118,10 +118,10 @@ adjust_samples_to_budget <- function(data,
 
   difference <- difference %>%
     dplyr::mutate(original_order = 1:dplyr::n()) %>%
-    dplyr::arrange(dplyr::across(c(group, sample_to_adjust))) %>%
+    dplyr::arrange(dplyr::across(dplyr::all_of(c(group, sample_to_adjust)))) %>%
     dplyr::group_by(dplyr::across(dplyr::all_of(group))) %>%
     dplyr::mutate(total_estimated = sum(dplyr::across(dplyr::all_of(sample_to_adjust)), na.rm = TRUE)) %>%
-    dplyr::mutate(included = dplyr::case_when(dplyr::across(sample_to_adjust) > 0 ~ 1,
+    dplyr::mutate(included = dplyr::case_when(dplyr::across(dplyr::all_of(sample_to_adjust)) > 0 ~ 1,
                                               TRUE ~ 0)) %>%
     dplyr::mutate(n_units = sum(.data$included, na.rm = TRUE)) %>%
     dplyr::mutate(difference = .data$total_estimated - as.numeric(.data$budget)) %>%
