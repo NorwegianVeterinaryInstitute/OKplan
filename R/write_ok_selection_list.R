@@ -41,6 +41,13 @@
 #'
 #' All vectors must have the same order and the same length.
 #'
+#' When \code{\link{calculate_sum}} is TRUE, a line with the sum will be appended.
+#'    The default is to calculate the sum of the column "ant_prover". If the sum
+#'    should be calculated for one or more other columns, you may give thecolumn
+#'    names as input to the argument \code{column} that will be passed to
+#'    \code{\link{append_sum_line}}. The sum will only be appended for columns
+#'    that exist in the data.
+#'
 #' When more than one worksheet should be added to a single workbook,
 #'     use \code{add_worksheet = FALSE} for the first worksheet and
 #'     \code{add_worksheet = TRUE} for the consecutive worksheet(s).
