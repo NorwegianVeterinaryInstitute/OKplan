@@ -1,10 +1,5 @@
-OKplan 0.6.0.9000 - (2023-##-##)
+OKplan 0.6.1 - (2023-10-09)
 ----------------------------------------
-
-New features:
-
--
-
 
 Bug fixes:
 
@@ -16,11 +11,6 @@ Bug fixes:
 Other changes:
 
 - Updated help section in README
-
-
-BREAKING CHANGES:
-
--
 
 
 OKplan 0.6.0 - (2023-05-30)
