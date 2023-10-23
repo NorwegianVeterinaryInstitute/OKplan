@@ -26,9 +26,9 @@ OKplan 0.6.1 - (2023-10-09)
 
 Bug fixes:
 
-- the argument `year` in `get_tested_herds` now accepts more than one year as input. 
+- The argument `year` in `get_tested_herds` now accepts more than one year as input. 
 
-- The argument column can now be passed to append_sum_line.
+- `write_ok_selection_list` now accepts the argument `column` which will be passed to `append_sum_line`.
 
 
 Other changes:
