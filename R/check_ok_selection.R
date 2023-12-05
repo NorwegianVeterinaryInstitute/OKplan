@@ -108,6 +108,5 @@ check_ok_selection <- function(input = system.file('templates', "check_ok_select
                             intermediates_dir = tempdir(),
                             params = list("data" = data, "purpose" = purpose, "plan_aar" = plan_aar),
                             display = display,
-                            email = FALSE,
                             ...)
 }
