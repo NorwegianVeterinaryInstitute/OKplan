@@ -18,7 +18,9 @@ library(usethis)
 
 
 # READS AND TRANSFORMS EXCEL SHEET WITH COLUMN STANDARD INFORMATION ----
-OK_column_standards <- read.xlsx(xlsxFile = paste0(set_dir_NVI("ProgrammeringR"), "standardization/colnames/colnames_translation_table.xlsx")) %>%
+OK_column_standards <- read.xlsx(xlsxFile = file.path(set_dir_NVI("ProgrammeringR", slash = FALSE),
+                                                      "standardization/colnames",
+                                                      "colnames_translation_table.xlsx")) %>%
   # Selects only information used in OK-planning
   dplyr::filter(db == "OK_planlegging") %>%
   # Generates column labels based on label and spec for no and en
@@ -27,7 +29,7 @@ OK_column_standards <- read.xlsx(xlsxFile = paste0(set_dir_NVI("ProgrammeringR")
   dplyr::mutate(label_1_no = dplyr::case_when(is.na(spec_no) ~ label_no,
                                               spec_no %in% c("dato", "geometrisk middel 3") ~ paste(label_no, spec_no),
                                               spec_no %in% c("kg", "kjennelse", "tid") ~ label_no,
-                                              spec_no %in% c("antall undersøkt") ~ paste(spec_no, label_no),
+                                              spec_no %in% c("antall unders\u00F8kt") ~ paste(spec_no, label_no),
                                               TRUE ~ spec_no)) %>%
   dplyr::mutate(label_1_en = dplyr::case_when(is.na(spec_en) ~ label_en,
                                               spec_en %in% c("date") ~ paste(label_en, spec_en),
@@ -49,7 +51,7 @@ db_tables <- as.data.frame(unique(OK_column_standards$table_db)) %>%
 
 # Generate table with each table name on one line
 OK_column_standards <- OK_column_standards %>%
-  dplyr::left_join(db_tables, by = c("table_db" = "tables")) %>%
+  dplyr::left_join(db_tables, by = c("table_db" = "tables"), relationship = "many-to-many") %>%
   dplyr::mutate(table_db = trimws(table)) %>%
   dplyr::select(!table) %>%
   dplyr::mutate(table_db = tolower(table_db))
