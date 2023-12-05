@@ -36,7 +36,7 @@ get_holiday <- function (year,
   datasource <- NVIcheckmate::match_arg(x = type,
                                         choices = c("easter", "holiday", "workday", 
                                                     "trapped", "weekend", "public", "sunday", "saturday",
-                                                    "non-moveable", "pentacost"),
+                                                    "non-moveable", "pentacost", "all"),
                                         several.ok = FALSE,
                                         ignore.case = TRUE,
                                         add = checks)
@@ -63,22 +63,29 @@ get_holiday <- function (year,
   non_moveable <- as.Date(paste0(year, c("-01-01", "-05-01", "-05-17", "-12-25", "-12-26"))) 
   
   ### CATEGORISE INTO HOLIDAYS ---- 
+  # create data frame with all dates for year[i]
   dates  <- as.data.frame(matrix(data = c(as.Date(paste0(year, "-01-01")):as.Date(paste0(year, "-12-31"))),
                                  dimnames = list(NULL, "date")))
   dates$date <- as.Date(dates$date, origin = "1970-01-01")
+
+  # Assign weekday number
   dates <- dates %>%
     dplyr::mutate(weekday = lubridate::wday(.data$date, week_start=1)) %>%
+    
+    # Assign weekend
     dplyr::mutate(holiday = dplyr::case_when(.data$weekday %in% c(6, 7) ~ as.character(.data$weekday),
                                              TRUE ~ "0" )) %>%
+    # Assign public holidays
     dplyr::mutate(holiday = dplyr::case_when(.data$date %in% easter ~ "e",
                                              .data$date %in% pentacost ~ "p",
                                              .data$date %in% non_moveable ~ "n",
                                              TRUE ~ holiday)) %>% 
+    # assign trapped days
     dplyr::mutate(behind = dplyr::lag(holiday, 1)) %>%
     dplyr::mutate(ahead = dplyr::lead(holiday, 1)) %>%
     dplyr::mutate(holiday = dplyr::case_when(.data$ahead != 0 & .data$behind != 0 & .data$holiday == 0 ~ "t",
                                              TRUE ~ holiday)) 
-  
+  ### SELECT ROWS TO REPORT ----
   if ("easter" %in% type) {
     dates[which(dates$holiday == "e") , "select"] <- 1
   }
@@ -104,7 +111,7 @@ get_holiday <- function (year,
   if ("trapped" %in% type) {
     dates[which(dates$holiday %in% c("t")), "select"] <- 1
   }
-  if ("raw" == type) {
+  if ("all" == type) {
     dates[, "select"] <- 1
   }
   
