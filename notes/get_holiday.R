@@ -1,23 +1,26 @@
-#' @title Get the holidays or working days
-#' @description Get the holidays or working days for one year
+#' @title Get the holidays or working days 
+#' @description Get the holidays or working days within one year. The function is used when planning sampling to excluded days or weeks from the sampling plan. 
 #'
-#' @details Performs common cleaning of PJSdata by removing samples that usually
-#'     should not be included when analyzing PJSdata. The cleaning is dependent
-#'     on having the following columns eier_lokalitettype, eierlokalitetnr and
-#'     hensiktkode.
+#' @details One may select the following categories within one year. The categories are given as input to \code{type}. 
+#' \tabular{lll}{
+#'   \strong{input} \tab \strong{selection \tab \strong{remark} \cr
+#'   holiday \tab Saturday, Sunday and public holidays \tab  \cr
+#'   saturday \tab Saturdays \tab  \tab \cr
+#'   sunday \tab Sundays \tab \cr
+#'   weekend \tab Saturday and Sundays \tab \cr
+#'   public \tab Public holidays \tab e = easter, x = xmas, and n = non-moveable public holiday. \cr
+#'   workday \tab working day \tab the opposite of holiday when \code{exclude_trapped_days} = \code{FALSE} \cr
+#'   trapped \tab trapped days, easter week days and/or xmas week days \tab only output when \code{type} = "raw" \cr
+#' }
+#' 
 #'
-#'     \code{abroad = "exclude"} will exclude samples that have eier_lokalitet
-#'     of type "land" and eier_lokalitetnr being different from NO. Samples
-#'     registered on other types than LAND are not excluded.
-#'
-#'     \code{quality = "exclude"} will exclude all samples registered s quality
-#'     assurance and ring trials, i.e. hensiktkode starting with "09".
-#'
-#' @param year Data frame with data extracted from PJS.
-#' @param type If equal "exclude", samples from abroad are excluded. Allowed
-#'     values are c("exclude", "include").
-#' @param exclude_trapped_days If equal "exclude", samples registered as quality assurance
-#'     and ring trials are excluded. Allowed values are c("exclude", "include").
+#' @param year [\code{integer(1)}]\cr
+#'     Year. 
+#' @param type [\code{character}]\cr
+#'     The type of holiday or workday, see details..
+#' @param exclude_trapped_days [\code{character} | \code{logical(1)}]\cr
+#'     Should trapped days be excluded from workdays. Can be specified, see details.
+#'     Defaults to \code{FALSE}.
 #'
 #' @return data frame with selected dates.
 #'
@@ -37,7 +40,7 @@
 #'                          type = "workday",
 #'                          exclude_trapped_days = c("easter", "xmas"))
 #' }
-#'
+
 # date
 # Date.
 # 
@@ -61,7 +64,7 @@
 
 
 get_holiday <- function (year, 
-                         type = "all", 
+                         type = "raw", 
                          exclude_trapped_days = FALSE) {
   
   ### ARGUMENT CHECKING ---- 
@@ -78,7 +81,7 @@ get_holiday <- function (year,
                                unique = TRUE)
   type <- NVIcheckmate::match_arg(x = type,
                                   choices = c("holiday", "public", "sunday", "saturday",
-                                              "weekend", "workday", "all"),
+                                              "weekend", "workday", "raw"),
                                   several.ok = FALSE,
                                   ignore.case = TRUE,
                                   add = checks)
@@ -192,7 +195,7 @@ get_holiday <- function (year,
     }
   }
   
-  if (!"all" %in% type) {
+  if (!"raw" %in% type) {
     dates <- subset(dates, dates$select == 1)
     dates <- dates[, c("date", "weekday", type)]
   }
