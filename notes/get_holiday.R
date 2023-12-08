@@ -1,28 +1,49 @@
 #' @title Get the holidays or working days 
-#' @description Get the holidays or working days within one year. The function is used when planning sampling to excluded days or weeks from the sampling plan. 
+#' @description Get the holidays or working days within one year. The 
+#'     function is used when planning sampling to excluded days or 
+#'     weeks from the sampling plan. 
 #'
-#' @details One may select the following categories within one year. The categories are given as input to \code{type}. 
-#' \tabular{lll}{
-#'   \strong{input} \tab \strong{selection \tab \strong{remark} \cr
-#'   holiday \tab Saturday, Sunday and public holidays \tab  \cr
-#'   saturday \tab Saturdays \tab  \tab \cr
-#'   sunday \tab Sundays \tab \cr
-#'   weekend \tab Saturday and Sundays \tab \cr
-#'   public \tab Public holidays \tab e = easter, x = xmas, and n = non-moveable public holiday. \cr
-#'   workday \tab working day \tab the opposite of holiday when \code{exclude_trapped_days} = \code{FALSE} \cr
-#'   trapped \tab trapped days, easter week days and/or xmas week days \tab only output when \code{type} = "raw" \cr
+#' @details One may select the type of holiday or workday and input 
+#'     to \code{type} are c("holiday", "public_holiday", "weekend", 
+#'     "workday", "raw"). The output is a
+#'     data frame with date, weekday number and the input type. If 
+#'     \code{type} = "raw", columns for all types and in addition 
+#'     "trapped" is output.
+#'     
+#'     The output data frame has the following columns:
+#' \tabular{ll}{
+#'    \strong{Column name} \tab \strong{Values} \cr
+#'    date \tab Date. \cr
+#'    day_of_week \tab week day number, Monday = 1, Sunday = 7.
+#'    weekend \tab Saturday (6) and Sunday (7). \cr
+#'    public_holiday \tab Public holidays ("e", "p", "n") ("Easter", "Pentacost", "non-moveable"). \cr
+#'    holiday \tab Saturday (6), Sunday (7) and public holidays ("e", "p", "n"). \cr
+#'    workday \tab working day, the opposite of holiday when \code{exclude_trapped_days} = \code{FALSE}. \cr
+#'    trapped \tab trapped days (t), Easter week days (e) and/or Xmas week days (x). \cr
 #' }
 #' 
+#' \code{exclude_trapped_days} is used to exclude trapped and 
+#'    days that many often takes a day off from workdays. It 
+#'    has no effect on the other types. Input "trapped" will 
+#'    exclude trapped days, "easter" will exclude Monday to 
+#'    Wednesday before Thursday and "xmas" will exclude the 
+#'    days in the week of Christmas eve until New years eve. 
+#'    
+#' The function is limited to years from 1968, as before 1968
+#'    Saturday was a normal working day.  
 #'
 #' @param year [\code{integer(1)}]\cr
 #'     Year. 
 #' @param type [\code{character}]\cr
 #'     The type of holiday or workday, see details..
 #' @param exclude_trapped_days [\code{character} | \code{logical(1)}]\cr
-#'     Should trapped days be excluded from workdays. Can be specified, see details.
-#'     Defaults to \code{FALSE}.
+#'     Should trapped days and common days off be excluded from workdays, 
+#'     see details. Defaults to \code{FALSE}.
+#' @param fhi [\code{logical(1)}]\cr
+#'     If \code{TRUE} a data frame in the format of 
+#'     in the packages fhidata, spldata and csdata is output.
 #'
-#' @return data frame with selected dates.
+#' @return data frame with the selected dates.
 #'
 #' @author Petter Hopp Petter.Hopp@@vetinst.no
 #' @export
@@ -30,7 +51,7 @@
 #' \dontrun{
 #' 
 #'  public_holidays <- get_holiday(year = 2024,
-#'                                 type = "public")
+#'                                 type = "public_holiday")
 #'                                 
 #'  workdays <- get_holiday(year = 2024,
 #'                          type = "workday",
@@ -73,19 +94,18 @@ get_holiday <- function (year,
   
   # Perform checks
   checkmate::assert_integerish(year,
-                               lower = 1971,
-                               upper = as.numeric(format(Sys.Date(), "%Y")) + 5,
+                               lower = 1968,
                                len = 1,
                                any.missing = FALSE,
                                all.missing = FALSE,
                                unique = TRUE)
   type <- NVIcheckmate::match_arg(x = type,
-                                  choices = c("holiday", "public", "sunday", "saturday",
+                                  choices = c("holiday", "public_holiday", 
                                               "weekend", "workday", "raw"),
                                   several.ok = FALSE,
                                   ignore.case = TRUE,
                                   add = checks)
-  checkmate::assert(checkmate::check_false(exclude_trapped_days),
+  checkmate::assert(checkmate::check_flag(exclude_trapped_days),
                     checkmate::check_subset(exclude_trapped_days, choices = c("easter", "xmas", "trapped")),
                     add = checks)
   
@@ -117,6 +137,7 @@ get_holiday <- function (year,
   # as.Date(paste0(year, "-12-31")) - as.numeric(format(as.Date(paste0(year, "-12-31")), "%u"))
   
   xmas_trapped <- rep(as.Date(paste0(year, "-12-31")), days_before_newyear) + c(-(days_before_newyear - 1):0)
+  
   ### CATEGORISE INTO HOLIDAYS ---- 
   # create data frame with all dates for year[i]
   dates  <- as.data.frame(matrix(data = c(as.Date(paste0(year, "-01-01")):as.Date(paste0(year, "-12-31"))),
@@ -124,26 +145,26 @@ get_holiday <- function (year,
   dates$date <- as.Date(dates$date, origin = "1970-01-01")
   
   # Assign weekday number
-  dates$weekday <- format(dates$date, format = "%u")
+  dates$day_of_week <- format(dates$date, format = "%u")
   
   # Assign weekend
   dates$weekend <- "0"
   dates[which(dates$weekday %in% c("6", "7")), "weekend"] <- "1"
   
   # Assign public holidays
-  dates$public <- "0"
-  dates[which(dates$date %in% easter), "public"] <- "e"
-  dates[which(dates$date %in% pentacost), "public"] <- "p"
-  dates[which(dates$date %in% non_moveable), "public"] <- "n"
+  dates$public_holiday <- "0"
+  dates[which(dates$date %in% easter), "public_holiday"] <- "e"
+  dates[which(dates$date %in% pentacost), "public_holiday"] <- "p"
+  dates[which(dates$date %in% non_moveable), "public_holiday"] <- "n"
   
   # Assign holidays
   dates$holiday <- "0"
-  dates[which(dates$weekend == "1" | dates$public != "0"), "holiday"] <- "1"
+  dates[which(dates$weekend == "1" | dates$public_holiday != "0"), "holiday"] <- "1"
   
   # Assign workday
   dates$workday <- +(!as.numeric(dates$holiday))
   
-  # assign trapped days
+  # Assign trapped days
   dates$trapped <- "0"
   if ("easter" %in% exclude_trapped_days) {
     dates[which(dates$date %in% easter_trapped), "trapped"] <- "e"
@@ -158,25 +179,13 @@ get_holiday <- function (year,
     dates[which(dates$ahead == "1" & dates$behind == "1" & dates$holiday == "0" ), "trapped"] <- "t"
     dates[, c("behind", "ahead")] <- c(NULL, NULL)
   }
-
+  
   ### SELECT ROWS TO REPORT ----
-  # if ("easter" %in% type) {
-  #   dates[which(dates$holiday == "e") , "select"] <- 1
-  # }
-  # if ("moving" %in% type) {
-  #   dates[which(dates$holiday %in% c("e", "p")) , "select"] <- 1
-  # }
-  if ("public" %in% type) {
-    dates[which(dates$public %in% c("e", "p", "n")), "select"] <- 1
-  }
-  if ("sunday" %in% type) {
-    dates[which(dates$weekday == 7) , "select"] <- 1
-  }
-  if ("saturday" %in% type) {
-    dates[which(dates$weekday == 6), "select"] <- 1
-  }
   if ("weekend" %in% type) {
     dates[which(dates$weekend == 1), "select"] <- 1
+  }
+  if ("public_holiday" %in% type) {
+    dates[which(dates$public_holiday %in% c("e", "p", "n")), "select"] <- 1
   }
   if ("holiday" %in% type) {
     dates[which(dates$holiday %in% c("e", "p", "n", "6", "7")) , "select"] <- 1
