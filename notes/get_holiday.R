@@ -39,9 +39,9 @@
 #' @param exclude_trapped_days [\code{character} | \code{logical(1)}]\cr
 #'     Should trapped days and common days off be excluded from workdays, 
 #'     see details. Defaults to \code{FALSE}.
-#' @param fhi [\code{logical(1)}]\cr
-#'     If \code{TRUE} a data frame in the format of 
-#'     in the packages fhidata, spldata and csdata is output.
+#' @param output [\code{character(1)}]\cr
+#'     The output format of the data frame, see details. Defaults
+#'     to "selected".
 #'
 #' @return data frame with the selected dates.
 #'
@@ -85,8 +85,9 @@
 
 
 get_holiday <- function (year, 
-                         type = "raw", 
-                         exclude_trapped_days = FALSE) {
+                         type = "workday", 
+                         exclude_trapped_days = FALSE,
+                         output = "selected") {
   
   ### ARGUMENT CHECKING ---- 
   # Object to store check-results
@@ -101,13 +102,18 @@ get_holiday <- function (year,
                                unique = TRUE)
   type <- NVIcheckmate::match_arg(x = type,
                                   choices = c("holiday", "public_holiday", 
-                                              "weekend", "workday", "raw"),
+                                              "weekend", "workday"),
                                   several.ok = FALSE,
                                   ignore.case = TRUE,
                                   add = checks)
   checkmate::assert(checkmate::check_flag(exclude_trapped_days),
                     checkmate::check_subset(exclude_trapped_days, choices = c("easter", "xmas", "trapped")),
                     add = checks)
+  output <- NVIcheckmate::match_arg(x = output,
+                                  choices = c("selected", "fhi", "raw"),
+                                  several.ok = FALSE,
+                                  ignore.case = TRUE,
+                                  add = checks)
   
   # Report check-results
   checkmate::reportAssertions(checks)
