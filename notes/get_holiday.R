@@ -1,14 +1,14 @@
 #' @title Get the holidays or working days 
-#' @description Get the holidays or working days within one year. 
+#' @description Get the non_workdays or working days within one year. 
 #'    The function is intended for use when planning sampling to 
 #'    excluded days or weeks from the sampling plan. 
 #'
-#' @details \code{type} is used to select the type of holiday or 
-#'    workday. Valid input are c("holiday", "sat_to_sun", "public_holiday", 
+#' @details \code{type} is used to select the type of non_workday or 
+#'    workday. Valid input are c("non_workday", "sat_to_sun", "public_holiday", 
 #'    "workday"). public_holiday are the non-moveable holidays, 
 #'    Easter and Pentacost; sat_to_sun are Saturdays and Sundays; and 
-#'    holiday are public_holiday and sat_to_sun combined. workday is
-#'    the opposite of holiday when \code{exclude_trapped_days} = 
+#'    non_workday are public_holiday and sat_to_sun combined. workday is
+#'    the opposite of non_workday when \code{exclude_trapped_days} = 
 #'    \code{FALSE}.
 #'     
 #' \code{exclude_trapped_days} is used to exclude trapped days 
@@ -23,7 +23,7 @@
 #'    The output is a data frame with the selected dates and the 
 #'    day_of_week (integer) when \code{output} = "selected". When
 #'    \code{output} = "raw" the data frame includes all dates and 
-#'    the additional columns c("holiday", "sat_to_sun", "public_holiday", 
+#'    the additional columns c("non_workday", "sat_to_sun", "public_holiday", 
 #'    "workday", "trapped" and "public"), see below for description.
 #'     
 #'    The output data frame for \code{output} = "raw":
@@ -33,8 +33,8 @@
 #'    day_of_week \tab Week day number, Monday = 1, Sunday = 7.
 #'    sat_to_sun \tab Saturday and Sunday = 1, otherwise 0. \cr
 #'    public_holiday \tab Public holidays = 1 otherwise = 0. \cr
-#'    holiday \tab Saturday, Sunday and public holidays = 1, otherwise = 0. \cr
-#'    workday \tab Working day, the opposite of holiday when \code{exclude_trapped_days} = \code{FALSE}. \cr
+#'    non_workday \tab Saturday, Sunday and public holidays = 1, otherwise = 0. \cr
+#'    workday \tab Working day, the opposite of non_workday when \code{exclude_trapped_days} = \code{FALSE}. \cr
 #'    public \tab Easter = "e", Pentacost = "p", non-moveable = "n", otherwise NA.
 #'    trapped \tab trapped days (t), Easter week days (e) and/or Xmas week days (x) otherwise NA. \cr
 #' }
@@ -51,7 +51,7 @@
 #' @param year [\code{integer(1)}]\cr
 #'     Year. 
 #' @param type [\code{character}]\cr
-#'     The type(s) of holiday or workday, see details. Defaults to "workday".
+#'     The type(s) of non_workday or workday, see details. Defaults to "workday".
 #' @param exclude_trapped_days [\code{character} | \code{logical(1)}]\cr
 #'     Should trapped days and common days off be excluded from workday?, 
 #'     see details. Defaults to \code{FALSE}.
@@ -97,7 +97,7 @@ get_holiday <- function (year,
                                all.missing = FALSE,
                                unique = TRUE)
   type <- NVIcheckmate::match_arg(x = type,
-                                  choices = c("holiday", "public_holiday", 
+                                  choices = c("non_workday", "public_holiday", 
                                               "sat_to_sun", "workday"),
                                   several.ok = FALSE,
                                   ignore.case = TRUE,
@@ -162,12 +162,12 @@ get_holiday <- function (year,
   dates$public_holiday <- 0
   dates[!is.na(dates$public), "public_holiday"] <- 1
   
-  # Assign holidays
-  dates$holiday <- 0
-  dates[which(dates$sat_to_sun == 1 | dates$public_holiday == 1), "holiday"] <- 1
+  # Assign non_workdays
+  dates$non_workday <- 0
+  dates[which(dates$sat_to_sun == 1 | dates$public_holiday == 1), "non_workday"] <- 1
   
   # Assign workday
-  dates$workday <- +(!dates$holiday)
+  dates$workday <- +(!dates$non_workday)
   
   # Assign trapped days
   dates$trapped <- NA
@@ -179,9 +179,9 @@ get_holiday <- function (year,
   }
   
   if ("trapped" %in% exclude_trapped_days) {
-    dates$behind <- c(NA, dates[c(1:(length(dates$holiday) - 1)), "holiday"])
-    dates$ahead <- c(dates[c(2:length(dates$holiday)), "holiday"], "1")
-    dates[which(dates$ahead == "1" & dates$behind == "1" & dates$holiday == "0" ), "trapped"] <- "t"
+    dates$behind <- c(NA, dates[c(1:(length(dates$non_workday) - 1)), "non_workday"])
+    dates$ahead <- c(dates[c(2:length(dates$non_workday)), "non_workday"], "1")
+    dates[which(dates$ahead == "1" & dates$behind == "1" & dates$non_workday == "0" ), "trapped"] <- "t"
     dates[, c("behind", "ahead")] <- c(NULL, NULL)
   }
   
@@ -193,8 +193,8 @@ get_holiday <- function (year,
   if ("public_holiday" %in% type) {
     dates[which(dates$public_holiday == 1), "select"] <- 1
   }
-  if ("holiday" %in% type) {
-    dates[which(dates$holiday == 1) , "select"] <- 1
+  if ("non_workday" %in% type) {
+    dates[which(dates$non_workday == 1) , "select"] <- 1
   }
   if ("workday" %in% type) {
     dates[which(dates$workday == 1), "select"] <- 1
@@ -215,13 +215,13 @@ get_holiday <- function (year,
   
   if (output == "raw") {
     dates <- dates[, c("date", "day_of_week", "sat_to_sun", "public_holiday", 
-                       "holiday", "workday", "public",  "trapped")]
+                       "non_workday", "workday", "public",  "trapped")]
   }
   
   if (output %in% c("fhi", "cstime")) {
     dates$mon_to_fri <- +(!dates$sat_to_sun)
     dates <- dates[, c("date", "day_of_week", "mon_to_fri", "sat_to_sun", "public_holiday", 
-                       "holiday", "workday")]
+                       "non_workday", "workday")]
     colnames(dates)[6] <- "freeday"
   }
   
