@@ -1,55 +1,59 @@
 #' @title Get the holidays or working days 
-#' @description Get the holidays or working days within one year. The 
-#'    function is used when planning sampling to excluded days or 
-#'    weeks from the sampling plan. 
+#' @description Get the holidays or working days within one year. 
+#'    The function is intended for use when planning sampling to 
+#'    excluded days or weeks from the sampling plan. 
 #'
-#' @details One may select the type of holiday or workday and input 
-#'    to \code{type} are c("holiday", "weekend", "public_holiday", 
+#' @details \code{type} is used to select the type of holiday or 
+#'    workday. Valid input are c("holiday", "sat_to_sun", "public_holiday", 
 #'    "workday"). public_holiday are the non-moveable holidays, 
-#'    Easter and Pentacost, weekend are Saturdays and Sundays, and 
-#'    holiday are public_holiday and weekend combined. workday is
+#'    Easter and Pentacost; sat_to_sun are Saturdays and Sundays; and 
+#'    holiday are public_holiday and sat_to_sun combined. workday is
 #'    the opposite of holiday when \code{exclude_trapped_days} = 
 #'    \code{FALSE}.
 #'     
-#' \code{exclude_trapped_days} is used to exclude trapped and 
-#'    days that many often takes a day off from workdays. It 
-#'    has no effect on the other types. Input "trapped" will 
-#'    exclude trapped days, "easter" will exclude Monday to 
-#'    Wednesday before Thursday and "xmas" will exclude the 
-#'    days in the week of Christmas eve until New years eve. 
+#' \code{exclude_trapped_days} is used to exclude trapped days 
+#'    and other days that many often takes a day off, i.e. the 
+#'    Easter week and the Christmas week. It is only Valid for 
+#'    workday and has no effect on the other types. Input 
+#'    "trapped" or \code{TRUE} will exclude trapped days, 
+#'    "easter" will exclude Monday to Wednesday before Thursday 
+#'    and "xmas" will exclude the days in the week of Christmas 
+#'    eve until New years eve. 
 #'    
 #'    The output is a data frame with the selected dates and the 
-#'    day_of_week (number) when \code{output} = "selected". When
+#'    day_of_week (integer) when \code{output} = "selected". When
 #'    \code{output} = "raw" the data frame includes all dates and 
-#'    the additional columns c("holiday", "weekend", "public_holiday", 
+#'    the additional columns c("holiday", "sat_to_sun", "public_holiday", 
 #'    "workday", "trapped" and "public"), see below for description.
 #'     
 #'    The output data frame for \code{output} = "raw":
 #' \tabular{ll}{
 #'    \strong{Column name} \tab \strong{Values} \cr
 #'    date \tab Date. \cr
-#'    day_of_week \tab week day number, Monday = 1, Sunday = 7.
-#'    weekend \tab Saturday and Sunday = 1, otherwise 0. \cr
+#'    day_of_week \tab Week day number, Monday = 1, Sunday = 7.
+#'    sat_to_sun \tab Saturday and Sunday = 1, otherwise 0. \cr
 #'    public_holiday \tab Public holidays = 1 otherwise = 0. \cr
 #'    holiday \tab Saturday, Sunday and public holidays = 1, otherwise = 0. \cr
-#'    workday \tab working day, the opposite of holiday when \code{exclude_trapped_days} = \code{FALSE}. \cr
+#'    workday \tab Working day, the opposite of holiday when \code{exclude_trapped_days} = \code{FALSE}. \cr
 #'    public \tab Easter = "e", Pentacost = "p", non-moveable = "n", otherwise NA.
 #'    trapped \tab trapped days (t), Easter week days (e) and/or Xmas week days (x) otherwise NA. \cr
 #' }
 #' 
-#'  When \code{output} = "fhi" the data frame is formatted as
-#'    the table xxxxx in the packages fhidata, spldata and csdata
+#'  When \code{output} %in% c("fhi", "cstime") the data frame is
+#'    formatted as the table cstime::nor_workdays_by_date  
 #'    created by National Public Health Institute (FHI).
 #'    
 #' The function is limited to years from 1968, as before 1968
-#'    Saturday was a normal working day.  
+#'    Saturday was a normal working day in Norway. Be aware that 
+#'    Saturday was a normal school day in Norway until and including 
+#'    1972. 
 #'
 #' @param year [\code{integer(1)}]\cr
 #'     Year. 
 #' @param type [\code{character}]\cr
-#'     The type of holiday or workday, see details.Defaults to "workday".
+#'     The type(s) of holiday or workday, see details. Defaults to "workday".
 #' @param exclude_trapped_days [\code{character} | \code{logical(1)}]\cr
-#'     Should trapped days and common days off be excluded from workdays, 
+#'     Should trapped days and common days off be excluded from workday?, 
 #'     see details. Defaults to \code{FALSE}.
 #' @param output [\code{character(1)}]\cr
 #'     The output format of the data frame, see details. Defaults
@@ -60,19 +64,21 @@
 #' @author Petter Hopp Petter.Hopp@@vetinst.no
 #' @export
 #' @examples
-#' \dontrun{
-#' 
+#' # Selects the public holidays
 #'  public_holidays <- get_holiday(year = 2024,
 #'                                 type = "public_holiday")
-#'                                 
+#'      
+#' # Selects workdays except the trapped days                          
 #'  workdays <- get_holiday(year = 2024,
 #'                          type = "workday",
 #'                          exclude_trapped_days = TRUE)
 #'                          
+#' # Selects workdays except days in Easter and Christmas week
 #'  workdays <- get_holiday(year = 2024,
 #'                          type = "workday",
 #'                          exclude_trapped_days = c("easter", "xmas"))
-#' }
+#' 
+
 
 get_holiday <- function (year, 
                          type = "workday", 
@@ -92,7 +98,7 @@ get_holiday <- function (year,
                                unique = TRUE)
   type <- NVIcheckmate::match_arg(x = type,
                                   choices = c("holiday", "public_holiday", 
-                                              "weekend", "workday"),
+                                              "sat_to_sun", "workday"),
                                   several.ok = FALSE,
                                   ignore.case = TRUE,
                                   add = checks)
@@ -100,7 +106,7 @@ get_holiday <- function (year,
                     checkmate::check_subset(exclude_trapped_days, choices = c("easter", "trapped", "xmas")),
                     add = checks)
   output <- NVIcheckmate::match_arg(x = output,
-                                  choices = c("fhi", "raw", "selected"),
+                                  choices = c("cstime", "fhi", "raw", "selected"),
                                   several.ok = FALSE,
                                   ignore.case = TRUE,
                                   add = checks)
@@ -143,9 +149,9 @@ get_holiday <- function (year,
   # Assign weekday number
   dates$day_of_week <- as.numeric(format(dates$date, format = "%u"))
   
-  # Assign weekend
-  dates$weekend <- 0
-  dates[which(dates$day_of_week %in% c(6, 7)), "weekend"] <- 1
+  # Assign sat_to_sun
+  dates$sat_to_sun <- 0
+  dates[which(dates$day_of_week %in% c(6, 7)), "sat_to_sun"] <- 1
   
   # Assign public holidays
   dates$public <- NA_character_
@@ -158,7 +164,7 @@ get_holiday <- function (year,
   
   # Assign holidays
   dates$holiday <- 0
-  dates[which(dates$weekend == 1 | dates$public_holiday == 1), "holiday"] <- 1
+  dates[which(dates$sat_to_sun == 1 | dates$public_holiday == 1), "holiday"] <- 1
   
   # Assign workday
   dates$workday <- +(!dates$holiday)
@@ -181,8 +187,8 @@ get_holiday <- function (year,
   
   ### SELECT ROWS TO REPORT ----
   if (output == "selected") {
-  if ("weekend" %in% type) {
-    dates[which(dates$weekend == 1), "select"] <- 1
+  if ("sat_to_sun" %in% type) {
+    dates[which(dates$sat_to_sun == 1), "select"] <- 1
   }
   if ("public_holiday" %in% type) {
     dates[which(dates$public_holiday == 1), "select"] <- 1
@@ -208,20 +214,15 @@ get_holiday <- function (year,
   }
   
   if (output == "raw") {
-    dates <- dates[, c("date", "day_of_week", "weekend", "public_holiday", 
+    dates <- dates[, c("date", "day_of_week", "sat_to_sun", "public_holiday", 
                        "holiday", "workday", "public",  "trapped")]
   }
   
-  if (output == "fhi") {
-    dates$mon_to_fri <- 0
-    dates[which(dates$day_of_week <= 5), "mon_to_fri"] <- 1
-    
-    dates <- dates[, c("date", "day_of_week", "mon_to_fri", "weekend", "public_holiday", 
+  if (output %in% c("fhi", "cstime")) {
+    dates$mon_to_fri <- +(!dates$sat_to_sun)
+    dates <- dates[, c("date", "day_of_week", "mon_to_fri", "sat_to_sun", "public_holiday", 
                        "holiday", "workday")]
-    
-    # sat_to_sun
-    # freeday
-
+    colnames(dates)[6] <- "freeday"
   }
   
   return(dates)
