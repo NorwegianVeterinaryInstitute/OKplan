@@ -3,22 +3,22 @@ OKplan 0.6.1.9000 - (2023-##-##)
 
 New features:
 
--
+- Created get_holiday to get the non-workdays or workdays within one year.
 
 
 Bug fixes:
 
--
+- To come.
 
 
 Other changes:
 
--
+- To come.
 
 
 BREAKING CHANGES:
 
--
+- To come.
 
 
 OKplan 0.6.1 - (2023-10-09)
