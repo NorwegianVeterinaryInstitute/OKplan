@@ -1,15 +1,15 @@
-#' @title Get the holidays or working days 
-#' @description Get the non_workdays or working days within one year. 
+#' @title Get the holidays or workdays 
+#' @description Get the non-workdays or workdays within one year. 
 #'    The function is intended for use when planning sampling to 
 #'    excluded days or weeks from the sampling plan. 
 #'
-#' @details \code{type} is used to select the type of non_workday or 
-#'    workday. Valid input are c("non_workday", "sat_to_sun", "public_holiday", 
-#'    "workday"). public_holiday are the non-moveable holidays, 
-#'    Easter and Pentacost; sat_to_sun are Saturdays and Sundays; and 
-#'    non_workday are public_holiday and sat_to_sun combined. workday is
-#'    the opposite of non_workday when \code{exclude_trapped_days} = 
-#'    \code{FALSE}.
+#' @details \code{type} is used to select the type of non-workday or 
+#'    workday. Valid input are one of c("non_workday", "sat_to_sun", 
+#'    "public_holiday", "workday"). public_holiday are the non-moveable 
+#'    holidays, Easter and Pentacost; sat_to_sun are Saturdays and 
+#'    Sundays; and non_workday are public_holiday and sat_to_sun combined.
+#'    workday is the opposite of non_workday when 
+#'    \code{exclude_trapped_days} = \code{FALSE}.
 #'     
 #' \code{exclude_trapped_days} is used to exclude trapped days 
 #'    and other days that many often takes a day off, i.e. the 
@@ -34,7 +34,7 @@
 #'    sat_to_sun \tab Saturday and Sunday = 1, otherwise 0. \cr
 #'    public_holiday \tab Public holidays = 1 otherwise = 0. \cr
 #'    non_workday \tab Saturday, Sunday and public holidays = 1, otherwise = 0. \cr
-#'    workday \tab Working day, the opposite of non_workday when \code{exclude_trapped_days} = \code{FALSE}. \cr
+#'    workday \tab Workday, the opposite of non-workday when \code{exclude_trapped_days} = \code{FALSE}. \cr
 #'    public \tab Easter = "e", Pentacost = "p", non-moveable = "n", otherwise NA.
 #'    trapped \tab trapped days (t), Easter week days (e) and/or Xmas week days (x) otherwise NA. \cr
 #' }
@@ -44,14 +44,14 @@
 #'    created by National Public Health Institute (FHI).
 #'    
 #' The function is limited to years from 1968, as before 1968
-#'    Saturday was a normal working day in Norway. Be aware that 
+#'    Saturday was a normal workday in Norway. Be aware that 
 #'    Saturday was a normal school day in Norway until and including 
 #'    1972. 
 #'
 #' @param year [\code{integer(1)}]\cr
 #'     Year. 
-#' @param type [\code{character}]\cr
-#'     The type(s) of non_workday or workday, see details. Defaults to "workday".
+#' @param type [\code{character(1)}]\cr
+#'     The type of non_workday or workday, see details. Defaults to "workday".
 #' @param exclude_trapped_days [\code{character} | \code{logical(1)}]\cr
 #'     Should trapped days and common days off be excluded from workday?, 
 #'     see details. Defaults to \code{FALSE}.
@@ -128,7 +128,7 @@ get_holiday <- function (year,
   OE <- 7 - ((OG-SZ) %% 7) 
   
   easterday <- as.Date(paste0(year, "-03-01")) - 1 + OG + OE
-  easter <- rep(easterday, 4) + c(-3, -2, 0, 1)
+  easter <- rep(easterday, 5) + c(-7, -3, -2, 0, 1)
   easter_trapped <- rep(easterday, 3) + c(-6, -5, -4)
   pentacost <- rep(easterday, 3) + c(39, 49, 50)
   non_moveable <- as.Date(paste0(year, c("-01-01", "-05-01", "-05-17", "-12-25", "-12-26"))) 
