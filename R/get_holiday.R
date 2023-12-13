@@ -136,7 +136,7 @@ get_holiday <- function(year,
   }
   # as.Date(paste0(year, "-12-31")) - as.numeric(format(as.Date(paste0(year, "-12-31")), "%u"))
 
-  xmas_trapped <- rep(as.Date(paste0(year, "-12-31")), days_before_newyear) + c(-(days_before_newyear - 1):0)
+  xmas_trapped <- rep(as.Date(paste0(year, "-12-31")), days_before_newyear + 1) + c(-(days_before_newyear):0)
 
   ### CATEGORISE INTO HOLIDAYS ----
   # create data frame with all dates for year[i]
@@ -176,7 +176,7 @@ get_holiday <- function(year,
     dates[which(dates$date %in% xmas_trapped), "trapped"] <- "x"
   }
 
-  if ("trapped" %in% exclude_trapped_days) {
+  if ("trapped" %in% exclude_trapped_days | isTRUE(exclude_trapped_days)) {
     dates$behind <- c(NA, dates[c(1:(length(dates$non_workday) - 1)), "non_workday"])
     dates$ahead <- c(dates[c(2:length(dates$non_workday)), "non_workday"], "1")
     dates[which(dates$ahead == "1" & dates$behind == "1" & dates$non_workday == "0"), "trapped"] <- "t"
