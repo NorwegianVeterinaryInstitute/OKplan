@@ -1,11 +1,12 @@
 #' @title Data: Column standards for OK sampling plans.
 #'
-#' @description A data frame with the column standards for data frames and Excel
-#'    sheets produced when planning of the Norwegian surveillance programmes.
-#'    The raw data for the column standards can be edited in the original Excel
-#'    table. The the code for preparing of the data frame is written in
-#'    "./data-raw/generate_OK_column_standards". The \code{OK_column_standards}
-#'    is used as input for
+#' @description A data frame with the column standards for data frames
+#'    and Excel sheets produced when planning the sampling schemes for
+#'    the Norwegian surveillance programmes. The raw data for the column
+#'    standards can be edited in the original Excel table. The code for
+#'    preparing of the data frame is written in
+#'    "./data-raw/generate_OK_column_standards". The
+#'    \code{OK_column_standards} is used as input for
 #'    \ifelse{html}{\code{\link[NVIdb]{standardize_columns}}}{\code{NVIdb::standardize_columns}}.
 #'
 #' @format A data frame with 14 variables:
