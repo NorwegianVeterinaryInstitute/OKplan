@@ -116,7 +116,7 @@ test_that("Errors for get_holiday ", {
                 type = "weekend",
                 exclude_trapped_days = "easter",
                 output = "selected"),
-    regexpr = "Variable 'type': Must be element of set",
+    regexp = "Variable 'type': Must be element of set",
     fixed = TRUE)
 
   expect_error(
@@ -125,7 +125,7 @@ test_that("Errors for get_holiday ", {
                          "sat_to_sun", "workday"),
                 exclude_trapped_days = "easter",
                 output = "selected"),
-    regexpr = "Variable 'type': Must have length 1, but has length 4",
+    regexp = "Variable 'type': Must have length 1, but has length 4",
     fixed = TRUE)
 
   expect_error(
@@ -133,7 +133,7 @@ test_that("Errors for get_holiday ", {
                 type = c("non_workday"),
                 exclude_trapped_days = "easter",
                 output = "selected"),
-    regexpr = "'year' failed: Must be of type 'integerish', not 'character'.",
+    regexp = "'year' failed: Must be of type 'integerish', not 'character'.",
     fixed = TRUE)
 
   expect_error(
@@ -141,7 +141,7 @@ test_that("Errors for get_holiday ", {
                 type = c("public_holiday"),
                 exclude_trapped_days = "exclude",
                 output = "selected"),
-    regexpr = "{'easter','trapped','xmas'}, but has additional elements",
+    regexp = "{'easter','trapped','xmas'}, but has additional elements",
     fixed = TRUE)
 
   expect_error(
@@ -149,7 +149,7 @@ test_that("Errors for get_holiday ", {
                 type = c("sat_to_sun"),
                 exclude_trapped_days = "easter",
                 output = c("raw", "fhi")),
-    regexpr = "Variable 'output': Must have length 1, but has length 2",
+    regexp = "Variable 'output': Must have length 1, but has length 2",
     fixed = TRUE)
 
   expect_error(
@@ -157,7 +157,7 @@ test_that("Errors for get_holiday ", {
                 type = c("sat_to_sun"),
                 exclude_trapped_days = "easter",
                 output = "csdata"),
-    regexpr = "{'cstime','fhi','raw','selected'}, but is 'csdata'",
+    regexp = "{'cstime','fhi','raw','selected'}, but is 'csdata'",
     fixed = TRUE)
 
   options(width = unlist(linewidth))
