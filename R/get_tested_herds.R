@@ -24,7 +24,7 @@
 
 #' @param eos_table [\code{character(1)}]\cr
 #'     EOS table name.
-#' @param year [\code{numeric(1)}]\cr
+#' @param year [\code{numeric}]\cr
 #'     One or more years that should be selected. Defaults
 #'     to previous year.
 #' @param species [\code{character}]\cr

@@ -18,7 +18,7 @@ get_tested_herds(
 \item{eos_table}{[\code{character(1)}]\cr
 EOS table name.}
 
-\item{year}{[\code{numeric(1)}]\cr
+\item{year}{[\code{numeric}]\cr
 One or more years that should be selected. Defaults
 to previous year.}
 
