@@ -24,7 +24,7 @@
 
 #' @param eos_table [\code{character(1)}]\cr
 #'     EOS table name.
-#' @param year [\code{numeric(1)}]\cr
+#' @param year [\code{numeric}]\cr
 #'     One or more years that should be selected. Defaults
 #'     to previous year.
 #' @param species [\code{character}]\cr
@@ -96,52 +96,60 @@ get_tested_herds <- function(eos_table,
     dfx <- subset(dfx, dfx$driftsform %in% production)
   }
 
-  column_ant <- grep("ant_", colnames(dfx), value = TRUE)
-  column_sum <- gsub("ant_", "sum_", column_ant)
-  for (column_name in column_ant) {
-    dfx[, column_name] <- as.numeric(dfx[, column_name])
-  }
-  agg_dfx <- stats::aggregate(x = dfx[, column_ant], by = list(dfx$eier_lokalitetnr), FUN = "sum")
+  if (dim(dfx)[1] > 0) {
+    column_ant <- grep("ant_", colnames(dfx), value = TRUE)
+    column_sum <- gsub("ant_", "sum_", column_ant)
+    for (column_name in column_ant) {
+      dfx[, column_name] <- as.numeric(dfx[, column_name])
+    }
 
-  colnames(agg_dfx) <- c("eier_lokalitetnr", column_sum)
-  dfx <- merge(dfx, agg_dfx, by = "eier_lokalitetnr")
+    agg_dfx <- stats::aggregate(x = dfx[, column_ant], by = list(dfx$eier_lokalitetnr), FUN = "sum", na.rm = TRUE)
 
-  # Select herd above minimum number of samples
-  if (min_prover > -1) {
-    if (isFALSE(tested)) {
-      if (any(isTRUE(grep("sum_prover", column_sum)))) {
-        dfx <- subset(dfx, dfx$sum_prover >= min_prover)
-      } else {
-        if (length(column_sum) == 1) {
-          dfx <- subset(dfx, dfx[, "column_sum"] >= min_prover)
-          warning(paste("The number of received samples could not be calculated,",
-                        "but the number of tested samples were calculated using",
-                        paste(column_ant, collapse = ", ")))
+    colnames(agg_dfx) <- c("eier_lokalitetnr", column_sum)
+    dfx <- merge(dfx, agg_dfx, by = "eier_lokalitetnr")
+
+    # Select herd above minimum number of samples
+    if (min_prover > -1) {
+      if (isFALSE(tested)) {
+        if (any(grepl("sum_prover", column_sum))) {
+          dfx <- subset(dfx, dfx$sum_prover >= min_prover)
         } else {
-          stop(paste0("The number of received samples could not be calculated, ",
-                     "and the number of tested samples were given in the columns ",
-                     paste(column_ant, collapse = ", "),
-                     ". You need to specify the disease to calculate the number of tested samples."))
+          if (length(column_sum) == 1) {
+            dfx <- subset(dfx, dfx[, column_sum] >= min_prover)
+            warning(paste("The number of received samples could not be calculated,",
+                          "but the number of tested samples were calculated using",
+                          paste(column_ant, collapse = ", ")))
+          } else {
+            stop(paste0("The number of received samples could not be calculated, ",
+                        "and the number of tested samples were given in the columns ",
+                        paste(column_ant, collapse = ", "),
+                        ". You need to specify the disease to calculate the number of tested samples."))
+          }
+        }
+      }
+      if (isTRUE(tested)) {
+        if (any(grepl(paste0("sum_und_", tolower(disease), "$"), column_sum))) {
+          dfx <- subset(dfx, dfx[, paste0("sum_und_", tolower(disease))] >= min_prover)
+        } else {
+          if (length(column_sum) == 1) {
+            dfx <- subset(dfx, dfx[, column_sum] >= min_prover)
+            if (!any(grepl(paste0("sum_und_", tolower(disease)), column_sum))) {
+              warning(paste("The number of tested samples were calculated using", column_ant))
+            }
+          } else {
+            stop(paste0("The number of tested samples were given in the columns ",
+                        paste(column_ant, collapse = ", "),
+                        ". You need to specify the disease to calculate the number of tested samples."))
+          }
         }
       }
     }
-    if (isTRUE(tested)) {
-      if (any(isTRUE(grep(paste0("sum_und_", tolower(disease)), column_sum)))) {
-        dfx <- subset(dfx, dfx[, paste0("sum_und_", tolower(disease))] >= min_prover)
-      } else {
-        if (length(column_sum) == 1) {
-          dfx <- subset(dfx, dfx[, "column_sum"] >= min_prover)
-          warning(paste("The number of tested samples were calculated using", column_ant))
-        } else {
-          stop(paste0("The number of tested samples were given in the columns ",
-                      paste(column_ant, collapse = ", "),
-                      ". You need to specify the disease to calculate the number of tested samples."))
-        }
-      }
-    }
-    dfx <- subset(dfx, dfx[, paste0("sum_und_", tolower(disease))] >= min_prover)
   }
 
+  if (dim(dfx)[1] == 0) {
+    warning(paste("There where no saker fulfilling the selection criterea.",
+                  "Please check the selection criterea."))
+  }
   # Sorts data in original order and removes sort key
   dfx <- dfx[order(dfx$original_sort_order), ]
   dfx$original_sort_order <- NULL

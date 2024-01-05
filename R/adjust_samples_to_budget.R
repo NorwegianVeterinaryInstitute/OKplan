@@ -123,10 +123,13 @@ adjust_samples_to_budget <- function(data,
     dplyr::mutate(total_estimated = sum(dplyr::across(dplyr::all_of(sample_to_adjust)), na.rm = TRUE)) %>%
     dplyr::mutate(included = dplyr::case_when(dplyr::across(dplyr::all_of(sample_to_adjust)) > 0 ~ 1,
                                               TRUE ~ 0)) %>%
-    dplyr::mutate(n_units = sum(.data$included, na.rm = TRUE)) %>%
+    # dplyr::mutate(n_units = sum(.data$included, na.rm = TRUE)) %>%
+    dplyr::mutate(n_units = sum(dplyr::across(dplyr::all_of("included")), na.rm = TRUE)) %>%
     dplyr::mutate(difference = .data$total_estimated - as.numeric(.data$budget)) %>%
+    # dplyr::mutate(difference = as.numeric(dplyr::all_of("total_estimated")) - as.numeric(dplyr::all_of("budget"))) %>% # This don't work
     dplyr::ungroup() %>%
-    dplyr::group_by(dplyr::across(dplyr::all_of(group)), .data$included) %>%
+    # dplyr::group_by(dplyr::across(dplyr::all_of(group)), .data$included) %>%
+    dplyr::group_by(dplyr::across(dplyr::all_of(c(group, "included")))) %>%
     dplyr::mutate(n_seq = 1:dplyr::n()) %>%
     dplyr::ungroup()
 
