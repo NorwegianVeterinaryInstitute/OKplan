@@ -79,9 +79,9 @@
 #'                          exclude_trapped_days = c("easter", "xmas"))
 #'
 get_holiday <- function(year,
-                         type = "workday",
-                         exclude_trapped_days = FALSE,
-                         output = "selected") {
+                        type = "workday",
+                        exclude_trapped_days = FALSE,
+                        output = "selected") {
 
   ### ARGUMENT CHECKING ----
   # Object to store check-results
@@ -104,10 +104,10 @@ get_holiday <- function(year,
                     checkmate::check_subset(exclude_trapped_days, choices = c("easter", "trapped", "xmas")),
                     add = checks)
   output <- NVIcheckmate::match_arg(x = output,
-                                  choices = c("cstime", "fhi", "raw", "selected"),
-                                  several.ok = FALSE,
-                                  ignore.case = TRUE,
-                                  add = checks)
+                                    choices = c("cstime", "fhi", "raw", "selected"),
+                                    several.ok = FALSE,
+                                    ignore.case = TRUE,
+                                    add = checks)
 
   # Report check-results
   checkmate::reportAssertions(checks)
@@ -141,7 +141,7 @@ get_holiday <- function(year,
   ### CATEGORISE INTO HOLIDAYS ----
   # create data frame with all dates for year[i]
   dates <- as.data.frame(matrix(data = c(as.Date(paste0(year, "-01-01")):as.Date(paste0(year, "-12-31"))),
-                                 dimnames = list(NULL, "date")))
+                                dimnames = list(NULL, "date")))
   dates$date <- as.Date(dates$date, origin = "1970-01-01")
 
   # Assign weekday number
@@ -185,28 +185,28 @@ get_holiday <- function(year,
 
   ### SELECT ROWS TO REPORT ----
   if (output == "selected") {
-  if ("sat_to_sun" %in% type) {
-    dates[which(dates$sat_to_sun == 1), "select"] <- 1
-  }
-  if ("public_holiday" %in% type) {
-    dates[which(dates$public_holiday == 1), "select"] <- 1
-  }
-  if ("non_workday" %in% type) {
-    dates[which(dates$non_workday == 1), "select"] <- 1
-  }
-  if ("workday" %in% type) {
-    dates[which(dates$workday == 1), "select"] <- 1
-    if ("easter" %in% exclude_trapped_days) {
-      dates[which(dates$trapped == "e"), "select"] <- 0
+    if ("sat_to_sun" %in% type) {
+      dates[which(dates$sat_to_sun == 1), "select"] <- 1
     }
-    if ("xmas" %in% exclude_trapped_days) {
-      dates[which(dates$trapped == "x"), "select"] <- 0
+    if ("public_holiday" %in% type) {
+      dates[which(dates$public_holiday == 1), "select"] <- 1
     }
+    if ("non_workday" %in% type) {
+      dates[which(dates$non_workday == 1), "select"] <- 1
+    }
+    if ("workday" %in% type) {
+      dates[which(dates$workday == 1), "select"] <- 1
+      if ("easter" %in% exclude_trapped_days) {
+        dates[which(dates$trapped == "e"), "select"] <- 0
+      }
+      if ("xmas" %in% exclude_trapped_days) {
+        dates[which(dates$trapped == "x"), "select"] <- 0
+      }
 
-    if ("trapped" %in% exclude_trapped_days | isTRUE(exclude_trapped_days)) {
-      dates[which(dates$trapped == "t"), "select"] <- 0
+      if ("trapped" %in% exclude_trapped_days | isTRUE(exclude_trapped_days)) {
+        dates[which(dates$trapped == "t"), "select"] <- 0
+      }
     }
-  }
     dates <- subset(dates, dates$select == 1)
     dates <- dates[, c("date", "day_of_week")]
   }
