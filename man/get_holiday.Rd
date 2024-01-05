@@ -71,8 +71,8 @@ Get the non-workdays or workdays within one year.
    trapped \tab character \tab trapped days (t), Easter week days (e) and/or Xmas week days (x) otherwise NA. \cr
 }
 
- When \code{output} %in% c("fhi", "cstime") the data frame is
-   formatted as the table cstime::nor_workdays_by_date
+ When \code{output \%in\%} \code{c("fhi", "cstime")} the data frame is
+   formatted as the table \code{cstime::nor_workdays_by_date}
    created by National Public Health Institute (FHI).
 
 The function is limited to years from 1968, as before 1968
