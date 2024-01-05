@@ -76,6 +76,9 @@ test_that("Adjusting sample number", {
 
 test_that("Errors for adjust_sample_number", {
 
+  linewidth <- options("width")
+  options(width = 80)
+
   total_budget <- 150
   # Add data frame with sample number to adjust
   x <- as.data.frame(cbind(c(1:10),
@@ -88,7 +91,7 @@ test_that("Errors for adjust_sample_number", {
                              sample_to_adjust = "sample",
                              adjusted_sample = "new_sample",
                              adjust_by = 6),
-    regexpr = "Variable \'data\': Must be of type \'data.frame\'")
+    regexp = "Variable \'data\': Must be of type \'data.frame\'")
 
   expect_error(
     adjust_samples_to_budget(data = x,
@@ -96,7 +99,7 @@ test_that("Errors for adjust_sample_number", {
                              sample_to_adjust = "sample",
                              adjusted_sample = "new_sample",
                              adjust_by = 6),
-    regexpr = "Variable \'budget\': Element 1 is not >= 1")
+    regexp = "Element 1 is not >= 1")
 
   expect_error(
     adjust_samples_to_budget(data = x,
@@ -104,7 +107,8 @@ test_that("Errors for adjust_sample_number", {
                              sample_to_adjust = "samples",
                              adjusted_sample = "new_sample",
                              adjust_by = 6),
-    regexpr = "Variable \'sample_to_adjust\': Must be element of set {\'id\',\'sample\'}, but is \'samples\'")
+    regexp = "Variable 'sample_to_adjust': Must be element of set {'id','sample'},",
+    fixed = TRUE)
 
   expect_error(
     adjust_samples_to_budget(data = x,
@@ -112,7 +116,7 @@ test_that("Errors for adjust_sample_number", {
                              sample_to_adjust = "sample",
                              adjusted_sample = total_budget,
                              adjust_by = 6),
-    regexpr = "Variable \'adjusted_sample\': Must be of type \'character\', not \'double\'")
+    regexp = "Variable \'adjusted_sample\': Must be of type \'character\', not")
 
   expect_error(
     adjust_samples_to_budget(data = x,
@@ -120,6 +124,7 @@ test_that("Errors for adjust_sample_number", {
                              sample_to_adjust = "sample",
                              adjusted_sample = "new_sample",
                              adjust_by = 0),
-    regexpr = "Variable \'adjust_by\': Element 1 is not >= 1")
+    regexp = "Variable \'adjust_by\': Element 1 is not >= 1")
 
+  options(width = unlist(linewidth))
 })
