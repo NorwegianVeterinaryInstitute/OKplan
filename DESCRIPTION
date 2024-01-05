@@ -26,7 +26,7 @@ Imports:
     rlang,
     stats,
     NVIbatch (>= 0.4.0),
-    NVIcheckmate (>= 0.6.0),
+    NVIcheckmate (>= 0.7.3),
     NVIdb (>= 0.3.0),
     NVIpretty (>= 0.4.0),
     OKcheck
