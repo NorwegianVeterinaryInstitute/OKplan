@@ -4,15 +4,16 @@
 #'     selected units is standardised and formatted in order to be submitted
 #'     without further formatting.
 #' @details The data must originate from an "okplan" file and
-#'     the function uses standardize_columns to  select, order, format and
-#'     style the columns. The formatting information is either taken
-#'     from \code{\link{OK_column_standards}} or can be input as
-#'     a list.
+#'     the function uses
+#'     \ifelse{html}{\code{\link[NVIdb]{standardize_columns}}}{\code{NVIdb::standardize_columns}}
+#'     to  select, order, format and style the columns. The formatting
+#'     information is either taken from \code{\link{OK_column_standards}} or
+#'     can be input as a list.
 #'
 #' When using \code{\link{OK_column_standards}}, the formatting information is
 #'     taken in accord with the argument \code{dbsource}. If the formatting
 #'     needs to be edited, it must be edited in the general source file for
-#'     column standards and thereafter, built into a new version of \code{OKplan}.
+#'     column standards and thereafter, build it into a new version of \code{OKplan}.
 #'     As this can be a tedious process, there is a possibility to input the
 #'     formatting information as a list.
 #'
@@ -43,7 +44,7 @@
 #'
 #' When \code{calculate_sum} is \code{TRUE}, a line with the sum will be appended.
 #'    The default is to calculate the sum of the column "ant_prover". If the sum
-#'    should be calculated for one or more other columns, you may give thecolumn
+#'    should be calculated for one or more other columns, you may give the column
 #'    names as input to the argument \code{column} that will be passed to
 #'    \code{\link{append_sum_line}}. The sum will only be appended for columns
 #'    that exist in the data.
