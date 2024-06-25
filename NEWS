@@ -8,7 +8,7 @@ New features:
 
 Bug fixes:
 
--
+- `append_sum_line` now doesn't give an error when trying to sum first column and put a pretext in the column to the left.
 
 
 Other changes:
