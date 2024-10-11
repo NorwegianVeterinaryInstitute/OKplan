@@ -14,10 +14,10 @@ append_date_generated_line(
 \item{data}{[\code{data.frame}]\cr
 The data to which an additional row with the generate date should be added.}
 
-\item{pretext}{[\code{character}]\cr
+\item{pretext}{[\code{character(1)}]\cr
 The explaining text before the date value. Defaults to "Datauttrekket ble gjort".}
 
-\item{date}{[\code{character}]\cr
+\item{date}{[\code{character(1)}]\cr
 Date for generating the data. Defaults to
 \ifelse{html}{\code{\link[base]{Sys.Date}}}{\code{base::Sys.Date}}.}
 }
