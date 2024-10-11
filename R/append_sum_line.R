@@ -61,6 +61,8 @@ append_sum_line <- function(data, column, pretext = "Sum", position = "left") {
   }
 
   # Append a line with the sum. The pretext is placed in accord with position
+  # If the sum should be applied to the first column, the text "Sum" cannot be included
+  if (colnames(data)[1] %in% column) {position <- "none"}
   if (position == "none") {
     data[dim(data)[1] + 1, c(column)] <- c(sum_column)
   }
