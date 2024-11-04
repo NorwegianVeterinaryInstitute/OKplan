@@ -53,7 +53,7 @@ get_tested_herds <- function(eos_table,
                              disease = NULL,
                              min_prover = -1,
                              tested = FALSE) {
-  
+
   # ARGUMENT CHECKING ----
   # Object to store check-results
   checks <- checkmate::makeAssertCollection()
@@ -76,17 +76,17 @@ get_tested_herds <- function(eos_table,
   checkmate::assert_flag(tested, add = checks)
   # Report check-results
   checkmate::reportAssertions(checks)
-  
-  
+
+
   dfx <- NVIpjsr::read_eos_data(eos_table = eos_table,
                                 year = year)
   dfx$original_sort_order <- seq_len(nrow(dfx))
-  
+
   dfx[which(nchar(dfx$eier_lokalitetnr) == 10), "eier_lokalitetnr"] <-
     substr(dfx[which(nchar(dfx$eier_lokalitetnr) == 10), "eier_lokalitetnr"], 1, 8)
-  
+
   dfx <- subset(dfx, !is.na(dfx$eier_lokalitetnr) & dfx$eier_lokalitetnr != "")
-  
+
   # Select species
   if (!is.null(species) & "art" %in% colnames(dfx)) {
     dfx <- subset(dfx, dfx$art %in% species)
@@ -95,19 +95,19 @@ get_tested_herds <- function(eos_table,
   if (!is.null(production) & "driftsform" %in% colnames(dfx)) {
     dfx <- subset(dfx, dfx$driftsform %in% production)
   }
-  
+
   if (dim(dfx)[1] > 0) {
     column_ant <- grep("ant_", colnames(dfx), value = TRUE)
     column_sum <- gsub("ant_", "sum_", column_ant)
     for (column_name in column_ant) {
       dfx[, column_name] <- as.numeric(dfx[, column_name])
     }
-    
+
     agg_dfx <- stats::aggregate(x = dfx[, column_ant], by = list(dfx$eier_lokalitetnr), FUN = "sum", na.rm = TRUE)
-    
+
     colnames(agg_dfx) <- c("eier_lokalitetnr", column_sum)
     dfx <- merge(dfx, agg_dfx, by = "eier_lokalitetnr")
-    
+
     # Select herd above minimum number of samples
     if (min_prover > -1) {
       if (isFALSE(tested)) {
@@ -145,7 +145,7 @@ get_tested_herds <- function(eos_table,
       }
     }
   }
-  
+
   if (dim(dfx)[1] == 0) {
     warning(paste("There where no saker fulfilling the selection criterea.",
                   "Please check the selection criterea."))
@@ -153,7 +153,7 @@ get_tested_herds <- function(eos_table,
   # Sorts data in original order and removes sort key
   dfx <- dfx[order(dfx$original_sort_order), ]
   dfx$original_sort_order <- NULL
-  
+
   return(dfx)
 }
 
