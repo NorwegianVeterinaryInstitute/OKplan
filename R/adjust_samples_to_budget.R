@@ -44,7 +44,6 @@
 #'
 #' @author Petter Hopp Petter.Hopp@@vetinst.no
 #' @importFrom rlang .data
-#' @importFrom magrittr "%>%"
 #' @export
 #' @examples
 #' library(OKplan)
@@ -116,21 +115,21 @@ adjust_samples_to_budget <- function(data,
   difference[, sample_to_adjust] <- as.numeric(difference[, sample_to_adjust])
   group <- c("nogroup", group)
 
-  difference <- difference %>%
-    dplyr::mutate(original_order = 1:dplyr::n()) %>%
-    dplyr::arrange(dplyr::across(dplyr::all_of(c(group, sample_to_adjust)))) %>%
-    dplyr::group_by(dplyr::across(dplyr::all_of(group))) %>%
-    dplyr::mutate(total_estimated = sum(dplyr::across(dplyr::all_of(sample_to_adjust)), na.rm = TRUE)) %>%
+  difference <- difference |>
+    dplyr::mutate(original_order = 1:dplyr::n()) |>
+    dplyr::arrange(dplyr::across(dplyr::all_of(c(group, sample_to_adjust)))) |>
+    dplyr::group_by(dplyr::across(dplyr::all_of(group))) |>
+    dplyr::mutate(total_estimated = sum(dplyr::across(dplyr::all_of(sample_to_adjust)), na.rm = TRUE)) |>
     dplyr::mutate(included = dplyr::case_when(dplyr::across(dplyr::all_of(sample_to_adjust)) > 0 ~ 1,
-                                              TRUE ~ 0)) %>%
-    # dplyr::mutate(n_units = sum(.data$included, na.rm = TRUE)) %>%
-    dplyr::mutate(n_units = sum(dplyr::across(dplyr::all_of("included")), na.rm = TRUE)) %>%
-    dplyr::mutate(difference = .data$total_estimated - as.numeric(.data$budget)) %>%
-    # dplyr::mutate(difference = as.numeric(dplyr::all_of("total_estimated")) - as.numeric(dplyr::all_of("budget"))) %>% # This don't work
-    dplyr::ungroup() %>%
-    # dplyr::group_by(dplyr::across(dplyr::all_of(group)), .data$included) %>%
-    dplyr::group_by(dplyr::across(dplyr::all_of(c(group, "included")))) %>%
-    dplyr::mutate(n_seq = 1:dplyr::n()) %>%
+                                              TRUE ~ 0)) |>
+    # dplyr::mutate(n_units = sum(.data$included, na.rm = TRUE)) |>
+    dplyr::mutate(n_units = sum(dplyr::across(dplyr::all_of("included")), na.rm = TRUE)) |>
+    dplyr::mutate(difference = .data$total_estimated - as.numeric(.data$budget)) |>
+    # dplyr::mutate(difference = as.numeric(dplyr::all_of("total_estimated")) - as.numeric(dplyr::all_of("budget"))) |> # This don't work
+    dplyr::ungroup() |>
+    # dplyr::group_by(dplyr::across(dplyr::all_of(group)), .data$included) |>
+    dplyr::group_by(dplyr::across(dplyr::all_of(c(group, "included")))) |>
+    dplyr::mutate(n_seq = 1:dplyr::n()) |>
     dplyr::ungroup()
 
 

@@ -12,7 +12,7 @@
 
 ## Other changes
 
--
+- Updated internal dependencies. Is now dependent on R v4.1.0 and NVIpjsr.
 
 
 ## BREAKING CHANGES
