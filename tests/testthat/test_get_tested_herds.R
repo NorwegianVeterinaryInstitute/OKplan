@@ -128,7 +128,7 @@ test_that("get tested herds for paratuberculosis in ruminants", {
 test_that("Errors for get_tested_herds", {
   # skip if no connection to 'EOS' have been established
   skip_if_not(dir.exists(set_dir_NVI("EOS")))
-  
+
   linewidth <- options("width")
   options(width = 80)
 
