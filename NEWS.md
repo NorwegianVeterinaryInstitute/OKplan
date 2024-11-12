@@ -1,9 +1,4 @@
-# OKplan 0.7.0.9001 - (2024-##-##)
-
-## New features
-
--
-
+# OKplan 0.7.1 - (2024-11-12)
 
 ## Bug fixes
 
@@ -12,12 +7,7 @@
 
 ## Other changes
 
-- Updated internal dependencies. Is now dependent on R v4.1.0 and NVIpjsr.
-
-
-## BREAKING CHANGES
-
--
+- Updated internal dependencies. It is now dependent on R v4.1.0 and NVIpjsr.
 
 
 # OKplan 0.7.0 - (2024-01-05)
