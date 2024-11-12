@@ -43,6 +43,40 @@ test_that("Append sum in last row", {
 
 })
 
+test_that("Append sum, no pretext", {
+
+  # Make example data
+  x <- as.data.frame(cbind("\u00C5r" = 2021, "Rapport" = "Brucellose hos geit, utvalgsliste",
+                           "MT regionnr" = "M21000", "MT region" = "Region Stor-Oslo",
+                           "MT avdelingsnr" = "M21150", "MT avdeling" = "Romerike",
+                           "Produsentnr" = "30303030", "Foretak" = "XXX XXXXX",
+                           "Postnr" = "0468", "Poststed" = "OSLO", "Antall prover" = 26, "Antall prover2" = 13))
+  # Probably first makes a matrix, therefore "Antall prover" is character.
+  x$`Antall prover` <- as.numeric(x$`Antall prover`)
+  x$`Antall prover2` <- as.numeric(x$`Antall prover2`)
+
+  # Include row with generated date, position = "none"
+  y <- append_sum_line(data = x, column = c("Antall prover"), pretext = "Sum", position = "none")
+
+  expect_true(all(is.na(y[dim(y)[1], c(1:(dim(y)[2] - 2))])))
+  expect_equal(y[dim(y)[1], "Antall prover"], 26)
+
+
+  # Include row with generated date, sum two columns, not possible to include "Sum"
+  x <- x[, c("Antall prover", "Antall prover2")]
+  y <- append_sum_line(data = x, column = c("Antall prover"),
+                       pretext = "Sum", position = "left")
+
+  expect_equal(y[dim(y)[1], "Antall prover"], 26)
+  expect_true(is.na(y[dim(y)[1], "Antall prover2"]))
+
+  y <- append_sum_line(data = x, column = c("Antall prover", "Antall prover2"),
+                       pretext = "Sum", position = "left")
+
+  expect_equal(y[dim(y)[1], "Antall prover"], 26)
+  expect_equal(y[dim(y)[1], "Antall prover2"], 13)
+})
+
 
 test_that("Errors for append_sum_line", {
 

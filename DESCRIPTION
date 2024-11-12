@@ -1,7 +1,7 @@
 Package: OKplan
 Title: Tools to facilitate the Planning of the annual Surveillance Programmes
-Version: 0.7.0
-Date: 2024-01-05
+Version: 0.7.1
+Date: 2024-11-12
 Authors@R: 
   c(person(given = "Petter",
            family = "Hopp",
@@ -14,20 +14,20 @@ Description: Provide tools to facilitate the planning of the annual surveillance
     NFSA.
 URL: https://github.com/NorwegianVeterinaryInstitute/OKplan
 BugReports: https://github.com/NorwegianVeterinaryInstitute/OKplan/issues
-Depends: R (>= 3.5.0)
+Depends: R (>= 4.1.0)
 License: BSD_3_clause + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
     checkmate,
     dplyr,
-    magrittr,
     openxlsx,
     rlang,
     stats,
     NVIbatch (>= 0.4.0),
     NVIcheckmate (>= 0.7.3),
-    NVIdb (>= 0.3.0),
+    NVIdb,
+    NVIpjsr,
     NVIpretty (>= 0.4.0),
     OKcheck
 Suggests:
@@ -47,10 +47,11 @@ Remotes:
     NorwegianVeterinaryInstitute/NVIbatch,
     NorwegianVeterinaryInstitute/NVIcheckmate,
     NorwegianVeterinaryInstitute/NVIdb,
-    NorwegianVeterinaryInstitute/NVIpretty,
     NorwegianVeterinaryInstitute/NVIpackager,
+    NorwegianVeterinaryInstitute/NVIpjsr,
+    NorwegianVeterinaryInstitute/NVIpretty,
     NorwegianVeterinaryInstitute/NVIrpackages,
     NorwegianVeterinaryInstitute/OKcheck
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 VignetteBuilder: knitr
 Language: en-GB

@@ -7,7 +7,7 @@ output:
 params:
   NVIpkg: "OKplan"
   pkg_path: !r  usethis::proj_path()
-  first_copyright_year: "2021"
+  first_copyright_year: "2020"
 ---
 
 ```{r, include = FALSE}

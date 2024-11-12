@@ -78,8 +78,8 @@ get_tested_herds <- function(eos_table,
   checkmate::reportAssertions(checks)
 
 
-  dfx <- NVIdb::read_eos_data(eos_table = eos_table,
-                              year = year)
+  dfx <- NVIpjsr::read_eos_data(eos_table = eos_table,
+                                year = year)
   dfx$original_sort_order <- seq_len(nrow(dfx))
 
   dfx[which(nchar(dfx$eier_lokalitetnr) == 10), "eier_lokalitetnr"] <-

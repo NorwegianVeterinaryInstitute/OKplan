@@ -7,9 +7,9 @@
 #'
 #' @param data [\code{data.frame}]\cr
 #'     The data to which an additional row with the generate date should be added.
-#' @param pretext [\code{character}]\cr
+#' @param pretext [\code{character(1)}]\cr
 #'     The explaining text before the date value. Defaults to "Datauttrekket ble gjort".
-#' @param date [\code{character}]\cr
+#' @param date [\code{character(1)}]\cr
 #'     Date for generating the data. Defaults to
 #'     \ifelse{html}{\code{\link[base]{Sys.Date}}}{\code{base::Sys.Date}}.
 #'
@@ -32,8 +32,8 @@ append_date_generated_line <- function(data,
   checks <- checkmate::makeAssertCollection()
   # Perform assertions
   checkmate::assert_data_frame(data, add = checks)
-  checkmate::assert_character(pretext, add = checks)
-  checkmate::assert_character(date, add = checks)
+  checkmate::assert_string(pretext, add = checks)
+  checkmate::assert_string(date, add = checks)
   # Report errors
   checkmate::reportAssertions(checks)
 
