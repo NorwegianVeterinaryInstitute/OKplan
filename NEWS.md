@@ -1,3 +1,25 @@
+# OKplan 0.7.1.9000 - (2024-##-##)
+
+## New features:
+
+-
+
+
+## Bug fixes:
+
+-
+
+
+## Other changes:
+
+-
+
+
+## BREAKING CHANGES:
+
+-
+
+
 # OKplan 0.7.1 - (2024-11-12)
 
 ## Bug fixes
