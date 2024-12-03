@@ -5,7 +5,7 @@
 #'     without further formatting.
 #' @details The data must originate from an "okplan" file and
 #'     the function uses
-#'     \ifelse{html}{\code{\link[NVIdb]{standardize_columns}}}{\code{NVIdb::standardize_columns}}
+#'     \ifelse{html}{\code{\link[NVIdb:standardize_columns]{NVIdb::standardize_columns}}}{\code{NVIdb::standardize_columns}}.
 #'     to select, order, format and style the columns. The formatting
 #'     information is either taken from \code{\link{OK_column_standards}} or
 #'     can be input as a list.
