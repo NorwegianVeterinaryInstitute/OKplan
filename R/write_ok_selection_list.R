@@ -6,7 +6,7 @@
 #' @details The data must originate from an "okplan" file and
 #'     the function uses
 #'     \ifelse{html}{\code{\link[NVIdb]{standardize_columns}}}{\code{NVIdb::standardize_columns}}
-#'     to  select, order, format and style the columns. The formatting
+#'     to select, order, format and style the columns. The formatting
 #'     information is either taken from \code{\link{OK_column_standards}} or
 #'     can be input as a list.
 #'
@@ -103,14 +103,14 @@ write_ok_selection_list <- function(data,
   checks <- checkmate::makeAssertCollection()
 
   # Perform checks
-  # for (i in 1:length(data)) {
+  # data
   checkmate::assert_data_frame(data, max.rows = (1048576 - 1), max.cols = 16384, add = checks)
-  # }
+  # filename and filepath
   checkmate::assert_character(sheet, min.chars = 1, min.len = 1, max.len = length(data), unique = TRUE, add = checks)
   checkmate::assert_character(filename, min.chars = 1, len = 1, add = checks)
   checkmate::assert_directory_exists(filepath, add = checks)
   if (isTRUE(add_worksheet)) {
-    checkmate::assert_file_exists(file.path(filepath, filename), access = "r")
+    checkmate::assert_file_exists(file.path(filepath, filename), access = "r", add = checks)
   }
   # column_standards
   checkmate::assert(checkmate::check_class(column_standards, classes = c("data.frame")),
