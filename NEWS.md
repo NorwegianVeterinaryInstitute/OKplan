@@ -2,17 +2,17 @@
 
 ## New features:
 
--
+- 
 
 
 ## Bug fixes:
 
--
+- 
 
 
 ## Other changes:
 
--
+- `OK_column_standards` is updated with column standards for "ok_ai_art_fjorfe".
 
 
 ## BREAKING CHANGES:
