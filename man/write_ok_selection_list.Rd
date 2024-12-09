@@ -14,7 +14,6 @@ write_ok_selection_list(
   footnote = NULL,
   footnote_heights = NULL,
   dbsource,
-  remove_columns = NULL,
   add_worksheet = FALSE,
   ...
 )
@@ -50,9 +49,6 @@ Manually set row height for the footnote. Defaults to \code{NULL}.}
 \item{dbsource}{[\code{character(1)}]\cr
 The name of the dbtable in \code{\link{OK_column_standards}} that should
 be used for standardising and formatting the sampling plan output.}
-
-\item{remove_columns}{[\code{character}]\cr
-Additional columns to remove. Defaults to \code{NULL}.}
 
 \item{add_worksheet}{[\code{logical(1)}]\cr
 Should a worksheet be added to an existing workbook? Defaults to
