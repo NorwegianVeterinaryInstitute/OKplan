@@ -75,6 +75,8 @@
 #' @param dbsource [\code{character(1)}]\cr
 #'     The name of the dbtable in \code{\link{OK_column_standards}} that should
 #'     be used for standardising and formatting the sampling plan output.
+#' @param remove_columns [\code{character}]\cr
+#'     Additional columns to remove. Defaults to \code{NULL}.
 #' @param add_worksheet [\code{logical(1)}]\cr
 #'     Should a worksheet be added to an existing workbook? Defaults to
 #'     \code{FALSE}.
@@ -90,6 +92,7 @@ write_ok_selection_list <- function(data,
                                     footnote = NULL,
                                     footnote_heights = NULL,
                                     dbsource,
+                                    remove_columns = NULL,
                                     add_worksheet = FALSE,
                                     ...) {
 
@@ -175,6 +178,11 @@ write_ok_selection_list <- function(data,
   }
 
   # STANDARDIZE COLUMNS ----
+  # Remove columns
+  if (!is.null(remove_columns)) {
+    data[, remove_columns] <- rep(NULL, length(remove_columns))
+  }
+
   # column names
   okdata <- NVIdb::standardize_columns(data,
                                        standards = column_standards,
