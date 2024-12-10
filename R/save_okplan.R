@@ -41,7 +41,7 @@
 #'              filename = "okplan_species_disease",
 #'              filepath = td)
 #' }
-write_okplan <- function(data,
+save_okplan <- function(data,
                          filename,
                          filepath,
                          sortvar = c("ok_hensiktkode", "ok_driftsformkode",
