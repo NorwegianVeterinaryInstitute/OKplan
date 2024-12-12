@@ -41,7 +41,7 @@
 #'              filename = "okplan_species_disease",
 #'              filepath = td)
 #' }
-write_okplan <- function(data,
+save_okplan <- function(data,
                          filename,
                          filepath,
                          sortvar = c("ok_hensiktkode", "ok_driftsformkode",
@@ -63,7 +63,6 @@ write_okplan <- function(data,
   ### filename and filepath
   checkmate::assert_character(filename, min.chars = 1, len = 1, add = checks)
   checkmate::assert_directory_exists(filepath)
-  checkmate::assert_file_exists(file.path(filepath, filename), access = "r", add = checks)
   ### order
   checkmate::assert_subset(sortvar, choices = colnames(data), add = checks)
   ## Report check-results
