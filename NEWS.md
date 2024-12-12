@@ -14,6 +14,8 @@
 
 - `OK_column_standards` is updated with column standards used in 2025, i.e. including orgnr in selection lists and generating  "ok_ai_art_fjorfe".
 
+- created pdf reference manual "OKplan.pdf" as a vignette.
+
 
 ## BREAKING CHANGES:
 
