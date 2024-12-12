@@ -2,7 +2,7 @@
 
 ## New features:
 
-- 
+- created `save_okplan` to save the selection information in a standard format.
 
 
 ## Bug fixes:
@@ -12,7 +12,7 @@
 
 ## Other changes:
 
-- `OK_column_standards` is updated with column standards for "ok_ai_art_fjorfe".
+- `OK_column_standards` is updated with column standards used in 2025, i.e. including orgnr in selection lists and generating  "ok_ai_art_fjorfe".
 
 
 ## BREAKING CHANGES:
