@@ -1,4 +1,4 @@
-# OKplan 0.7.1.9000 - (2024-##-##)
+# OKplan 0.7.1.9001 - (2024-##-##)
 
 ## New features:
 
@@ -13,6 +13,8 @@
 ## Other changes:
 
 - `OK_column_standards` is updated with column standards used in 2025, i.e. including orgnr in selection lists and generating  "ok_ai_art_fjorfe".
+
+- created pdf reference manual "OKplan.pdf" as a vignette.
 
 
 ## BREAKING CHANGES:
