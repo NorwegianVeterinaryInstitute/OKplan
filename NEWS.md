@@ -4,6 +4,8 @@
 
 - created `save_okplan` to save the selection information in a standard format.
 
+- `write_ok_selection_list` now accepts `data.frame`, `list` and csv-file as input to the argument `column_standards`.
+
 
 ## Bug fixes:
 
