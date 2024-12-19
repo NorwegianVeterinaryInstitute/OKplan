@@ -51,7 +51,7 @@ test_that("Standard collabels for OK selections", {
 
   # Make a vector with correct column names after translation
   correct_result <- c("\u00C5r", "Rapport", "MT regionnr", "MT region", "MT avdelingsnr", "MT avdeling", "Produsentnr",
-                      "Viksomhet", "Postnr", "Poststed", "Antall pr\u00F8ver", "Pr\u00F8vetakingsuke")
+                      "Virksomhet", "Postnr", "Poststed", "Antall pr\u00F8ver", "Pr\u00F8vetakingsuke")
 
   # Compare Add fylke, current fylkenr and current fylke with correct result
   expect_equal(standardize_columns(data = df,
