@@ -26,9 +26,9 @@ Imports:
     stats,
     NVIbatch (>= 0.4.0),
     NVIcheckmate (>= 0.7.3),
-    NVIdb,
+    NVIdb (>= 0.13.1),
     NVIpjsr,
-    NVIpretty (>= 0.4.0),
+    NVIpretty (>= 0.4.2),
     OKcheck
 Suggests:
     covr,
