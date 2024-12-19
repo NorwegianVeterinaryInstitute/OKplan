@@ -43,8 +43,8 @@
 #'     Set "browser" for the default browser or "viewer" for the R studio
 #'      viewer. `TRUE` equals "browser". If `FALSE`, don't display
 #'      the results file. Defaults to "browser".
-#' @param \dots Other arguments to be passed to
-#'     \ifelse{html}{\code{\link[NVIbatch]{output_rendered}}}{\code{NVIbatch::output_rendered}}.
+#' @param \dots	Other arguments to be passed to
+#'     \ifelse{html}{\code{\link[NVIbatch:output_rendered]{NVIbatch::output_rendered}}}{\code{NVIbatch::output_rendered}}.
 #'
 #' @return Generates an html-file with the results of the checks to be displayed in the browser.
 #'

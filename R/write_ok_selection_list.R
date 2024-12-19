@@ -5,20 +5,21 @@
 #'     without further formatting.
 #' @details The data must originate from an "okplan" file and
 #'     the function uses
-#'     \ifelse{html}{\code{\link[NVIdb]{standardize_columns}}}{\code{NVIdb::standardize_columns}}
-#'     to  select, order, format and style the columns. The formatting
+#'     \ifelse{html}{\code{\link[NVIdb:standardize_columns]{NVIdb::standardize_columns}}}{\code{NVIdb::standardize_columns}}.
+#'     to select, order, format and style the columns. The formatting
 #'     information is either taken from \code{\link{OK_column_standards}} or
-#'     can be input as a list.
+#'     can be input as a \code{list}
 #'
 #' When using \code{\link{OK_column_standards}}, the formatting information is
 #'     taken in accord with the argument \code{dbsource}. If the formatting
 #'     needs to be edited, it must be edited in the general source file for
 #'     column standards and thereafter, build it into a new version of \code{OKplan}.
 #'     As this can be a tedious process, there is a possibility to input the
-#'     formatting information as a list.
+#'     formatting information as a \code{list} or as a csv-file that can be transformed
+#'     to a \code{data.frame} with the same columns as \code{\link{OK_column_standards}}.
 #'
 #' The list input to column_standards must follow a specific format.
-#'     It is a list with at least three named vectors:
+#'     It is a \code{list} with at least three named vectors:
 #' \itemize{
 #' \item \code{colname}: a vector of all columns in in the source file that
 #'     should be included in the Excel report with the selection list.
@@ -61,11 +62,15 @@
 #'     The name of the Excel file.
 #' @param filepath [\code{character(1)}]\cr
 #'     The path to the Excel file.
-#' @param column_standards [\code{data.frame} | \code{list}]\cr
-#'     The column standards to be used as input for
+#' @param column_standards [\code{data.frame} | \code{list} | \code{character(1)}]\cr
+#' The column standards to be used as input for
 #'     \ifelse{html}{\code{\link[NVIdb]{standardize_columns}}}{\code{NVIdb::standardize_columns}}
-#'     when formatting the sampling plan for
-#'     output, see details. Defaults to \code{\link{OK_column_standards}}.
+#'     when formatting the sampling plan for output, see details. Defaults to
+#'     \code{\link{OK_column_standards}}.
+#' For giving alternatives to the standard table for column_standards using
+#'     different formats, see details. Defaults to
+#'     file.path(NVIdb::set_dir_NVI("ProgrammeringR", slash = FALSE),
+#'               "standardization", "colnames", "column_standards.csv").
 #' @param calculate_sum [\code{logical(1)}]\cr
 #'     Should a line with the sum be appended? Defaults to \code{TRUE}.
 #' @param footnote [\code{character(1)}]\cr
@@ -103,33 +108,52 @@ write_ok_selection_list <- function(data,
   checks <- checkmate::makeAssertCollection()
 
   # Perform checks
-  # for (i in 1:length(data)) {
+  # data
   checkmate::assert_data_frame(data, max.rows = (1048576 - 1), max.cols = 16384, add = checks)
-  # }
+  # filename and filepath
   checkmate::assert_character(sheet, min.chars = 1, min.len = 1, max.len = length(data), unique = TRUE, add = checks)
   checkmate::assert_character(filename, min.chars = 1, len = 1, add = checks)
   checkmate::assert_directory_exists(filepath, add = checks)
   if (isTRUE(add_worksheet)) {
-    checkmate::assert_file_exists(file.path(filepath, filename), access = "r")
+    checkmate::assert_file_exists(file.path(filepath, filename), access = "r", add = checks)
   }
   # column_standards
+  # checkmate::assert(checkmate::check_class(column_standards, classes = c("data.frame")),
+  #                   checkmate::check_class(column_standards, classes = c("list")),
+  #                   add = checks)
+  # if (inherits(column_standards, what = "list")) {
+  #   lengths_standard <- lengths(column_standards)
+  #   NVIcheckmate::assert_integer(lengths_standard, lower = lengths_standard[1], upper = lengths_standard[1],
+  #                                min.len = 3, max.len = 6,
+  #                                comment = "When input as a list, all elements must have the same length",
+  #                                add = checks)
+  #
+  #   checkmate::assert_subset(names(column_standards), choices = c("table_db", "colname_db", "colname", "collabel", "colwidth", "colorder"),
+  #                            add = checks)
+  # }
+  # if (inherits(column_standards, what = "data.frame")) {
+  #   checkmate::assert_data_frame(column_standards, min.rows = 1, min.cols = 6, add = checks)
+  # }
   checkmate::assert(checkmate::check_class(column_standards, classes = c("data.frame")),
                     checkmate::check_class(column_standards, classes = c("list")),
+                    checkmate::check_class(column_standards, classes = c("character")),
                     add = checks)
+  if (inherits(column_standards, what = "character")) {
+    checkmate::assert_file_exists(column_standards, add = checks)
+  }
   if (inherits(column_standards, what = "list")) {
     lengths_standard <- lengths(column_standards)
     NVIcheckmate::assert_integer(lengths_standard, lower = lengths_standard[1], upper = lengths_standard[1],
                                  min.len = 3, max.len = 6,
                                  comment = "When input as a list, all elements must have the same length",
                                  add = checks)
-
     checkmate::assert_subset(names(column_standards), choices = c("table_db", "colname_db", "colname", "collabel", "colwidth", "colorder"),
                              add = checks)
   }
   if (inherits(column_standards, what = "data.frame")) {
     checkmate::assert_data_frame(column_standards, min.rows = 1, min.cols = 6, add = checks)
   }
-
+  # calculate_sum
   checkmate::assert_flag(calculate_sum, add = checks)
   checkmate::assert_string(footnote, min.chars = 1, null.ok = TRUE, add = checks)
   checkmate::assert_character(dbsource, min.len = 1, add = checks)
@@ -144,27 +168,23 @@ write_ok_selection_list <- function(data,
   checkmate::reportAssertions(checks)
 
   # TRANSFORM column_standards FROM list TO data.frame
-  # column_standards = list("colname" = c("mt_region", "mt_avdeling"),
-  #                 "collabel" = c("MT region", "MT avdeling"),
-  #                 "colwidth" = c(35, 35))
-
-  if (inherits(column_standards, what = "list")) {
-    column_standards <- as.data.frame((column_standards))
-
-    if (!"table_db" %in% colnames(column_standards)) {
-      column_standards$table_db <- dbsource
-    }
-
-    if (!"colname_db" %in% colnames(column_standards)) {
-      column_standards$colname_db <- column_standards$colname
-    }
-
-    if (!"colorder" %in% colnames(column_standards)) {
-      column_standards$colorder <- c(1:dim(column_standards)[1])
-    }
-    colnames(column_standards)[which(colnames(column_standards) == "collabel")] <- "label_1_no"
-    colnames(column_standards)[which(colnames(column_standards) == "colwidth")] <- "colwidth_Excel"
-  }
+  # if (inherits(column_standards, what = "list")) {
+  #   column_standards <- as.data.frame((column_standards))
+  #
+  #   if (!"table_db" %in% colnames(column_standards)) {
+  #     column_standards$table_db <- dbsource
+  #   }
+  #
+  #   if (!"colname_db" %in% colnames(column_standards)) {
+  #     column_standards$colname_db <- column_standards$colname
+  #   }
+  #
+  #   if (!"colorder" %in% colnames(column_standards)) {
+  #     column_standards$colorder <- c(1:dim(column_standards)[1])
+  #   }
+  #   colnames(column_standards)[which(colnames(column_standards) == "collabel")] <- "label_1_no"
+  #   colnames(column_standards)[which(colnames(column_standards) == "colwidth")] <- "colwidth_Excel"
+  # }
 
   # GENERATE EXCEL WORKBOOK ----
   # create or load workbook

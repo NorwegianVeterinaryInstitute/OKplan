@@ -31,11 +31,15 @@ The name of the Excel file.}
 \item{filepath}{[\code{character(1)}]\cr
 The path to the Excel file.}
 
-\item{column_standards}{[\code{data.frame} | \code{list}]\cr
+\item{column_standards}{[\code{data.frame} | \code{list} | \code{character(1)}]\cr
 The column standards to be used as input for
-\ifelse{html}{\code{\link[NVIdb]{standardize_columns}}}{\code{NVIdb::standardize_columns}}
-when formatting the sampling plan for
-output, see details. Defaults to \code{\link{OK_column_standards}}.}
+    \ifelse{html}{\code{\link[NVIdb]{standardize_columns}}}{\code{NVIdb::standardize_columns}}
+    when formatting the sampling plan for output, see details. Defaults to
+    \code{\link{OK_column_standards}}.
+For giving alternatives to the standard table for column_standards using
+    different formats, see details. Defaults to
+    file.path(NVIdb::set_dir_NVI("ProgrammeringR", slash = FALSE),
+              "standardization", "colnames", "column_standards.csv").}
 
 \item{calculate_sum}{[\code{logical(1)}]\cr
 Should a line with the sum be appended? Defaults to \code{TRUE}.}
@@ -64,20 +68,21 @@ The sampling plan is output to an Excel sheet. The list with
 \details{
 The data must originate from an "okplan" file and
     the function uses
-    \ifelse{html}{\code{\link[NVIdb]{standardize_columns}}}{\code{NVIdb::standardize_columns}}
-    to  select, order, format and style the columns. The formatting
+    \ifelse{html}{\code{\link[NVIdb:standardize_columns]{NVIdb::standardize_columns}}}{\code{NVIdb::standardize_columns}}.
+    to select, order, format and style the columns. The formatting
     information is either taken from \code{\link{OK_column_standards}} or
-    can be input as a list.
+    can be input as a \code{list}
 
 When using \code{\link{OK_column_standards}}, the formatting information is
     taken in accord with the argument \code{dbsource}. If the formatting
     needs to be edited, it must be edited in the general source file for
     column standards and thereafter, build it into a new version of \code{OKplan}.
     As this can be a tedious process, there is a possibility to input the
-    formatting information as a list.
+    formatting information as a \code{list} or as a csv-file that can be transformed
+    to a \code{data.frame} with the same columns as \code{\link{OK_column_standards}}.
 
 The list input to column_standards must follow a specific format.
-    It is a list with at least three named vectors:
+    It is a \code{list} with at least three named vectors:
 \itemize{
 \item \code{colname}: a vector of all columns in in the source file that
     should be included in the Excel report with the selection list.

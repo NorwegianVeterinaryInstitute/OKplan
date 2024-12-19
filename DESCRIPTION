@@ -1,7 +1,7 @@
 Package: OKplan
 Title: Tools to facilitate the Planning of the annual Surveillance Programmes
-Version: 0.7.1
-Date: 2024-11-12
+Version: 0.8.0
+Date: 2024-12-19
 Authors@R: 
   c(person(given = "Petter",
            family = "Hopp",
@@ -26,9 +26,9 @@ Imports:
     stats,
     NVIbatch (>= 0.4.0),
     NVIcheckmate (>= 0.7.3),
-    NVIdb,
+    NVIdb (>= 0.13.1),
     NVIpjsr,
-    NVIpretty (>= 0.4.0),
+    NVIpretty (>= 0.4.2),
     OKcheck
 Suggests:
     covr,
@@ -38,6 +38,7 @@ Suggests:
     knitr,
     purrr,
     rmarkdown,
+    R.rsp,
     testthat,
     usethis,
     utils,
@@ -53,5 +54,5 @@ Remotes:
     NorwegianVeterinaryInstitute/NVIrpackages,
     NorwegianVeterinaryInstitute/OKcheck
 RoxygenNote: 7.3.1
-VignetteBuilder: knitr
+VignetteBuilder: knitr, R.rsp
 Language: en-GB

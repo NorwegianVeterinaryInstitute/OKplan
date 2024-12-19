@@ -1,3 +1,19 @@
+# OKplan 0.8.0 - (2024-12-19)
+
+## New features:
+
+- created `save_okplan` to save the selection information in a standard format.
+
+- `write_ok_selection_list` now accepts `data.frame`, `list` and csv-file as input to the argument `column_standards`.
+
+
+## Other changes:
+
+- `OK_column_standards` is updated with column standards used in 2025, i.e. including orgnr in selection lists and generating  "ok_ai_art_fjorfe".
+
+- created pdf reference manual "OKplan.pdf" as a vignette.
+
+
 # OKplan 0.7.1 - (2024-11-12)
 
 ## Bug fixes
