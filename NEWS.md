@@ -1,8 +1,10 @@
-# OKplan 0.7.1.9001 - (2024-##-##)
+# OKplan 0.8.0 - (2024-12-19)
 
 ## New features:
 
 - created `save_okplan` to save the selection information in a standard format.
+
+- `write_ok_selection_list` now accepts `data.frame`, `list` and csv-file as input to the argument `column_standards`.
 
 
 ## Bug fixes:
