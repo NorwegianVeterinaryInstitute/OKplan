@@ -7,21 +7,11 @@
 - `write_ok_selection_list` now accepts `data.frame`, `list` and csv-file as input to the argument `column_standards`.
 
 
-## Bug fixes:
-
-- 
-
-
 ## Other changes:
 
 - `OK_column_standards` is updated with column standards used in 2025, i.e. including orgnr in selection lists and generating  "ok_ai_art_fjorfe".
 
 - created pdf reference manual "OKplan.pdf" as a vignette.
-
-
-## BREAKING CHANGES:
-
--
 
 
 # OKplan 0.7.1 - (2024-11-12)
