@@ -207,7 +207,7 @@ get_holiday <- function(year,
         dates[which(dates$trapped == "t"), "select"] <- 0
       }
     }
-    dates <- subset(dates, dates$select == 1)
+    dates <- dates[which(dates$select == 1), ] # subset(dates, dates$select == 1)
     dates <- dates[, c("date", "day_of_week")]
   }
 
