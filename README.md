@@ -25,37 +25,66 @@ for more information.
 
 ## Installation
 
-`OKplan` is available at
-[GitHub](https://github.com/NorwegianVeterinaryInstitute). To install
-`OKplan` you will need:
+`OKplan` is available in package manager for workbench and at
+[GitHub](https://github.com/NorwegianVeterinaryInstitute). If needed,
+you can install the development version from the dev-branch at the
+GitHub repo, see below.
+
+#### Workbench
+
+To install `OKplan` on workbench, run the following code:
+
+    install.packages("OKplan")
+
+If you need changes that only are available in the development version,
+please make contact to the developers so that a new release can be
+published on Workbench.
+
+#### At personal computer
+
+You may install the package with or without vignettes. Although it will
+be easier to install without vignettes, it is recommended to install
+with vignettes for all `NVIverse` packages except
+`c("NVIrpackages", "NVIconfig")`.
+
+To install `OKplan` you will need:
 
 -   R version &gt; 4.1.0
 -   R package `remotes`
--   Rtools version 4.0, 4.2, 4.3 or 4.4 depending on R version
+-   Rtools version 4.0, 4.2, 4.3, 4.4 or 4.5 depending on R version
 
 First install and attach the `remotes` package.
 
     install.packages("remotes")
     library(remotes)
 
-To install (or update) the `OKplan` package without vignettes, run the
-following code:
+To install (or update) `OKplan` without vignettes, run the following
+code:
 
     remotes::install_github("NorwegianVeterinaryInstitute/OKplan",
         upgrade = FALSE,
         build = TRUE,
         build_vignettes = FALSE)
 
-To install (or update) the `OKplan` package with vignettes, you will
-need to first install some additional R-packages needed to build the
-vignettes. Check README below in the section [Vignettes](#vignettes) to
-see which vignettes are available. To install the package with the
-vignettes, first install the packages: `knitr`, `rmarkdown`, `R.rsp`,
-and `NVIrpackages` (from GitHub) if they are missing. If you don’t use
+To install (or update) `OKplan` with vignettes, you will need to first
+install some additional R-packages needed to build the vignettes. Check
+README below in the section [Vignettes](#vignettes) to see which
+vignettes are available. To install the package with the vignettes,
+first install the packages: `knitr`, `rmarkdown`, `R.rsp`, and
+`NVIrpackages` (from GitHub) if they are missing. If you don’t use
 R-studio, you will also need to install Pandoc. Then run the following
 code:
 
     remotes::install_github("NorwegianVeterinaryInstitute/OKplan",
+        upgrade = FALSE,
+        build = TRUE,
+        build_vignettes = TRUE)
+
+To install (or update) the development version (dev-branch) of `OKplan`
+(with vignettes), run the following code:
+
+    remotes::install_github("NorwegianVeterinaryInstitute/OKplan",
+        ref = "dev",
         upgrade = FALSE,
         build = TRUE,
         build_vignettes = TRUE)
@@ -87,7 +116,8 @@ Consult the vignettes for task-oriented help.
 
 Vignettes in package `OKplan`:
 
--   Contribute to OKplan (html)
+-   Contribute to OKplan (html)  
+-   OKplan reference manual (pdf)
 
 ##### NEWS
 
@@ -97,7 +127,7 @@ for information on new features, bug fixes and other changes.
 
 ## Copyright and license
 
-Copyright (c) 2020 - 2024 Norwegian Veterinary Institute.  
+Copyright (c) 2020 - 2025 Norwegian Veterinary Institute.  
 Licensed under the BSD\_3\_clause License. See
 [License](https://github.com/NorwegianVeterinaryInstitute/OKplan/blob/main/LICENSE)
 for details.

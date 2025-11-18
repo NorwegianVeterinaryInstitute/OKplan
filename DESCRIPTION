@@ -40,6 +40,7 @@ Suggests:
     rmarkdown,
     R.rsp,
     testthat,
+    tidyr,
     usethis,
     utils,
     NVIpackager,
@@ -53,6 +54,6 @@ Remotes:
     NorwegianVeterinaryInstitute/NVIpretty,
     NorwegianVeterinaryInstitute/NVIrpackages,
     NorwegianVeterinaryInstitute/OKcheck
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.3
 VignetteBuilder: knitr, R.rsp
 Language: en-GB

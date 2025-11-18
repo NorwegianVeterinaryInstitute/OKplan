@@ -71,6 +71,41 @@ It is possible to define a minimum requirement of number of
 
 The eos_table name is the same name as the table name in the EOS data base.
 }
+\examples{
+\dontrun{
+# Swine herds tested in the surveillance programme for viral infections.
+#   Herds tested last two years. To ensure it is more than one sample,
+#   8 samples examined for AD is required.
+year <- as.numeric(format(Sys.Date(), "\%Y"))
+tested_pig <- get_tested_herds(eos_table = "proveresultat_virusinfeksjoner",
+                               year = c(year - 2, year - 1),
+                               disease = "AD",
+                               min_prover = 8,
+                               tested = TRUE)
+
+# Dairy herds where at least one sample was received last year.
+received_dairy <- get_tested_herds(eos_table = "proveresultat_bvd_ebl_ibr",
+                                   year = year,
+                                   production = "Melkeproduksjon",
+                                   tested = FALSE)
+
+# Dairy herds where at least two samples were received last year.
+# When tested = FALSE (received), it is not necessary to specify the disease.
+received_dairy <- get_tested_herds(eos_table = "proveresultat_bvd_ebl_ibr",
+                                   year = year,
+                                   min_prover = 2,
+                                   production = "Melkeproduksjon",
+                                   tested = FALSE)
+
+# Cattle herds where at least five samples were examined for IBR last year.
+# When tested = TRUE (examined), it is necessary to specify the disease.
+received_cattle <- get_tested_herds(eos_table = "proveresultat_bvd_ebl_ibr",
+                                    year = year,
+                                    disease = "ibr",
+                                    min_prover = 5,
+                                    tested = TRUE)
+}
+}
 \author{
 Petter Hopp Petter.Hopp@vetinst.no
 }

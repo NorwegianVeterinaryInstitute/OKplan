@@ -67,9 +67,7 @@ Gives descriptive statistics of the OK selection. This should
 
     The default behavior is to display the resulting html-file in the
     browser. To save the result in a permanent file, use a permanent
-    directory as input to \code{output_dir}. The resulting file
-    can also be sent by email by using additional arguments, see
-    \ifelse{html}{\code{\link[NVIbatch]{output_rendered}}}{\code{NVIbatch::output_rendered}}.
+    directory as input to \code{output_dir}.
 
     If checks are missing, are unnecessary or the headings are too
     cryptic, please contribute to improve the rmarkdown file

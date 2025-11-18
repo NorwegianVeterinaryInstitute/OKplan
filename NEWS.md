@@ -12,7 +12,7 @@
 
 ## Other changes:
 
--
+- Updated OK_column_standards with slaughterhouse as "Annen aktør" instead of "Eier/lokalitet".
 
 
 ## BREAKING CHANGES:
