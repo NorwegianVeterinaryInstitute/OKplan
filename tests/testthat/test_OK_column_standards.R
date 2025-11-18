@@ -1,5 +1,5 @@
 library(NVIdb)
-library(OKplan)
+# library(OKplan)
 library(testthat)
 
 test_that("Standard colwidths in Excel for OK-selections", {
@@ -24,7 +24,7 @@ test_that("Standard colwidths in Excel for OK-selections", {
   # Example with selection of samples collected at slaughterhouses
   df <- as.data.frame(cbind("mt_regionnr" = "M25000", "mt_region" = "Region Nord",
                             "mt_avdelingnr" = "M25150", "mt_avdeling" = "Finnmark",
-                            "eier_lokalitetnr" = "802", "eier_lokalitet" = "NORTURA SA AVD. FINNMARK/KARASJOK",
+                            "annen_aktornr" = "802", "annen_aktor" = "NORTURA SA AVD. FINNMARK/KARASJOK",
                             "ant_prover" = 30))
 
 
@@ -64,7 +64,7 @@ test_that("Standard collabels for OK selections", {
   # Example with selection of samples collected at slaughterhouses
   df <- as.data.frame(cbind("mt_regionnr" = "M25000", "mt_region" = "Region Nord",
                             "mt_avdelingnr" = "M25150", "mt_avdeling" = "Finnmark",
-                            "eier_lokalitetnr" = "802", "eier_lokalitet" = "NORTURA SA AVD. FINNMARK/KARASJOK",
+                            "annen_aktornr" = "802", "annen_aktor" = "NORTURA SA AVD. FINNMARK/KARASJOK",
                             "ant_prover" = 30))
 
 
