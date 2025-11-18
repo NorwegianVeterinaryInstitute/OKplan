@@ -4,10 +4,12 @@
 \alias{check_OK_selection-deprecated}
 \title{Control of standard output file with OK selection}
 \usage{
-check_OK_selection(data)
+check_OK_selection(data, ...)
 }
 \arguments{
 \item{data}{Data frame with selection for a OK programme.}
+
+\item{\dots}{Other arguments.}
 }
 \value{
 Prints results of the control to the output window.
