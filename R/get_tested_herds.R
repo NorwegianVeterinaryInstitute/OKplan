@@ -45,7 +45,40 @@
 #' @return \code{data.frame} with tested or sampled locations.
 #' @author Petter Hopp Petter.Hopp@@vetinst.no
 #' @export
-
+#' @examples
+#' \dontrun{
+#' # Swine herds tested in the surveillance programme for viral infections.
+#' #   Herds tested last two years. To ensure it is more than one sample,
+#' #   8 samples examined for AD is required.
+#' year <- as.numeric(format(Sys.Date(), "%Y"))
+#' tested_pig <- get_tested_herds(eos_table = "proveresultat_virusinfeksjoner",
+#'                                year = c(year - 2, year - 1),
+#'                                disease = "AD",
+#'                                min_prover = 8,
+#'                                tested = TRUE)
+#'
+#' # Dairy herds where at least one sample was received last year.
+#' received_dairy <- get_tested_herds(eos_table = "proveresultat_bvd_ebl_ibr",
+#'                                    year = year,
+#'                                    production = "Melkeproduksjon",
+#'                                    tested = FALSE)
+#'
+#' # Dairy herds where at least two samples were received last year.
+#' # When tested = FALSE (received), it is not necessary to specify the disease.
+#' received_dairy <- get_tested_herds(eos_table = "proveresultat_bvd_ebl_ibr",
+#'                                    year = year,
+#'                                    min_prover = 2,
+#'                                    production = "Melkeproduksjon",
+#'                                    tested = FALSE)
+#'
+#' # Cattle herds where at least five samples were examined for IBR last year.
+#' # When tested = TRUE (examined), it is necessary to specify the disease.
+#' received_cattle <- get_tested_herds(eos_table = "proveresultat_bvd_ebl_ibr",
+#'                                     year = year,
+#'                                     disease = "ibr",
+#'                                     min_prover = 5,
+#'                                     tested = TRUE)
+#' }
 get_tested_herds <- function(eos_table,
                              year = as.numeric(format(Sys.Date(), "%Y")) - 1,
                              species = NULL,
@@ -85,15 +118,18 @@ get_tested_herds <- function(eos_table,
   dfx[which(nchar(dfx$eier_lokalitetnr) == 10), "eier_lokalitetnr"] <-
     substr(dfx[which(nchar(dfx$eier_lokalitetnr) == 10), "eier_lokalitetnr"], 1, 8)
 
-  dfx <- subset(dfx, !is.na(dfx$eier_lokalitetnr) & dfx$eier_lokalitetnr != "")
+  # dfx <- subset(dfx, !is.na(dfx$eier_lokalitetnr) & dfx$eier_lokalitetnr != "")
+  dfx <- dfx[which(!is.na(dfx$eier_lokalitetnr) & dfx$eier_lokalitetnr != ""), ]
 
   # Select species
   if (!is.null(species) & "art" %in% colnames(dfx)) {
-    dfx <- subset(dfx, dfx$art %in% species)
+    # dfx <- subset(dfx, dfx$art %in% species)
+    dfx <- dfx[which(dfx$art %in% species), ]
   }
   # Select production type
   if (!is.null(production) & "driftsform" %in% colnames(dfx)) {
-    dfx <- subset(dfx, dfx$driftsform %in% production)
+    # dfx <- subset(dfx, dfx$driftsform %in% production)
+    dfx <- dfx[which(dfx$driftsform %in% production), ]
   }
 
   if (dim(dfx)[1] > 0) {
@@ -112,10 +148,12 @@ get_tested_herds <- function(eos_table,
     if (min_prover > -1) {
       if (isFALSE(tested)) {
         if (any(grepl("sum_prover", column_sum))) {
-          dfx <- subset(dfx, dfx$sum_prover >= min_prover)
+          # dfx <- subset(dfx, dfx$sum_prover >= min_prover)
+          dfx <- dfx[which(dfx$sum_prover >= min_prover), ]
         } else {
           if (length(column_sum) == 1) {
-            dfx <- subset(dfx, dfx[, column_sum] >= min_prover)
+            # dfx <- subset(dfx, dfx[, column_sum] >= min_prover)
+            dfx <- dfx[which(dfx[, column_sum] >= min_prover), ]
             warning(paste("The number of received samples could not be calculated,",
                           "but the number of tested samples were calculated using",
                           paste(column_ant, collapse = ", ")))
@@ -129,10 +167,12 @@ get_tested_herds <- function(eos_table,
       }
       if (isTRUE(tested)) {
         if (any(grepl(paste0("sum_und_", tolower(disease), "$"), column_sum))) {
-          dfx <- subset(dfx, dfx[, paste0("sum_und_", tolower(disease))] >= min_prover)
+          # dfx <- subset(dfx, dfx[, paste0("sum_und_", tolower(disease))] >= min_prover)
+            dfx <- dfx[which(dfx[, paste0("sum_und_", tolower(disease))] >= min_prover), ]
         } else {
           if (length(column_sum) == 1) {
-            dfx <- subset(dfx, dfx[, column_sum] >= min_prover)
+            # dfx <- subset(dfx, dfx[, column_sum] >= min_prover)
+            dfx <- dfx[which(dfx[, column_sum] >= min_prover), ]
             if (!any(grepl(paste0("sum_und_", tolower(disease)), column_sum))) {
               warning(paste("The number of tested samples were calculated using", column_ant))
             }
