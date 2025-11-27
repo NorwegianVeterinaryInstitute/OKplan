@@ -32,14 +32,14 @@
 #' \dontrun{
 #' library(OKplan)
 #' td <- tempdir()
-#' okplan <- as.data.frame(list("ok_hensiktkode" = c("01002", "01002"),
-#'                              "ok_driftsformkode" = c("010202", "010202"),
-#'                              "statuskode" = c(1, 1),
-#'                              "prioritet_av_reserve" = c(NA, NA),
-#'                              "eier_lokalitetnr" = c("1101123456", "1102123456")))
-#' write_okplan(data = okplan,
-#'              filename = "okplan_species_disease",
-#'              filepath = td)
+#' okplan <- data.frame("ok_hensiktkode" = c("01002", "01002"),
+#'                      "ok_driftsformkode" = c("010202", "010202"),
+#'                      "statuskode" = c(1, 1),
+#'                      "prioritet_av_reserve" = c(NA, NA),
+#'                      "eier_lokalitetnr" = c("1101123456", "1102123456"))
+#' save_okplan(data = okplan,
+#'             filename = "okplan_species_disease",
+#'             filepath = td)
 #' }
 save_okplan <- function(data,
                          filename,
