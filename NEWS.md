@@ -2,7 +2,8 @@
 
 ## New features:
 
--
+- Created `read_okplan` to read the csv-file with selection information in a 
+  standard format.
 
 
 ## Bug fixes:
