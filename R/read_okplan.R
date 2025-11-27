@@ -44,11 +44,11 @@ read_okplan <- function(filename,
                         filepath,
                         column_standards = OKplan::OK_column_standards,
                         dbsource = "okplan") {
-  
+
   # PREPARE ARGUMENTS BEFORE ARGUMENT CHECKING ----
   ## Remove trailing backslash or slash before testing path
   filepath <- sub("\\\\{1,2}$|/{1,2}$", "", filepath)
-  
+
   # ARGUMENT CHECKING ----
   ## Object to store check-results
   checks <- checkmate::makeAssertCollection()
@@ -85,7 +85,7 @@ read_okplan <- function(filename,
   }
   ## Report check-results
   checkmate::reportAssertions(checks)
-  
+
   # READ STANDARD okplan csv-FILE ----
   # read the colclasses of the file to identify character variables
   colclasses <- NVIdb::standardize_columns(
@@ -93,12 +93,12 @@ read_okplan <- function(filename,
     standards = column_standards,
     dbsource = dbsource,
     property = "colclasses")
-  
+
   # read the okplan file
   okplan <- utils::read.csv2(
     file = file.path(filepath, filename),
     colClasses = colclasses,
     fileEncoding = "UTF-8")
-  
+
   return(okplan)
 }
