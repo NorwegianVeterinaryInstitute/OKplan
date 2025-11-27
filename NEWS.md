@@ -1,8 +1,9 @@
-# OKplan 0.8.0.9000 - (2024-##-##)
+# OKplan 0.8.0.9001 - (2025-##-##)
 
 ## New features:
 
--
+- Created `read_okplan` to read the csv-file with selection information in a 
+  standard format.
 
 
 ## Bug fixes:

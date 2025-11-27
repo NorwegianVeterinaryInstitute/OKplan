@@ -8,7 +8,7 @@
 #'     \ifelse{html}{\code{\link[NVIdb:standardize_columns]{NVIdb::standardize_columns}}}{\code{NVIdb::standardize_columns}}.
 #'     to select, order, format and style the columns. The formatting
 #'     information is either taken from \code{\link{OK_column_standards}} or
-#'     can be input as a \code{list}
+#'     can be input as a \code{list}.
 #'
 #' When using \code{\link{OK_column_standards}}, the formatting information is
 #'     taken in accord with the argument \code{dbsource}. If the formatting
