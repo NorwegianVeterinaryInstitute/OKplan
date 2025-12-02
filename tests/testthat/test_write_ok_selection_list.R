@@ -8,8 +8,8 @@ test_that("write_ok_selection_list", {
 
   # Make example data
   x <- as.data.frame(cbind("ok_aar" = 2021, "rapport" = "Brucellose hos geit, utvalgsliste",
-                           "mt_regionnr" = "M21000", "mt_region" = "Region Stor-Oslo",
                            "mt_avdelingnr" = "M21150", "mt_avdeling" = "Romerike",
+                           "mt_seksjonnr" = "M21000", "mt_seksjon" = "Region Stor-Oslo",
                            "eier_lokalitetnr" = "30303030", "orgnr" = "999999999", "eier_lokalitet" = "XXX XXXXX",
                            "postnr" = "0468", "poststed" = "OSLO", "ant_prover" = 26))
   # Probably first makes a matrix, therefore "Antall prøver" is character.
@@ -29,8 +29,8 @@ test_that("write_ok_selection_list", {
 
   y <- openxlsx::read.xlsx(xlsxFile = file.path(td, "oktest.xlsx"))
   expect_identical(colnames(y),
-                   c("År", "Rapport", "MT.regionnr", "MT.region",
-                     "MT.avdelingsnr", "MT.avdeling", "Produsentnr",
+                   c("År", "Rapport", "MT.avdelingsnr", "MT.avdeling", 
+                     "MT.seksjonnr", "MT.seksjon", "Produsentnr", 
                      "Foretaksnr", "Virksomhet", "Postnr", "Poststed",
                      "Antall.prøver"))
   expect_identical(y[2, "Antall.prøver"], "26")
@@ -44,8 +44,8 @@ test_that("write_ok_selection_list, column_standards is list", {
 
   # Make example data
   x <- as.data.frame(cbind("ok_aar" = 2021, "rapport" = "Brucellose hos geit, utvalgsliste",
-                           "mt_regionnr" = "M21000", "mt_region" = "Region Stor-Oslo",
                            "mt_avdelingnr" = "M21150", "mt_avdeling" = "Romerike",
+                           "mt_seksjonnr" = "M21000", "mt_seksjon" = "Region Stor-Oslo",
                            "eier_lokalitetnr" = "30303030", "orgnr" = "999999999", "eier_lokalitet" = "XXX XXXXX",
                            "postnr" = "0468", "poststed" = "OSLO", "ant_prover" = 26))
   # Probably first makes a matrix, therefore "Antall prøver" is character.
@@ -56,16 +56,17 @@ test_that("write_ok_selection_list, column_standards is list", {
                           filename = "oktest.xlsx",
                           filepath = td,
                           column_standards =
-                            list("colname" = c("ok_aar", "rapport", "mt_regionnr", "mt_region", "mt_avdelingnr",
-                                               "mt_avdeling", "eier_lokalitetnr", "orgnr", "eier_lokalitet",
+                            list("colname" = c("ok_aar", "rapport", "mt_avdelingnr", "mt_avdeling", 
+                                               "mt_seksjonnr", "mt_seksjon", "eier_lokalitetnr", 
+                                               "orgnr", "eier_lokalitet",
                                                "postnr", "poststed",
                                                "ant_prover"),
-                                 "collabel" = c("År", "Rapport", "MT regionnr", "MT region", "MT avdelingsnr",
-                                                "MT avdeling", "Produsentnr", "Foretaksnr", "Virksomhet", "Postnr", "Poststed",
+                                 "collabel" = c("År", "Rapport", "MT avdelingsnr", "MT avdeling", "MT seksjonnr", 
+                                                "MT seksjon", "Produsentnr", "Foretaksnr", "Virksomhet", "Postnr", "Poststed",
                                                 "Antall prøver"),
                                  "colwidth" = c(5, 9, 12.5, 16, 13, 30, 12, 12, 30, 8, 15, 8.5)),
                           calculate_sum = TRUE,
-                          dbsource = "ok_brucella")
+                          dbsource = "geit_brucella_utvalg")
 
   expect_true(checkmate::check_file_exists(paste0(td, "/oktest.xlsx")))
 
@@ -73,8 +74,8 @@ test_that("write_ok_selection_list, column_standards is list", {
                    "ok_test_data")
   y <- openxlsx::read.xlsx(xlsxFile = file.path(td, "oktest.xlsx"))
   expect_identical(colnames(y),
-                   c("År", "Rapport", "MT.regionnr", "MT.region",
-                     "MT.avdelingsnr", "MT.avdeling", "Produsentnr",
+                   c("År", "Rapport", "MT.avdelingsnr", "MT.avdeling", 
+                     "MT.seksjonnr", "MT.seksjon", "Produsentnr",
                      "Foretaksnr", "Virksomhet", "Postnr", "Poststed",
                      "Antall.prøver"))
   expect_identical(y[2, "Antall.prøver"], "26")
@@ -88,8 +89,8 @@ test_that("write_ok_selection_list, column_standards is file", {
 
   # Make example data
   x <- as.data.frame(cbind("ok_aar" = 2021, "rapport" = "Brucellose hos geit, utvalgsliste",
-                           "mt_regionnr" = "M21000", "mt_region" = "Region Stor-Oslo",
                            "mt_avdelingnr" = "M21150", "mt_avdeling" = "Romerike",
+                           "mt_seksjonnr" = "M21000", "mt_seksjon" = "Region Stor-Oslo",
                            "eier_lokalitetnr" = "30303030", "orgnr" = "999999999", "eier_lokalitet" = "XXX XXXXX",
                            "postnr" = "0468", "poststed" = "OSLO", "ant_prover" = 26))
   # Probably first makes a matrix, therefore "Antall prøver" is character.
@@ -110,8 +111,8 @@ test_that("write_ok_selection_list, column_standards is file", {
                    "ok_test_data")
   y <- openxlsx::read.xlsx(xlsxFile = file.path(td, "oktest.xlsx"))
   expect_identical(colnames(y),
-                   c("År", "Rapport", "MT.regionnr", "MT.region",
-                     "MT.avdelingsnr", "MT.avdeling", "Produsentnr",
+                   c("År", "Rapport", "MT.avdelingsnr", "MT.avdeling", 
+                     "MT.seksjonnr", "MT.seksjon", "Produsentnr",
                      "Foretaksnr", "Virksomhet", "Postnr", "Poststed",
                      "Antall.prøver"))
   expect_identical(y[2, "Antall.prøver"], "26")
