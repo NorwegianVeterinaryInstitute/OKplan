@@ -12,7 +12,7 @@ test_that("Standard colwidths in Excel for OK-selections", {
                             "ant_prover" = 30))
 
   # Make a vector with correct column names after translation
-  correct_result <- c(5, 10.71, 12.5, 16, 13, 33, 12, 30, 8, 15, 8.5)
+  correct_result <- c(5, 10.71, 12.5, 16, 13, 18, 12, 30, 8, 15, 8.5)
 
   # Compare Add fylke, current fylkenr and current fylke with correct result
   expect_equal(standardize_columns(data = df, dbsource = "geit_brucella_utvalg",
@@ -29,7 +29,7 @@ test_that("Standard colwidths in Excel for OK-selections", {
 
 
   # Make a vector with correct column names after translation
-  correct_result <- c(12.5, 16, 13, 33, 7, 35, 8.5)
+  correct_result <- c(12.5, 16, 13, 18, 7, 35, 8.5)
 
   # Compare Add fylke, current fylkenr and current fylke with correct result
   expect_identical(standardize_columns(data = df,
