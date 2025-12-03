@@ -1,4 +1,4 @@
-# OKplan 0.8.0.9001 - (2025-##-##)
+# OKplan 0.9.0 - (2025-12-03)
 
 ## New features:
 
@@ -6,19 +6,9 @@
   standard format.
 
 
-## Bug fixes:
-
--
-
-
 ## Other changes:
 
 - Updated OK_column_standards for several sampling lists.
-
-
-## BREAKING CHANGES:
-
--
 
 
 # OKplan 0.8.0 - (2024-12-19)
