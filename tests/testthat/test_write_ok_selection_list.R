@@ -29,8 +29,8 @@ test_that("write_ok_selection_list", {
 
   y <- openxlsx::read.xlsx(xlsxFile = file.path(td, "oktest.xlsx"))
   expect_identical(colnames(y),
-                   c("År", "Rapport", "MT.avdelingsnr", "MT.avdeling", 
-                     "MT.seksjonnr", "MT.seksjon", "Produsentnr", 
+                   c("År", "Rapport", "MT.avdelingsnr", "MT.avdeling",
+                     "MT.seksjonnr", "MT.seksjon", "Produsentnr",
                      "Foretaksnr", "Virksomhet", "Postnr", "Poststed",
                      "Antall.prøver"))
   expect_identical(y[2, "Antall.prøver"], "26")
@@ -56,12 +56,12 @@ test_that("write_ok_selection_list, column_standards is list", {
                           filename = "oktest.xlsx",
                           filepath = td,
                           column_standards =
-                            list("colname" = c("ok_aar", "rapport", "mt_avdelingnr", "mt_avdeling", 
-                                               "mt_seksjonnr", "mt_seksjon", "eier_lokalitetnr", 
+                            list("colname" = c("ok_aar", "rapport", "mt_avdelingnr", "mt_avdeling",
+                                               "mt_seksjonnr", "mt_seksjon", "eier_lokalitetnr",
                                                "orgnr", "eier_lokalitet",
                                                "postnr", "poststed",
                                                "ant_prover"),
-                                 "collabel" = c("År", "Rapport", "MT avdelingsnr", "MT avdeling", "MT seksjonnr", 
+                                 "collabel" = c("År", "Rapport", "MT avdelingsnr", "MT avdeling", "MT seksjonnr",
                                                 "MT seksjon", "Produsentnr", "Foretaksnr", "Virksomhet", "Postnr", "Poststed",
                                                 "Antall prøver"),
                                  "colwidth" = c(5, 9, 12.5, 16, 13, 30, 12, 12, 30, 8, 15, 8.5)),
@@ -74,7 +74,7 @@ test_that("write_ok_selection_list, column_standards is list", {
                    "ok_test_data")
   y <- openxlsx::read.xlsx(xlsxFile = file.path(td, "oktest.xlsx"))
   expect_identical(colnames(y),
-                   c("År", "Rapport", "MT.avdelingsnr", "MT.avdeling", 
+                   c("År", "Rapport", "MT.avdelingsnr", "MT.avdeling",
                      "MT.seksjonnr", "MT.seksjon", "Produsentnr",
                      "Foretaksnr", "Virksomhet", "Postnr", "Poststed",
                      "Antall.prøver"))
@@ -111,7 +111,7 @@ test_that("write_ok_selection_list, column_standards is file", {
                    "ok_test_data")
   y <- openxlsx::read.xlsx(xlsxFile = file.path(td, "oktest.xlsx"))
   expect_identical(colnames(y),
-                   c("År", "Rapport", "MT.avdelingsnr", "MT.avdeling", 
+                   c("År", "Rapport", "MT.avdelingsnr", "MT.avdeling",
                      "MT.seksjonnr", "MT.seksjon", "Produsentnr",
                      "Foretaksnr", "Virksomhet", "Postnr", "Poststed",
                      "Antall.prøver"))
