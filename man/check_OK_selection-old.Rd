@@ -4,19 +4,13 @@
 \alias{check_OK_selection}
 \title{check_OK_selection is Deprecated}
 \usage{
-check_OK_selection(
-  data,
-  purpose = deparse(substitute(data)),
-  plan_aar = as.numeric(format(Sys.Date(), "\%Y")) + 1
-)
+check_OK_selection(data, ...)
 }
 \arguments{
 \item{data}{The table with data describing the selection for a OK programme.}
 
-\item{purpose}{String with descriptive text to be used in file name and
-heading of the report. Defaults to name of input data.}
-
-\item{plan_aar}{The year for which the
+\item{\dots}{Other arguments. Used to input purpose = string with descriptive text to be used in file name and
+heading of the report. Defaults to name of input data. plan_aar = The year for which the
 selection is planned. Defaults to next year.}
 }
 \description{

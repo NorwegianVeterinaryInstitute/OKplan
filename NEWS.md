@@ -1,3 +1,26 @@
+# OKplan 0.8.0.9001 - (2025-##-##)
+
+## New features:
+
+- Created `read_okplan` to read the csv-file with selection information in a 
+  standard format.
+
+
+## Bug fixes:
+
+-
+
+
+## Other changes:
+
+- Updated OK_column_standards for several sampling lists.
+
+
+## BREAKING CHANGES:
+
+-
+
+
 # OKplan 0.8.0 - (2024-12-19)
 
 ## New features:

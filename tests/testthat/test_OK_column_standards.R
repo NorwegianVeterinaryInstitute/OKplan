@@ -1,5 +1,5 @@
 library(NVIdb)
-library(OKplan)
+# library(OKplan)
 library(testthat)
 
 test_that("Standard colwidths in Excel for OK-selections", {
@@ -12,7 +12,7 @@ test_that("Standard colwidths in Excel for OK-selections", {
                             "ant_prover" = 30))
 
   # Make a vector with correct column names after translation
-  correct_result <- c(5, 10.71, 12.5, 16, 13, 33, 12, 30, 8, 15, 8.5)
+  correct_result <- c(5, 10.71, 12.5, 16, 13, 18, 12, 30, 8, 15, 8.5)
 
   # Compare Add fylke, current fylkenr and current fylke with correct result
   expect_equal(standardize_columns(data = df, dbsource = "geit_brucella_utvalg",
@@ -24,12 +24,12 @@ test_that("Standard colwidths in Excel for OK-selections", {
   # Example with selection of samples collected at slaughterhouses
   df <- as.data.frame(cbind("mt_regionnr" = "M25000", "mt_region" = "Region Nord",
                             "mt_avdelingnr" = "M25150", "mt_avdeling" = "Finnmark",
-                            "eier_lokalitetnr" = "802", "eier_lokalitet" = "NORTURA SA AVD. FINNMARK/KARASJOK",
+                            "annen_aktornr" = "802", "annen_aktor" = "NORTURA SA AVD. FINNMARK/KARASJOK",
                             "ant_prover" = 30))
 
 
   # Make a vector with correct column names after translation
-  correct_result <- c(12.5, 16, 13, 33, 7, 35, 8.5)
+  correct_result <- c(12.5, 16, 13, 18, 7, 35, 8.5)
 
   # Compare Add fylke, current fylkenr and current fylke with correct result
   expect_identical(standardize_columns(data = df,
@@ -64,7 +64,7 @@ test_that("Standard collabels for OK selections", {
   # Example with selection of samples collected at slaughterhouses
   df <- as.data.frame(cbind("mt_regionnr" = "M25000", "mt_region" = "Region Nord",
                             "mt_avdelingnr" = "M25150", "mt_avdeling" = "Finnmark",
-                            "eier_lokalitetnr" = "802", "eier_lokalitet" = "NORTURA SA AVD. FINNMARK/KARASJOK",
+                            "annen_aktornr" = "802", "annen_aktor" = "NORTURA SA AVD. FINNMARK/KARASJOK",
                             "ant_prover" = 30))
 
 

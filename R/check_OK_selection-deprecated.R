@@ -9,12 +9,13 @@
 #'     Before the control is run, the column names must have been standardized using \code{NVIdb::standardize_columns}.
 #'
 #' @param data Data frame with selection for a OK programme.
+#' @param \dots Other arguments.
 #'
 #' @return Prints results of the control to the output window.
 #'
 #' @author Petter Hopp Petter.Hopp@@vetinst.no
 #' @name check_OK_selection-deprecated
-#' @usage check_OK_selection(data)
+#' @usage check_OK_selection(data, ...)
 #' @keywords internal
 #' @examples
 #' \dontrun{
@@ -35,16 +36,15 @@ NULL
 #' @details The old help pages can be found at \code{help("check_OK_selection-deprecated")}.
 #'     Information on deprecated function can be found at \code{help("OKplan-deprecated")}.
 #' @param data The table with data describing the selection for a OK programme.
-#' @param purpose String with descriptive text to be used in file name and
-#'     heading of the report. Defaults to name of input data.
-#' @param plan_aar The year for which the
+#' @param \dots Other arguments. Used to input purpose = string with descriptive text to be used in file name and
+#'     heading of the report. Defaults to name of input data. plan_aar = The year for which the
 #'     selection is planned. Defaults to next year.
 #' @export
 #' @rdname check_OK_selection-old
 #'
-check_OK_selection <- function(data,
-                               purpose = deparse(substitute(data)),
-                               plan_aar = as.numeric(format(Sys.Date(), "%Y")) + 1) {
+check_OK_selection <- function(data, ...) {
+if (!exists(purpose)) {purpose = deparse(substitute(data))}
+if (!exists(plan_aar)) {plan_aar = as.numeric(format(Sys.Date(), "%Y")) + 1}
 
   .Deprecated(new = "check_ok_selection",
               package = "OKplan",
