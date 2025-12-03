@@ -6,19 +6,9 @@
   standard format.
 
 
-## Bug fixes:
-
--
-
-
 ## Other changes:
 
 - Updated OK_column_standards for several sampling lists.
-
-
-## BREAKING CHANGES:
-
--
 
 
 # OKplan 0.8.0 - (2024-12-19)
