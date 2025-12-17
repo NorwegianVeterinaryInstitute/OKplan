@@ -98,7 +98,7 @@ adjust_samples_to_budget <- function(data,
 
   # INITILIZE VARIABLES ----
   nogroup <- rep("x", dim(data)[1])
-  if (budget %in% colnames(data)) {
+  if (class(budget) == "character" && budget %in% colnames(data)) {
     difference <- cbind(data[, c(sample_to_adjust, budget)],
                         nogroup)
   } else {
@@ -114,6 +114,27 @@ adjust_samples_to_budget <- function(data,
   difference <- as.data.frame(difference)
   difference[, sample_to_adjust] <- as.numeric(difference[, sample_to_adjust])
   group <- c("nogroup", group)
+
+  # # Alternative without using dplyr
+  # # FAILS in 2 x aggregate if only one variable in group, ie nogroup, then needs list
+  # # Creates original sort order to be able to reset
+  # difference$original_order <- seq.int(1, nrow(difference), by = 1)
+  # # Calculates total number of estimated samples per group
+  # total_estimated <- aggregate(difference[, sample_to_adjust], by = difference[, group], FUN = sum)
+  # colnames(total_estimated) <- c(group, "total_estimated")
+  # difference <- merge(difference, total_estimated, by = group)
+  # # Sorts per group and sample_to_adjust
+  # difference <- difference[do.call(order, difference[c(group, sample_to_adjust)]), ]
+  # # Transforms numbers to 0, 1
+  # difference$included <- ifelse(difference[, sample_to_adjust] == 0, 0, 1)
+  # # Calculates number of units to sample within each group
+  # n_units <- aggregate(difference[, "included"], by = difference[, group], FUN = sum)
+  # colnames(n_units) <- c(group, "n_units")
+  # difference <- merge(difference, n_units, by = group)
+  # # Calculates difference between total estimated and budget
+  # difference$difference <- difference$total_estimated - as.numeric(difference$budget)
+  # # Creates increasing sequence number within each group and included
+  # difference$n_seq <- ave(x = difference[, "nogroup"], difference[, c(group, "included")], FUN = seq_along)
 
   difference <- difference |>
     dplyr::mutate(original_order = 1:dplyr::n()) |>
@@ -131,7 +152,6 @@ adjust_samples_to_budget <- function(data,
     dplyr::group_by(dplyr::across(dplyr::all_of(c(group, "included")))) |>
     dplyr::mutate(n_seq = 1:dplyr::n()) |>
     dplyr::ungroup()
-
 
   # ADJUST SAMPLE NUMBER ----
   # If total_estimated = budget, make new column adjusted_sample based on sample_to_adjust
