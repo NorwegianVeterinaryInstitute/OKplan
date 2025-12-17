@@ -22,7 +22,6 @@ Imports:
     checkmate,
     dplyr,
     openxlsx,
-    rlang,
     stats,
     NVIbatch (>= 0.4.0),
     NVIcheckmate (>= 0.7.3),
