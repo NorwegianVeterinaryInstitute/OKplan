@@ -7,4 +7,5 @@
 ignore_unused_imports <- function() {
   # Packages needed for template: "check_ok_selection.Rmd"
   OKcheck::knit_table_if_data
+  dplyr::select
 }

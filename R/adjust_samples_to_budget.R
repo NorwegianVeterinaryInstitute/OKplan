@@ -43,7 +43,7 @@
 #' @return A data frame with a new column with an adjusted sample number.
 #'
 #' @author Petter Hopp Petter.Hopp@@vetinst.no
-#' @importFrom rlang .data
+# #' @importFrom rlang .data
 #' @export
 #' @examples
 #' library(OKplan)
@@ -98,7 +98,7 @@ adjust_samples_to_budget <- function(data,
 
   # INITILIZE VARIABLES ----
   nogroup <- rep("x", dim(data)[1])
-  if (budget %in% colnames(data)) {
+  if (is.character(budget) && budget %in% colnames(data)) {
     difference <- cbind(data[, c(sample_to_adjust, budget)],
                         nogroup)
   } else {
@@ -115,23 +115,55 @@ adjust_samples_to_budget <- function(data,
   difference[, sample_to_adjust] <- as.numeric(difference[, sample_to_adjust])
   group <- c("nogroup", group)
 
-  difference <- difference |>
-    dplyr::mutate(original_order = 1:dplyr::n()) |>
-    dplyr::arrange(dplyr::across(dplyr::all_of(c(group, sample_to_adjust)))) |>
-    dplyr::group_by(dplyr::across(dplyr::all_of(group))) |>
-    dplyr::mutate(total_estimated = sum(dplyr::across(dplyr::all_of(sample_to_adjust)), na.rm = TRUE)) |>
-    dplyr::mutate(included = dplyr::case_when(dplyr::across(dplyr::all_of(sample_to_adjust)) > 0 ~ 1,
-                                              TRUE ~ 0)) |>
-    # dplyr::mutate(n_units = sum(.data$included, na.rm = TRUE)) |>
-    dplyr::mutate(n_units = sum(dplyr::across(dplyr::all_of("included")), na.rm = TRUE)) |>
-    dplyr::mutate(difference = .data$total_estimated - as.numeric(.data$budget)) |>
-    # dplyr::mutate(difference = as.numeric(dplyr::all_of("total_estimated")) - as.numeric(dplyr::all_of("budget"))) |> # This don't work
-    dplyr::ungroup() |>
-    # dplyr::group_by(dplyr::across(dplyr::all_of(group)), .data$included) |>
-    dplyr::group_by(dplyr::across(dplyr::all_of(c(group, "included")))) |>
-    dplyr::mutate(n_seq = 1:dplyr::n()) |>
-    dplyr::ungroup()
+  # difference_org <- difference |>
+  #   dplyr::mutate(original_order = 1:dplyr::n()) |>
+  #   dplyr::arrange(dplyr::across(dplyr::all_of(c(group, sample_to_adjust)))) |>
+  #   dplyr::group_by(dplyr::across(dplyr::all_of(group))) |>
+  #   dplyr::mutate(total_estimated = sum(dplyr::across(dplyr::all_of(sample_to_adjust)), na.rm = TRUE)) |>
+  #   dplyr::mutate(included = dplyr::case_when(dplyr::across(dplyr::all_of(sample_to_adjust)) > 0 ~ 1,
+  #                                             TRUE ~ 0)) |>
+  #   # dplyr::mutate(n_units = sum(.data$included, na.rm = TRUE)) |>
+  #   dplyr::mutate(n_units = sum(dplyr::across(dplyr::all_of("included")), na.rm = TRUE)) |>
+  #   dplyr::mutate(difference = .data$total_estimated - as.numeric(.data$budget)) |>
+  #   # dplyr::mutate(difference = as.numeric(dplyr::all_of("total_estimated")) - as.numeric(dplyr::all_of("budget"))) |> # This don't work
+  #   dplyr::ungroup() |>
+  #   # dplyr::group_by(dplyr::across(dplyr::all_of(group)), .data$included) |>
+  #   dplyr::group_by(dplyr::across(dplyr::all_of(c(group, "included")))) |>
+  #   dplyr::mutate(n_seq = 1:dplyr::n()) |>
+  #   dplyr::ungroup()
 
+  # Alternative without using dplyr
+  # Creates original sort order to be able to reset
+  difference$original_order <- seq.int(1, nrow(difference), by = 1)
+  # Calculates total number of estimated samples per group
+  if (length(group) == 1) {
+  total_estimated <- stats::aggregate(difference[, sample_to_adjust], by = list(difference[, group]), FUN = sum)
+  # colnames(total_estimated) <- c(group, "total_estimated")
+  } else {
+  total_estimated <- stats::aggregate(difference[, sample_to_adjust], by = difference[, group], FUN = sum)
+  # colnames(total_estimated)[ncol(total_estimated)] <- "total_estimated"
+}
+  colnames(total_estimated) <- c(group, "total_estimated")
+  difference <- merge(difference, total_estimated, by = group)
+  # Sorts per group and sample_to_adjust
+  difference <- difference[do.call(order, difference[c(group, sample_to_adjust)]), ]
+  # Transforms numbers to 0, 1
+  difference$included <- ifelse(difference[, sample_to_adjust] == 0, 0, 1)
+  # Calculates number of units to sample within each group
+  if (length(group) == 1) {
+    n_units <- stats::aggregate(difference[, "included"], by = list(difference[, group]), FUN = sum)
+  # colnames(n_units) <- c(group, "n_units")
+  } else {
+    n_units <- stats::aggregate(difference[, "included"], by = difference[, group], FUN = sum)
+  # colnames(n_units)[ncol(n_units)] <- "n_units"
+  }
+  colnames(n_units) <- c(group, "n_units")
+  difference <- merge(difference, n_units, by = group)
+  # Calculates difference between total estimated and budget
+  difference$difference <- difference$total_estimated - as.numeric(difference$budget)
+  # Creates increasing sequence number within each group and included
+  difference$n_seq <- stats::ave(x = difference[, "nogroup"], difference[, c(group, "included")], FUN = seq_along)
+  difference$n_seq <- as.numeric(difference$n_seq)
 
   # ADJUST SAMPLE NUMBER ----
   # If total_estimated = budget, make new column adjusted_sample based on sample_to_adjust
@@ -146,7 +178,7 @@ adjust_samples_to_budget <- function(data,
     # Adjust for each sampled unit with the unit having the largest sample size last
     # for (i in 1:c(dim(data)[1])) {
     for (i in c(dim(data)[1]:1)) {
-      # i <- 45
+      # i <- 10
       # Justify by positive or negative number depending on whether sample size is too small or too large.
       # If the difference is larger than adjust_by, then adjust by adjust_by
       # Else adjust by 1 | -1
@@ -168,7 +200,7 @@ adjust_samples_to_budget <- function(data,
         # if (is.null(group) || identical(data[i, group], data[i + 1, group])) {
         #   difference[i + 1] <- difference[i] + justify
         j <- i
-        while ((is.null(group) & j >= 1) || (identical(difference[j, group], difference[j - 1, group]) & j >= 1)) {
+        while ((is.null(group) & j >= 1) || (identical(as.vector(difference[j, group]), as.vector(difference[j - 1, group])) & j >= 1)) {
           if (j == i) {difference[j - 1, "difference"] <- difference[j, "difference"] + justify}
           if (j != i) {difference[j - 1, "difference"] <- difference[j, "difference"]}
           j <- j - 1

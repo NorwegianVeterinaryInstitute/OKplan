@@ -1,4 +1,4 @@
-library(OKplan)
+# library(OKplan)
 library(testthat)
 
 test_that("Adjusting sample number", {

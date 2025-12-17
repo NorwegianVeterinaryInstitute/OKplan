@@ -12,7 +12,7 @@ test_that("write_ok_selection_list", {
                            "mt_seksjonnr" = "M21000", "mt_seksjon" = "Region Stor-Oslo",
                            "eier_lokalitetnr" = "30303030", "orgnr" = "999999999", "eier_lokalitet" = "XXX XXXXX",
                            "postnr" = "0468", "poststed" = "OSLO", "ant_prover" = 26))
-  # Probably first makes a matrix, therefore "Antall prøver" is character.
+  # Probably first makes a matrix, therefore "Antall pr\u00F8ver" is character.
   x$ant_prover <- as.numeric(x$ant_prover)
 
   write_ok_selection_list(data = x,
@@ -29,11 +29,11 @@ test_that("write_ok_selection_list", {
 
   y <- openxlsx::read.xlsx(xlsxFile = file.path(td, "oktest.xlsx"))
   expect_identical(colnames(y),
-                   c("År", "Rapport", "MT.avdelingsnr", "MT.avdeling",
+                   c("\u00C5r", "Rapport", "MT.avdelingsnr", "MT.avdeling",
                      "MT.seksjonnr", "MT.seksjon", "Produsentnr",
                      "Foretaksnr", "Virksomhet", "Postnr", "Poststed",
-                     "Antall.prøver"))
-  expect_identical(y[2, "Antall.prøver"], "26")
+                     "Antall.blodpr\u00F8ver"))
+  expect_identical(y[2, "Antall.blodpr\u00F8ver"], "26")
   expect_identical(y[3, 1], paste("Datauttrekket er gjort", format(Sys.Date(), "%d/%m/%Y")))
 
 })
@@ -48,7 +48,7 @@ test_that("write_ok_selection_list, column_standards is list", {
                            "mt_seksjonnr" = "M21000", "mt_seksjon" = "Region Stor-Oslo",
                            "eier_lokalitetnr" = "30303030", "orgnr" = "999999999", "eier_lokalitet" = "XXX XXXXX",
                            "postnr" = "0468", "poststed" = "OSLO", "ant_prover" = 26))
-  # Probably first makes a matrix, therefore "Antall prøver" is character.
+  # Probably first makes a matrix, therefore "Antall pr\u00F8ver" is character.
   x$ant_prover <- as.numeric(x$ant_prover)
 
   write_ok_selection_list(data = x,
@@ -61,9 +61,9 @@ test_that("write_ok_selection_list, column_standards is list", {
                                                "orgnr", "eier_lokalitet",
                                                "postnr", "poststed",
                                                "ant_prover"),
-                                 "collabel" = c("År", "Rapport", "MT avdelingsnr", "MT avdeling", "MT seksjonnr",
+                                 "collabel" = c("\u00C5r", "Rapport", "MT avdelingsnr", "MT avdeling", "MT seksjonnr",
                                                 "MT seksjon", "Produsentnr", "Foretaksnr", "Virksomhet", "Postnr", "Poststed",
-                                                "Antall prøver"),
+                                                "Antall pr\u00F8ver"),
                                  "colwidth" = c(5, 9, 12.5, 16, 13, 30, 12, 12, 30, 8, 15, 8.5)),
                           calculate_sum = TRUE,
                           dbsource = "geit_brucella_utvalg")
@@ -74,11 +74,11 @@ test_that("write_ok_selection_list, column_standards is list", {
                    "ok_test_data")
   y <- openxlsx::read.xlsx(xlsxFile = file.path(td, "oktest.xlsx"))
   expect_identical(colnames(y),
-                   c("År", "Rapport", "MT.avdelingsnr", "MT.avdeling",
+                   c("\u00C5r", "Rapport", "MT.avdelingsnr", "MT.avdeling",
                      "MT.seksjonnr", "MT.seksjon", "Produsentnr",
                      "Foretaksnr", "Virksomhet", "Postnr", "Poststed",
-                     "Antall.prøver"))
-  expect_identical(y[2, "Antall.prøver"], "26")
+                     "Antall.pr\u00F8ver"))
+  expect_identical(y[2, "Antall.pr\u00F8ver"], "26")
   expect_identical(y[3, 1], paste("Datauttrekket er gjort", format(Sys.Date(), "%d/%m/%Y")))
 
 })
@@ -93,7 +93,7 @@ test_that("write_ok_selection_list, column_standards is file", {
                            "mt_seksjonnr" = "M21000", "mt_seksjon" = "Region Stor-Oslo",
                            "eier_lokalitetnr" = "30303030", "orgnr" = "999999999", "eier_lokalitet" = "XXX XXXXX",
                            "postnr" = "0468", "poststed" = "OSLO", "ant_prover" = 26))
-  # Probably first makes a matrix, therefore "Antall prøver" is character.
+  # Probably first makes a matrix, therefore "Antall pr\u00F8ver" is character.
   x$ant_prover <- as.numeric(x$ant_prover)
 
   write_ok_selection_list(data = x,
@@ -111,11 +111,11 @@ test_that("write_ok_selection_list, column_standards is file", {
                    "ok_test_data")
   y <- openxlsx::read.xlsx(xlsxFile = file.path(td, "oktest.xlsx"))
   expect_identical(colnames(y),
-                   c("År", "Rapport", "MT.avdelingsnr", "MT.avdeling",
+                   c("\u00C5r", "Rapport", "MT.avdelingsnr", "MT.avdeling",
                      "MT.seksjonnr", "MT.seksjon", "Produsentnr",
                      "Foretaksnr", "Virksomhet", "Postnr", "Poststed",
-                     "Antall.prøver"))
-  expect_identical(y[2, "Antall.prøver"], "26")
+                     "Antall.blodpr\u00F8ver"))
+  expect_identical(y[2, "Antall.blodpr\u00F8ver"], "26")
   expect_identical(y[3, 1], paste("Datauttrekket er gjort", format(Sys.Date(), "%d/%m/%Y")))
 
 })
@@ -130,7 +130,7 @@ test_that("Errors for write_ok_selection_list", {
                            "mt_avdelingnr" = "M21150", "mt_avdeling" = "Romerike",
                            "eier_lokalitetnr" = "30303030", "eier_lokalitet" = "XXX XXXXX",
                            "postnr" = "0468", "poststed" = "OSLO", "ant_prover" = 26))
-  # Probably first makes a matrix, therefore "Antall prøver" is character.
+  # Probably first makes a matrix, therefore "Antall pr\u00F8ver" is character.
   x$ant_prover <- as.numeric(x$ant_prover)
 
 

@@ -86,7 +86,7 @@ test_that("Errors for append_sum_line", {
                            "MT avdelingsnr" = "M21150", "MT avdeling" = "Romerike",
                            "Produsentnr" = "30303030", "Foretak" = "XXX XXXXX",
                            "Postnr" = "0468", "Poststed" = "OSLO", "Antall prover" = 26))
-  # Probably first makes a matrix, therefore "Antall prøver" is character and must be transformed.
+  # Probably first makes a matrix, therefore "Antall prover" is character and must be transformed.
   x$`Antall prover` <- as.numeric(x$`Antall prover`)
 
   # Wrong column name
