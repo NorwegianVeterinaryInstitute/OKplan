@@ -12,7 +12,7 @@ test_that("Standard colwidths in Excel for OK-selections", {
                             "ant_prover" = 30))
 
   # Make a vector with correct column names after translation
-  correct_result <- c(5, 10.71, 12.5, 16, 13, 18, 12, 30, 8, 15, 8.5)
+  correct_result <- c(5, 10.71, 12.5, 16, 13, 18, 12, 30, 8, 15, 10)
 
   # Compare Add fylke, current fylkenr and current fylke with correct result
   expect_equal(standardize_columns(data = df, dbsource = "geit_brucella_utvalg",
@@ -29,7 +29,7 @@ test_that("Standard colwidths in Excel for OK-selections", {
 
 
   # Make a vector with correct column names after translation
-  correct_result <- c(12.5, 16, 13, 18, 7, 35, 8.5)
+  correct_result <- c(12.5, 16, 13, 18, 7, 35, 10)
 
   # Compare Add fylke, current fylkenr and current fylke with correct result
   expect_identical(standardize_columns(data = df,
@@ -51,7 +51,7 @@ test_that("Standard collabels for OK selections", {
 
   # Make a vector with correct column names after translation
   correct_result <- c("\u00C5r", "Rapport", "MT regionnr", "MT region", "MT avdelingsnr", "MT avdeling", "Produsentnr",
-                      "Virksomhet", "Postnr", "Poststed", "Antall pr\u00F8ver", "Pr\u00F8vetakingsuke")
+                      "Virksomhet", "Postnr", "Poststed", "Antall avf\u00F8ringspr\u00F8ver", "Pr\u00F8vetakingsuke")
 
   # Compare Add fylke, current fylkenr and current fylke with correct result
   expect_equal(standardize_columns(data = df,
@@ -69,7 +69,7 @@ test_that("Standard collabels for OK selections", {
 
 
   # Make a vector with correct column names after translation
-  correct_result <- c("MT regionnr", "MT region", "MT avdelingsnr", "MT avdeling", "Autnr", "Slakteri", "Antall pr\u00F8ver")
+  correct_result <- c("MT regionnr", "MT region", "MT avdelingsnr", "MT avdeling", "Autnr", "Slakteri", "Antall blodpr\u00F8ver")
 
   # Compare Add fylke, current fylkenr and current fylke with correct result
   expect_identical(standardize_columns(data = df,
