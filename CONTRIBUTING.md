@@ -19,74 +19,74 @@ data reporting at the Norwegian Veterinary Institute (NVI).
 <col style="width: 78%" />
 </colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th style="text-align: left;">Package</th>
 <th style="text-align: left;">Status</th>
 <th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td style="text-align: left;">NVIconfig</td>
 <td style="text-align: left;">Private</td>
 <td style="text-align: left;">Configuration information necessary for
 some NVIverse functions</td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: left;">NVIdb</td>
 <td style="text-align: left;">Public</td>
 <td style="text-align: left;">Tools to facilitate the use of NVI’s
 databases</td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: left;">NVIpjsr</td>
 <td style="text-align: left;">Public</td>
 <td style="text-align: left;">Tools to facilitate working with PJS
 data</td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: left;">NVIspatial</td>
 <td style="text-align: left;">Public</td>
 <td style="text-align: left;">Tools to facilitate working with spatial
 data at NVI</td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: left;">NVIpretty</td>
 <td style="text-align: left;">Public</td>
 <td style="text-align: left;">Tools to make R-output pretty in accord
 with NVI’s graphical profile</td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: left;">NVIbatch</td>
 <td style="text-align: left;">Public</td>
 <td style="text-align: left;">Tools to facilitate the running of
 R-scripts in batch mode at NVI</td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: left;">OKplan</td>
 <td style="text-align: left;">Public</td>
 <td style="text-align: left;">Tools to facilitate the planning of
 surveillance programmes for the NFSA</td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: left;">OKcheck</td>
 <td style="text-align: left;">Public</td>
 <td style="text-align: left;">Tools to facilitate checking of data from
 national surveillance programmes</td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: left;">NVIcheckmate</td>
 <td style="text-align: left;">Public</td>
 <td style="text-align: left;">Extension of checkmate with argument
 checking adapted for NVIverse</td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: left;">NVIpackager</td>
 <td style="text-align: left;">Public</td>
 <td style="text-align: left;">Tools to facilitate the development of
 NVIverse packages</td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: left;">NVIrpackages</td>
 <td style="text-align: left;">Public</td>
 <td style="text-align: left;">Keeps a table of the R packages in
@@ -118,8 +118,8 @@ an [issue on
 GitHub](https://github.com/NorwegianVeterinaryInstitute/OKplan/issues/new).
 While we can’t promise to implement your idea, it helps to:
 
--   Explain in detail how it would work.
--   Keep the scope as narrow as possible.
+- Explain in detail how it would work.
+- Keep the scope as narrow as possible.
 
 See below if you want to contribute code for your idea as well.
 
@@ -131,9 +131,9 @@ GitHub](https://github.com/NorwegianVeterinaryInstitute/OKplan/issues/new)
 so we can fix it. A good bug report makes it easier for us to do so, so
 please include:
 
--   Any details about your local setup that might be helpful in
-    troubleshooting.
--   Detailed steps to reproduce the bug.
+- Any details about your local setup that might be helpful in
+  troubleshooting.
+- Detailed steps to reproduce the bug.
 
 ### Improve the documentation
 
@@ -169,46 +169,46 @@ vignette “NVIverse code conventions” in the package `NVIpackager`. A
 summary of the principles and style convention used for
 `NVIverse`-packages is given below.
 
--   Please limit the number of package dependencies for `OKplan`. The
-    use of base functions is much appreciated.
+- Please limit the number of package dependencies for `OKplan`. The use
+  of base functions is much appreciated.
 
--   New code should generally follow the tidyverse [style
-    guide](http://style.tidyverse.org) with some modifications.
+- New code should generally follow the tidyverse [style
+  guide](http://style.tidyverse.org) with some modifications.
 
-    -   use snake\_case for variable names, column names, function names
-        etc.
-    -   function names should start with a verb and should be
-        descriptive and can be long. Avoid strange abbreviations.
-    -   to indent the code you may use the short cut keys Ctrl+a (select
-        all) and Ctrl+i (indent) when you are in R-studio.
-    -   I recommend to use the
-        [`styler`](https://CRAN.R-project.org/package=styler) package to
-        apply spaces:
-        `styler::style_file(filename, scope = c("spaces", "line_breaks"))`.
-        Please don’t restyle code that has nothing to do with your pull
-        request.
+  - use snake\_case for variable names, column names, function names
+    etc.
+  - function names should start with a verb and should be descriptive
+    and can be long. Avoid strange abbreviations.
+  - to indent the code you may use the short cut keys Ctrl+a (select
+    all) and Ctrl+i (indent) when you are in R-studio.
+  - I recommend to use the
+    [`styler`](https://CRAN.R-project.org/package=styler) package to
+    apply spaces:
+    `styler::style_file(filename, scope = c("spaces", "line_breaks"))`.
+    Please don’t restyle code that has nothing to do with your pull
+    request.
 
--   You should add a bullet point to `NEWS` motivating the change.
+- You should add a bullet point to `NEWS` motivating the change.
 
--   You should add yourself as a contributor to the `DESCRIPTION`.
+- You should add yourself as a contributor to the `DESCRIPTION`.
 
 Although not expected from all contributors, it will be highly
 appreciated if you also are willing to suggest:
 
--   documentation for new functions or new arguments to existing
-    functions The `NVIverse`-packages use
-    [`roxygen2`](https://cran.r-project.org/package=roxygen2) for
-    documentation.
+- documentation for new functions or new arguments to existing functions
+  The `NVIverse`-packages use
+  [`roxygen2`](https://cran.r-project.org/package=roxygen2) for
+  documentation.
 
--   argument checking of the function arguments. The `NVIverse`-packages
-    use the assert-functions from the
-    [`checkmate`](https://CRAN.R-project.org/package=checkmate) package
-    for argument checking as well as some additional assert-functions in
-    [`NVIcheckmate`](https://github.com/NorwegianVeterinaryInstitute/NVIcheckmate).
+- argument checking of the function arguments. The `NVIverse`-packages
+  use the assert-functions from the
+  [`checkmate`](https://CRAN.R-project.org/package=checkmate) package
+  for argument checking as well as some additional assert-functions in
+  [`NVIcheckmate`](https://github.com/NorwegianVeterinaryInstitute/NVIcheckmate).
 
--   one or more tests ensuring that the function works as intended. The
-    `NVIverse`-packages use
-    [`testthat`](https://cran.r-project.org/package=testthat) for tests.
+- one or more tests ensuring that the function works as intended. The
+  `NVIverse`-packages use
+  [`testthat`](https://cran.r-project.org/package=testthat) for tests.
 
 ### Git commit standards
 
@@ -217,16 +217,16 @@ angular.js project.
 
 The start of commit messages should be one of the following:
 
--   feat: A new feature
--   fix: A bug fix
--   doc: Documentation only changes
--   style: Changes that do not affect the meaning of the code
-    (white-space, formatting, missing semi-colons, etc)
--   refactor: A code change that neither fixes a bug or adds a feature
--   perf: A code change that improves performance
--   test: Adding missing tests
--   chore: Changes to the build process or auxiliary tools and libraries
-    such as documentation generation
+- feat: A new feature
+- fix: A bug fix
+- doc: Documentation only changes
+- style: Changes that do not affect the meaning of the code
+  (white-space, formatting, missing semi-colons, etc)
+- refactor: A code change that neither fixes a bug or adds a feature
+- perf: A code change that improves performance
+- test: Adding missing tests
+- chore: Changes to the build process or auxiliary tools and libraries
+  such as documentation generation
 
 Do not capitalize the first letter.
 

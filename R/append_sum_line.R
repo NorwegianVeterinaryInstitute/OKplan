@@ -42,7 +42,7 @@ append_sum_line <- function(data, column, pretext = "Sum", position = "left") {
   # column
   checkmate::assert_names(column, type = "unique", subset.of = colnames(data), add = checks)
   # pretext
-  checkmate::assert_character(pretext, add = checks)
+  checkmate::assert_string(pretext, add = checks)
   # position
   checkmate::assert_choice(position, choices = c("first", "left", "none"), add = checks)
   # Report errors

@@ -1,4 +1,4 @@
-library(OKplan)
+# library(OKplan)
 library(testthat)
 
 test_that("Adjusting sample number", {
@@ -116,7 +116,7 @@ test_that("Errors for adjust_sample_number", {
                              sample_to_adjust = "sample",
                              adjusted_sample = total_budget,
                              adjust_by = 6),
-    regexp = "Variable \'adjusted_sample\': Must be of type \'character\', not")
+    regexp = "Variable \'adjusted_sample\': Must be of type \'string\', not")
 
   expect_error(
     adjust_samples_to_budget(data = x,

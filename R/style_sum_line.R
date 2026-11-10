@@ -41,10 +41,10 @@ style_sum_line <- function(workbook = workbook,
   checks <- checkmate::makeAssertCollection()
   # Perform checks
   checkmate::assert_class(workbook, classes = "Workbook", add = checks)
-  checkmate::assert_character(sheet, len = 1, min.chars = 1, add = checks)
+  checkmate::assert_string(sheet, min.chars = 1, add = checks)
   checkmate::assert_data_frame(data, add = checks)
-  checkmate::assert_character(text, len = 1, add = checks)
-  checkmate::assert_character(text_decoration, len = 1, add = checks)
+  checkmate::assert_string(text, add = checks)
+  checkmate::assert_string(text_decoration, add = checks)
   # Report check-results
   checkmate::reportAssertions(checks)
 
