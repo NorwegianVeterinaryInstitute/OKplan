@@ -42,9 +42,9 @@ make_random <- function(data, colname = "random", seed = -1, init_seed = FALSE) 
   # Argument checking
   checks <- checkmate::makeAssertCollection()
   checkmate::assert_data_frame(data, add = checks)
-  checkmate::assert_character(colname, len = 1, min.chars = 1, any.missing = FALSE, add = checks)
+  checkmate::assert_string(colname, min.chars = 1, add = checks)
   checkmate::assert_number(seed, add = checks)
-  checkmate::assert_logical(init_seed, add = checks)
+  checkmate::assert_flag(init_seed, add = checks)
   checkmate::reportAssertions(checks)
 
   # To make it possible to control initialization of the seed

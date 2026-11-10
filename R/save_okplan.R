@@ -59,9 +59,9 @@ save_okplan <- function(data,
   ## Perform checks
   ### data
   checkmate::assert_data_frame(data, add = checks)
-  checkmate::assert_character(filename, min.chars = 1, len = 1, add = checks)
+  checkmate::assert_string(filename, min.chars = 1, add = checks)
   ### filename and filepath
-  checkmate::assert_character(filename, min.chars = 1, len = 1, add = checks)
+  checkmate::assert_string(filename, min.chars = 1, add = checks)
   checkmate::assert_directory_exists(filepath)
   ### order
   checkmate::assert_subset(sortvar, choices = colnames(data), add = checks)

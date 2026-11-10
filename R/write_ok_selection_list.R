@@ -112,7 +112,7 @@ write_ok_selection_list <- function(data,
   checkmate::assert_data_frame(data, max.rows = (1048576 - 1), max.cols = 16384, add = checks)
   # filename and filepath
   checkmate::assert_character(sheet, min.chars = 1, min.len = 1, max.len = length(data), unique = TRUE, add = checks)
-  checkmate::assert_character(filename, min.chars = 1, len = 1, add = checks)
+  checkmate::assert_string(filename, min.chars = 1, add = checks)
   checkmate::assert_directory_exists(filepath, add = checks)
   if (isTRUE(add_worksheet)) {
     checkmate::assert_file_exists(file.path(filepath, filename), access = "r", add = checks)
@@ -156,7 +156,7 @@ write_ok_selection_list <- function(data,
   # calculate_sum
   checkmate::assert_flag(calculate_sum, add = checks)
   checkmate::assert_string(footnote, min.chars = 1, null.ok = TRUE, add = checks)
-  checkmate::assert_character(dbsource, min.len = 1, add = checks)
+  checkmate::assert_string(dbsource, min.chars = 1, add = checks)
   if (inherits(column_standards, what = "data.frame")) {
     checkmate::assert_choice(dbsource,
                              choices = unique(column_standards[, "table_db"]),

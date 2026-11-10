@@ -54,7 +54,7 @@ read_okplan <- function(filename,
   checks <- checkmate::makeAssertCollection()
   ## Perform checks
   ### filename and filepath
-  checkmate::assert_character(filename, min.chars = 1, len = 1, add = checks)
+  checkmate::assert_string(filename, min.chars = 1, add = checks)
   checkmate::assert_directory_exists(filepath)
   ### column_standards
   checkmate::assert(checkmate::check_class(column_standards, classes = c("data.frame")),
@@ -77,7 +77,7 @@ read_okplan <- function(filename,
     checkmate::assert_data_frame(column_standards, min.rows = 1, min.cols = 6, add = checks)
   }
   ### dbsource
-  checkmate::assert_character(dbsource, min.len = 1, add = checks)
+  checkmate::assert_string(dbsource, min.len = 1, add = checks)
   if (inherits(column_standards, what = "data.frame")) {
     checkmate::assert_choice(dbsource,
                              choices = unique(column_standards[, "table_db"]),
