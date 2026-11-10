@@ -91,7 +91,7 @@ adjust_samples_to_budget <- function(data,
                     checkmate::check_choice(budget, choices = colnames(data)),
                     add = checks)
   checkmate::assert_choice(sample_to_adjust, choices = colnames(data), add = checks)
-  checkmate::assert_character(adjusted_sample, len = 1, min.chars = 1, any.missing = FALSE, add = checks)
+  checkmate::assert_string(adjusted_sample, min.chars = 1, add = checks)
   checkmate::assert_integerish(adjust_by, lower = 1, len = 1, any.missing = FALSE, add = checks)
   # Report errors
   checkmate::reportAssertions(checks)
