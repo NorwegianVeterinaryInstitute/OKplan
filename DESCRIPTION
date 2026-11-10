@@ -6,7 +6,8 @@ Authors@R:
   c(person(given = "Petter",
            family = "Hopp",
            role = c("aut", "cre"),
-           email = "Petter.Hopp@vetinst.no"),
+           email = "Petter.Hopp@vetinst.no",
+           comment = c(ORCID = "0000-0002-8695-0378")),
     person(given = "Norwegian Veterinary Institute",
            role = "cph"))
 Description: Provide tools to facilitate the planning of the annual surveillance
@@ -51,6 +52,6 @@ Remotes:
     NorwegianVeterinaryInstitute/NVIpretty,
     NorwegianVeterinaryInstitute/NVIrpackages,
     NorwegianVeterinaryInstitute/OKcheck
-RoxygenNote: 7.3.3
 VignetteBuilder: knitr, R.rsp
 Language: en-GB
+Config/roxygen2/version: 8.0.0
