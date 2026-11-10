@@ -1,23 +1,8 @@
 # OKplan 0.9.1 - (2026-11-10)
 
-## New features:
-
--
-
-
 ## Bug fixes:
 
--
-
-
-## Other changes:
-
--
-
-
-## BREAKING CHANGES:
-
--
+- `adjust_samples_to_budget` now correctly works when no group.
 
 
 # OKplan 0.9.0 - (2025-12-03)
