@@ -77,7 +77,7 @@ read_okplan <- function(filename,
     checkmate::assert_data_frame(column_standards, min.rows = 1, min.cols = 6, add = checks)
   }
   ### dbsource
-  checkmate::assert_string(dbsource, min.len = 1, add = checks)
+  checkmate::assert_string(dbsource, min.chars = 1, add = checks)
   if (inherits(column_standards, what = "data.frame")) {
     checkmate::assert_choice(dbsource,
                              choices = unique(column_standards[, "table_db"]),
