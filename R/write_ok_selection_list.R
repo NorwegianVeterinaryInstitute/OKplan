@@ -111,7 +111,9 @@ write_ok_selection_list <- function(data,
   # data
   checkmate::assert_data_frame(data, max.rows = (1048576 - 1), max.cols = 16384, add = checks)
   # filename and filepath
-  checkmate::assert_character(sheet, min.chars = 1, min.len = 1, max.len = length(data), unique = TRUE, add = checks)
+  NVIcheckmate::assert_character(sheet, len = 1, min.chars = 1, max.chars = 31,
+                                 comment = "Remark that sheet names can be at most 31 characters",
+                                 add = checks)
   checkmate::assert_string(filename, min.chars = 1, add = checks)
   checkmate::assert_directory_exists(filepath, add = checks)
   if (isTRUE(add_worksheet)) {
