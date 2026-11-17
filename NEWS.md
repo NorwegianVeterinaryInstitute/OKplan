@@ -1,3 +1,10 @@
+# OKplan 0.9.2 - (2026-11-17)
+
+## New features:
+
+- Fixed bug in `read_okplan` that made it stop during execution.Thanks to NDFabri for noticing.
+
+
 # OKplan 0.9.1 - (2026-11-10)
 
 ## Bug fixes:

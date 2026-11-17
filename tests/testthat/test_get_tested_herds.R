@@ -35,21 +35,21 @@ test_that("get tested herds for scrapie", {
   tested <- get_tested_herds(eos_table = "proveresultat_scrapie",
                              year = 2022,
                              tested = FALSE)
-  expect_data_frame(tested, nrow = 20623, ncol = 28)
+  expect_data_frame(tested, nrow = 20623, ncol = 27)
 
   tested <- expect_warning(get_tested_herds(eos_table = "proveresultat_scrapie",
                                             year = 2022,
                                             min_prover = 2,
                                             tested = FALSE),
                            regexp = "The number of received samples could not be calculated")
-  expect_data_frame(tested, nrow = 18481, ncol = 28)
+  expect_data_frame(tested, nrow = 18481, ncol = 27)
 
   tested <- get_tested_herds(eos_table = "proveresultat_scrapie",
                              year = 2022,
                              species = "Sau",
                              min_prover = 2,
                              tested = TRUE)
-  expect_data_frame(tested, nrow = 17915, ncol = 28)
+  expect_data_frame(tested, nrow = 17915, ncol = 27)
 
 })
 
